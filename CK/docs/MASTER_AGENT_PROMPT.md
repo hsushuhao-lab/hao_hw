@@ -1,6 +1,6 @@
 # MASTER AGENT PROMPT — Craving Kitchen v0.5 Production Asset Pass
 
-You are taking over **Craving Kitchen (CK)** from the corrected v0.4.1 art build. Work directly from the repository and preserve existing gameplay behavior.
+You are taking over **Craving Kitchen (CK)** from the finalized **v0.4.2 art-closeout build**. Work directly from the repository and preserve existing gameplay behavior.
 
 ## REPOSITORY
 
@@ -26,9 +26,7 @@ Read in this order before modifying code:
 
 ## GOAL
 
-Advance CK from the corrected art bridge to a **production-quality character/prop asset slice** without breaking the established loop.
-
-The loop is frozen:
+Advance CK from the canonical art bridge to a **production-quality character / patient / prop asset slice** without breaking the frozen loop:
 
 `doctor select → patient enter → order → clinic transforms → prep/cut → four heat judgements → final toss → serve → patient eat → result → patient leave → next patient`
 
@@ -38,59 +36,43 @@ Do not add a second recipe.
 
 ## ONLY APPROVED VISUAL SOURCE OF TRUTH
 
-These five WebP files override every older JPEG, SVG concept sheet, portrait, animation asset, or interpretation:
+These five AVIF files override every older JPEG, WebP, SVG concept sheet, portrait, animation asset, or interpretation:
 
 ```text
 CK/assets/art_direction/source_of_truth/
-  doctor_concepts.webp
-  clinic_layout.webp
-  cooking_mode.webp
-  props_station.webp
-  patient_npcs.webp
+  doctor_concepts.avif
+  clinic_layout.avif
+  cooking_mode.avif
+  props_station.avif
+  patient_npcs.avif
 ```
 
-Treat them as the highest-priority authority for:
+Treat them as the highest-priority authority for character identity, patient identity, environment, props, UI language, palette, mood, framing and presentation.
 
-- character identity
-- patient identity
-- environment
-- props
-- UI language
-- palette
-- mood
-- framing
-- presentation
-
-Legacy files under `assets/concept/`, `assets/characters/`, `assets/portraits/`, and `assets/art/*.jpg` are **fallback / deprecated assets only**.
-
-Do not call those legacy assets production-final.
+Legacy files under `assets/concept/`, `assets/characters/`, `assets/portraits/`, and `assets/art/` are **fallback / deprecated assets only**. Do not call them production-final.
 
 ## VISUAL RULE
 
 > **Same Clinic, Different Flavors.**
 
-The cooking area is the same consultation room transformed into a compact mapo-tofu station.
-
-Do not replace it with a restaurant, commercial kitchen, fantasy kitchen, cafe, or unrelated location.
+The cooking area is the same consultation room transformed into a compact mapo-tofu station. Do not replace it with a restaurant, commercial kitchen, fantasy kitchen, cafe, or unrelated location.
 
 Target environment balance: roughly **70% clinic identity / 30% cooking intervention**.
 
 ## CURRENT RUNTIME BRIDGE
 
-The current online build intentionally crops visible doctor/patient imagery from the canonical concept sheets through:
+The current online build intentionally presents doctor/patient imagery from the canonical sheets through:
 
 - `CK/src/art-direction.js`
 - `CK/art-direction.css`
 
-This bridge fixed the previous wrong-art problem. Preserve it until a production replacement is verified online.
-
-Never remove a working fallback before its replacement passes QA.
+This bridge fixed the previous wrong-art problem. Preserve it until production replacements are verified online. Never remove a working fallback before its replacement passes QA.
 
 ## PRODUCTION TASK ORDER
 
 ### P0 — DR. SPEED vertical slice
 
-Create production art derived from the approved doctor sheet for:
+Create production art derived from `doctor_concepts.avif` for:
 
 - entrance
 - idle
@@ -102,16 +84,7 @@ Create production art derived from the approved doctor sheet for:
 - fail
 - victory
 
-Requirements:
-
-- same face identity across every pose
-- same transparent/light glasses
-- same hairstyle
-- same white coat and inner clothing identity
-- recognizable bowl/chopsticks / fast-prep motif
-- transparent background
-- consistent canvas and scale
-- no baked pseudo-text
+Requirements: same face identity, same transparent/light glasses, same hairstyle, same white coat/inner-clothing identity, bowl/chopsticks / fast-prep motif, transparent background, consistent canvas/scale, and no baked pseudo-text.
 
 Integrate only after visual review.
 
@@ -119,23 +92,15 @@ Integrate only after visual review.
 
 Repeat after DR. SPEED style is locked.
 
-DR. HEAT identity:
+DR. HEAT: blue shirt, centered/precise, wok/spice/flame focus.
 
-- blue shirt
-- centered / precise
-- wok / spice / flame focus
-
-DR. STRATEGY identity:
-
-- round glasses
-- pale-green mask element
-- clipboard / recipe prescription focus
+DR. STRATEGY: round glasses, pale-green mask element, clipboard / recipe prescription focus.
 
 The three entrances and ultimates must be visually different. Color swaps alone do not pass.
 
 ### P2 — six patient production sets
 
-Use the approved patient sheet:
+Use `patient_npcs.avif` for:
 
 1. The Anxious Office Worker
 2. The Tired Student
@@ -144,41 +109,11 @@ Use the approved patient sheet:
 5. The Quiet Young Adult
 6. The Repeat Visitor
 
-Each requires:
-
-- walk in
-- sit
-- order/react
-- eat
-- leave
-
-Characters must remain recognizable by silhouette/clothing, not face alone.
-
-Avoid repeated glamorized smoking imagery; convey craving primarily via fidgeting, restlessness, pacing, expression, and CRAVING UI.
+Each requires `walk in / sit / order-react / eat / leave`. Preserve recognition by silhouette/clothing, not face alone. Avoid repeated glamorized smoking imagery; convey craving via fidgeting, restlessness, pacing, expression and CRAVING UI.
 
 ### P3 — ingredient / prop extraction
 
-Use `props_station.webp` as authority.
-
-Create transparent production interaction assets for:
-
-- tofu
-- minced pork
-- doubanjiang
-- fermented black beans
-- garlic
-- scallion
-- chili
-- Sichuan pepper
-- rice
-- wok
-- ladle
-- spatula
-- knife
-- chopping board
-- portable stove
-- order slips
-- recipe prescription
+Use `props_station.avif` as authority. Create transparent interaction assets for tofu, minced pork, doubanjiang, fermented black beans, garlic, scallion, chili, Sichuan pepper, rice, wok, ladle, spatula, knife, chopping board, portable stove, order slips and recipe prescription.
 
 Use consistent 3/4 perspective and unified lighting.
 
@@ -210,15 +145,11 @@ Then serve locally:
 python -m http.server 8000
 ```
 
-Manual QA:
-
-- 390×844
-- 768×1024
-- 1440×900
+Manual QA: `390×844`, `768×1024`, `1440×900`.
 
 Required checks:
 
-1. all five canonical WebP assets load;
+1. all five canonical AVIF assets load;
 2. hero uses approved Cooking Mode art;
 3. clinic stage resolves to approved Clinic Layout;
 4. cooking stage resolves to approved Cooking Mode;
@@ -251,9 +182,7 @@ Do not merge to `main` unless explicitly instructed by the PI.
 
 ## STOP CONDITION
 
-Do not declare v0.5 complete while visible gameplay still depends primarily on concept-sheet cropping or legacy SVGs.
-
-If a production asset is missing, keep the corrected v0.4.1 bridge and report the missing item explicitly.
+Do not declare v0.5 complete while visible gameplay still depends primarily on concept-sheet cropping or legacy SVGs. If a production asset is missing, keep the v0.4.2 canonical bridge and report the missing item explicitly.
 
 ## FINAL REPORT FORMAT
 
