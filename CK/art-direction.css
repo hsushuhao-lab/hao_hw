@@ -1,0 +1,79 @@
+/* CK approved art-direction override — 2026-09-17 */
+:root{
+  --ck-navy:#15365f;
+  --ck-sky:#dcecf7;
+  --ck-cream:#fff8ea;
+  --ck-paper:#fffdf8;
+  --ck-yellow:#f3c65a;
+  --ck-chili:#d9573e;
+  --ck-green:#4a967d;
+  --ck-ink:#1c3652;
+}
+body{
+  background:
+    radial-gradient(circle at 12% 8%, rgba(243,198,90,.18), transparent 24%),
+    radial-gradient(circle at 90% 12%, rgba(220,236,247,.55), transparent 28%),
+    linear-gradient(180deg,#f7f4ed 0%,#efe8dd 100%);
+}
+.topbar{padding:10px 14px 4px;border-bottom:3px solid rgba(243,198,90,.45)}
+h1{color:var(--ck-navy);font-weight:950;letter-spacing:-.055em;text-shadow:0 3px 0 rgba(243,198,90,.22)}
+.subtitle{font-weight:650;color:#587087}
+.primary-btn{background:var(--ck-navy);border-radius:999px}
+.ghost-btn{border-radius:999px;background:#fffdf7;border:1px solid rgba(21,54,95,.14)}
+.hero-panel{
+  min-height:500px;
+  background:url('assets/art/cooking_mode.jpg') center 44%/cover no-repeat;
+  border:6px solid #fff;
+  box-shadow:0 24px 60px rgba(32,43,56,.18);
+}
+.hero-overlay{background:linear-gradient(90deg,rgba(16,42,67,.76) 0%,rgba(16,42,67,.42) 38%,rgba(16,42,67,.06) 70%)}
+.hero-copy{max-width:620px}
+.hero-copy h2{font-weight:950;text-shadow:0 2px 20px rgba(0,0,0,.18)}
+.hero-copy .primary-btn{background:var(--ck-yellow);color:#2d2a22;box-shadow:0 10px 24px rgba(243,198,90,.3)}
+.panel,.art-gallery,.audio-panel{background:rgba(255,253,248,.97);border:2px solid rgba(21,54,95,.08)}
+.left-panel{background:linear-gradient(180deg,#fffdf8 0%,#fff8df 100%)}
+.right-panel{background:linear-gradient(180deg,#fffdf8 0%,#edf5f9 100%)}
+.doctor-card{
+  border:2px solid #e6dfd3;
+  border-radius:20px;
+  background:#fff;
+  box-shadow:0 8px 18px rgba(21,54,95,.07);
+  transform:rotate(-.25deg);
+}
+.doctor-card:nth-child(2){transform:rotate(.35deg)}
+.doctor-card:nth-child(3){transform:rotate(-.15deg)}
+.doctor-card.is-selected{border-color:var(--ck-yellow);background:#fff8db;outline:4px solid rgba(243,198,90,.2)}
+.doctor-card strong{color:var(--ck-navy);font-weight:950}
+.clinic-stage{height:430px;background:#e9edf0}
+.clinic-stage>img{object-fit:cover;object-position:center;filter:saturate(.96) contrast(1.02)}
+.stage-shade{background:linear-gradient(180deg,rgba(16,42,67,.02),rgba(16,42,67,.28))}
+.patient-card,.doctor-presence{
+  background:rgba(255,253,248,.96);
+  border:2px solid rgba(255,255,255,.9);
+  box-shadow:0 10px 26px rgba(19,54,83,.16);
+}
+.patient-card::after{
+  content:'ORDER';position:absolute;right:14px;top:-10px;background:#ffe58c;color:var(--ck-navy);
+  padding:4px 10px;border-radius:5px;font-weight:900;font-size:.68rem;transform:rotate(2deg)
+}
+.skill-panel,.order-panel,.phase-card,.cut-challenge,.toss-challenge{
+  background:#fffdf8;border:2px solid #e9e0d1;border-radius:20px;
+}
+.order-panel{box-shadow:inset 5px 0 0 var(--ck-yellow)}
+.phase-tab{border-radius:999px}
+.phase-tab.is-active{background:var(--ck-navy);border-color:var(--ck-navy)}
+.ingredient-btn{border:2px solid #e5ddd0;border-radius:18px;background:linear-gradient(180deg,#fff 0%,#fffaf0 100%);box-shadow:0 5px 12px rgba(21,54,95,.06)}
+.ingredient-btn:hover{transform:translateY(-2px);border-color:var(--ck-yellow)}
+.ingredient-btn.is-done{background:#edf8f1;border-color:#84b89f}
+.pill{background:#edf4f8;color:var(--ck-navy);border:1px solid #d7e5ee}
+.mini-manifest{background:#fff5c9;border:1px dashed #d8b14e;transform:rotate(.4deg)}
+.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.gallery-grid figure{background:#fff;border:4px solid #fff;box-shadow:0 10px 24px rgba(21,54,95,.10)}
+.gallery-grid img{aspect-ratio:4/3;object-fit:cover}
+.gallery-grid figcaption{color:var(--ck-navy);background:#fff9e6}
+.game-footer{padding:12px;border-top:2px dashed rgba(21,54,95,.12)}
+@media(max-width:760px){
+  .hero-panel{min-height:390px;background-position:54% center}
+  .clinic-stage{height:350px}
+  .gallery-grid{grid-template-columns:1fr}
+}
