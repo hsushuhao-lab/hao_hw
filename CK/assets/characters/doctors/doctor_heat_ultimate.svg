@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" width="360" height="480">
+  <defs>
+    <filter id="glow-gold" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow-fire" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="knife-blade" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#d9e2ec"/>
+      <stop offset="100%" stop-color="#9fb3c8"/>
+    </linearGradient>
+    <linearGradient id="wok-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#334e68"/>
+      <stop offset="100%" stop-color="#102a43"/>
+    </linearGradient>
+    <linearGradient id="flame-grad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#d84c38"/>
+      <stop offset="50%" stop-color="#f38b4a"/>
+      <stop offset="100%" stop-color="#f7d070"/>
+    </linearGradient>
+    <linearGradient id="rx-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#347d69"/>
+      <stop offset="100%" stop-color="#8ac6a7"/>
+    </linearGradient>
+  </defs>
+
+    <g id="heat-ultimate">
+      <!-- 精準火候: Precision flame target lock & roaring wok inferno -->
+      <!-- Flame halo -->
+      <g filter="url(#glow-fire)">
+        <circle cx="180" cy="240" r="145" fill="none" stroke="#e85d4a" stroke-width="4" stroke-dasharray="16,8" opacity="0.7"/>
+        <path d="M60 280 Q80 180 120 140 Q150 200 180 100 Q210 200 240 140 Q280 180 300 280 Z" fill="url(#flame-grad)" opacity="0.6"/>
+      </g>
+      <!-- Precision Target Reticle -->
+      <circle cx="180" cy="280" r="65" fill="none" stroke="#f7d070" stroke-width="3.5" stroke-dasharray="8,6"/>
+      <circle cx="180" cy="280" r="30" fill="none" stroke="#ffffff" stroke-width="2"/>
+      <line x1="180" y1="200" x2="180" y2="360" stroke="#f7d070" stroke-width="2.5"/>
+      <line x1="100" y1="280" x2="260" y2="280" stroke="#f7d070" stroke-width="2.5"/>
+      <!-- Doctor in centered power stance -->
+      
+    <!-- Legs & Shoes -->
+    <path d="M128 360 L124 442 H152 L156 360 Z" fill="#102a43"/>
+    <path d="M204 360 L208 442 H236 L232 360 Z" fill="#102a43"/>
+    <rect x="116" y="442" width="38" height="18" rx="8" fill="#1e3a5f"/>
+    <rect x="206" y="442" width="38" height="18" rx="8" fill="#1e3a5f"/>
+    
+      
+    <!-- Torso: Lab coat over blue shirt & red flame tie -->
+    <path d="M132 155 L126 355 H234 L228 155 Z" fill="#f8fbff" stroke="#d9e2ec" stroke-width="2"/>
+    <path d="M156 155 L180 200 L204 155 Z" fill="#8ba8c4"/>
+    <!-- Red tie -->
+    <polygon points="174,195 186,195 189,275 180,290 171,275" fill="#e85d4a"/>
+    <!-- Coat lapels -->
+    <path d="M132 155 L162 220 L144 280 L132 355" fill="none" stroke="#cfd8dc" stroke-width="2.5"/>
+    <path d="M228 155 L198 220 L216 280 L228 355" fill="none" stroke="#cfd8dc" stroke-width="2.5"/>
+    
+      <!-- Dual wok flames wielded powerfully -->
+      <path d="M132 175 Q75 190 85 260 L108 265 Q105 205 148 185 Z" fill="#f8fbff"/>
+      <circle cx="88" cy="264" r="9" fill="#d8a77a"/>
+      <ellipse cx="70" cy="275" rx="35" ry="24" fill="url(#flame-grad)"/>
+      <path d="M228 175 Q285 190 275 260 L252 265 Q255 205 212 185 Z" fill="#f8fbff"/>
+      <circle cx="272" cy="264" r="9" fill="#d8a77a"/>
+      <ellipse cx="290" cy="275" rx="35" ry="24" fill="url(#flame-grad)"/>
+      
+    <!-- Head & Hair -->
+    <circle cx="180" cy="105" r="46" fill="#d8a77a"/>
+    <!-- Neat, mature combed hair -->
+    <path d="M134 99 Q138 53 180 55 Q224 57 226 101 Q204 83 180 81 Q156 81 134 99 Z" fill="#1e242b"/>
+    <!-- Eyes -->
+    <circle cx="163" cy="107" r="4" fill="#102a43"/>
+    <circle cx="197" cy="107" r="4" fill="#102a43"/>
+    <!-- Eyebrows -->
+    <path d="M152 91 H172" fill="none" stroke="#1e242b" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M188 91 H208" fill="none" stroke="#1e242b" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- Glasses -->
+    <g fill="none" stroke="#26394c" stroke-width="3.5">
+      <rect x="146" cy="95" width="26" height="22" rx="6"/>
+      <rect x="188" cy="95" width="26" height="22" rx="6"/>
+      <path d="M172 106 H188"/>
+    </g>
+    <path d="M168 133 H192" fill="none" stroke="#7a4b3f" stroke-width="3.5" stroke-linecap="round"/>
+    
+      <!-- Kanji badge: 精準火候 -->
+      <rect x="90" y="420" width="180" height="38" rx="19" fill="#102a43" stroke="#e85d4a" stroke-width="3"/>
+      <text x="180" y="445" font-family="sans-serif" font-size="20" font-weight="900" fill="#f38b4a" text-anchor="middle" letter-spacing="4">🔥 精準火候 🔥</text>
+    </g>
+    
+</svg>

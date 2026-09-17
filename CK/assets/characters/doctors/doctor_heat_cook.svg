@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" width="360" height="480">
+  <defs>
+    <filter id="glow-gold" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow-fire" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="knife-blade" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#d9e2ec"/>
+      <stop offset="100%" stop-color="#9fb3c8"/>
+    </linearGradient>
+    <linearGradient id="wok-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#334e68"/>
+      <stop offset="100%" stop-color="#102a43"/>
+    </linearGradient>
+    <linearGradient id="flame-grad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#d84c38"/>
+      <stop offset="50%" stop-color="#f38b4a"/>
+      <stop offset="100%" stop-color="#f7d070"/>
+    </linearGradient>
+    <linearGradient id="rx-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#347d69"/>
+      <stop offset="100%" stop-color="#8ac6a7"/>
+    </linearGradient>
+  </defs>
+
+    <g id="heat-cook">
+      <!-- Masterful wok flame burst -->
+      <g filter="url(#glow-fire)">
+        <path d="M110 320 Q100 250 140 210 Q160 250 180 200 Q200 260 220 220 Q240 270 250 320 Z" fill="url(#flame-grad)" opacity="0.85"/>
+      </g>
+      <!-- Heavy wok tossed at dynamic tilt -->
+      <g transform="rotate(-10 180 320)">
+        <ellipse cx="180" cy="320" rx="85" ry="32" fill="url(#wok-grad)"/>
+        <ellipse cx="180" cy="318" rx="78" ry="26" fill="#2d3748"/>
+        <ellipse cx="180" cy="318" rx="68" ry="20" fill="#c53030"/>
+        <rect x="155" y="312" width="14" height="12" rx="2" fill="#ffffff"/>
+        <rect x="180" y="314" width="14" height="12" rx="2" fill="#ffffff"/>
+        <circle cx="170" cy="316" r="4" fill="#48bb78"/>
+      </g>
+      
+    <!-- Legs & Shoes -->
+    <path d="M133 360 L129 442 H157 L161 360 Z" fill="#102a43"/>
+    <path d="M199 360 L203 442 H231 L227 360 Z" fill="#102a43"/>
+    <rect x="121" y="442" width="38" height="18" rx="8" fill="#1e3a5f"/>
+    <rect x="201" y="442" width="38" height="18" rx="8" fill="#1e3a5f"/>
+    
+      
+    <!-- Torso: Lab coat over blue shirt & red flame tie -->
+    <path d="M132 155 L126 355 H234 L228 155 Z" fill="#f8fbff" stroke="#d9e2ec" stroke-width="2"/>
+    <path d="M156 155 L180 200 L204 155 Z" fill="#8ba8c4"/>
+    <!-- Red tie -->
+    <polygon points="174,195 186,195 189,275 180,290 171,275" fill="#e85d4a"/>
+    <!-- Coat lapels -->
+    <path d="M132 155 L162 220 L144 280 L132 355" fill="none" stroke="#cfd8dc" stroke-width="2.5"/>
+    <path d="M228 155 L198 220 L216 280 L228 355" fill="none" stroke="#cfd8dc" stroke-width="2.5"/>
+    
+      <!-- Steady left hand holding wok loop handle -->
+      <path d="M132 175 Q85 220 100 290 L120 295 Q110 230 152 185 Z" fill="#f8fbff"/>
+      <circle cx="102" cy="296" r="9" fill="#d8a77a"/>
+      <!-- Right hand tossing with ladle -->
+      <path d="M228 175 Q265 210 240 270 L218 265 Q240 220 208 185 Z" fill="#f8fbff"/>
+      <circle cx="236" cy="275" r="9" fill="#d8a77a"/>
+      <path d="M236 275 L205 315" stroke="#a0aec0" stroke-width="5" stroke-linecap="round"/>
+      
+    <!-- Head & Hair -->
+    <circle cx="180" cy="105" r="46" fill="#d8a77a"/>
+    <!-- Neat, mature combed hair -->
+    <path d="M134 99 Q138 53 180 55 Q224 57 226 101 Q204 83 180 81 Q156 81 134 99 Z" fill="#1e242b"/>
+    <!-- Eyes -->
+    <circle cx="163" cy="107" r="4" fill="#102a43"/>
+    <circle cx="197" cy="107" r="4" fill="#102a43"/>
+    <!-- Eyebrows -->
+    <path d="M152 91 H172" fill="none" stroke="#1e242b" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M188 91 H208" fill="none" stroke="#1e242b" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- Glasses -->
+    <g fill="none" stroke="#26394c" stroke-width="3.5">
+      <rect x="146" cy="95" width="26" height="22" rx="6"/>
+      <rect x="188" cy="95" width="26" height="22" rx="6"/>
+      <path d="M172 106 H188"/>
+    </g>
+    <path d="M168 133 H192" fill="none" stroke="#7a4b3f" stroke-width="3.5" stroke-linecap="round"/>
+    
+    </g>
+    
+</svg>
