@@ -1,42 +1,38 @@
-# CK Final Handoff — v0.4.1 Corrected Art Build
+# CK Final Handoff — v0.4.2 Art Closeout
 
 ## Status
 
-**PASS_WITH_NOTES — CORRECTED CANONICAL ART IS ONLINE / GAMEPLAY REMAINS PLAYABLE / PRODUCTION CHARACTER ASSETS STILL PENDING**
+**PASS_WITH_NOTES — CANONICAL ART ONLINE / RUNTIME BOUND / GAMEPLAY PLAYABLE / PURPOSE-BUILT PRODUCTION SPRITES STILL PENDING**
 
-This document supersedes the earlier v0.4 handoff that incorrectly treated the legacy SVG character suite as production-final art.
+This handoff supersedes all earlier documents that treated legacy SVG assets as production-final art or referenced obsolete JPEG/WebP source-of-truth paths.
 
-## What was wrong
+## What was corrected
 
-The previous build had an art-governance mismatch:
+The project previously had an art-governance mismatch: approved concept art existed, but runtime and documentation still allowed older `assets/art/*.jpg` and SVG placeholders to dominate the visible game.
 
-- the approved five concept sheets existed conceptually,
-- but runtime still loaded older `assets/art/*.jpg` and SVG placeholders,
-- documentation described the SVG animation suite too strongly,
-- the online game therefore did not visually match the approved Craving Kitchen art direction.
+v0.4.2 closes that mismatch by using one canonical visual authority everywhere.
 
-## What v0.4.1 corrected
-
-The canonical art is now published at:
+## Canonical visual source of truth
 
 ```text
 assets/art_direction/source_of_truth/
-  doctor_concepts.webp
-  clinic_layout.webp
-  cooking_mode.webp
-  props_station.webp
-  patient_npcs.webp
+  doctor_concepts.avif
+  clinic_layout.avif
+  cooking_mode.avif
+  props_station.avif
+  patient_npcs.avif
 ```
 
-`src/art-direction.js` and `art-direction.css` now bind the visible game shell to those approved WebP sheets:
+`src/art-direction.js`, `art-direction.css`, `art-original.html`, README, Art Bible, Online Asset Index and the regression test all resolve to the same AVIF authority.
+
+Visible mapping:
 
 - Hero → approved Cooking Mode.
-- Clinic / Cooking stage → approved environment sheets.
-- Doctor selection / presence / visible stage layer → approved doctor sheet.
-- Patient card / visible stage layer → approved patient sheet.
-- Art Gallery → approved five sheets.
-
-Legacy SVGs are retained only to preserve compatibility with the existing state machine and as fallback assets.
+- Clinic stage → approved Clinic Layout.
+- Cooking stage → approved Cooking Mode.
+- Doctor selection / presence / visible stage → approved doctor sheet bridge.
+- Patient card / visible stage → approved patient sheet bridge.
+- Art gallery → five canonical sheets.
 
 ## Frozen gameplay baseline
 
@@ -44,26 +40,27 @@ Legacy SVGs are retained only to preserve compatibility with the existing state 
 
 Failure remains `CRAVING >= 100%`.
 
-No second recipe is authorized for this milestone.
+No second recipe is authorized during this closeout.
 
 ## Art rules
 
 1. **Same Clinic, Different Flavors.**
-2. The room remains recognizably the same outpatient clinic.
-3. Approved five WebP sheets have higher authority than every old JPEG/SVG.
-4. Legacy SVGs cannot be called production-final art.
-5. UI text should remain real HTML/CSS text rather than generated text baked into final assets.
+2. Cooking Mode must still read as the same outpatient clinic.
+3. The five canonical AVIF sheets outrank every older JPEG/WebP/SVG interpretation.
+4. `assets/art/`, `assets/concept/`, `assets/characters/`, and `assets/portraits/` are fallback/deprecated visual sources only.
+5. UI copy remains real HTML/CSS text; baked generated pseudo-text is not final UI.
+6. New character and prop assets must be visually traceable to the canonical sheets.
 
-## What is still not production-final
+## Known limitations carried to v0.5
 
-- Transparent full-body doctor sprites derived from the approved character identity.
-- Production patient body sprites derived from the approved NPC sheet.
-- Individually cut transparent ingredients/props from the approved prop sheet.
-- Final animation pass using those production assets.
+- Transparent full-body doctor production sprites are not yet complete.
+- Production patient body sets are not yet complete.
+- Individual transparent ingredient / prop cutouts are not yet extracted.
+- Current visible doctor/patient presentation uses concept-sheet bridging while legacy state assets remain for compatibility.
 
-The current approved-sheet sprite cropping is an intentional bridge so the visible game no longer uses the wrong art direction.
+These are declared limitations, not hidden regressions.
 
-## QA commands
+## Regression gate
 
 From `CK/`:
 
@@ -75,6 +72,8 @@ node --check src/art-direction.js
 python -m http.server 8000
 ```
 
+Manual review targets: `390×844`, `768×1024`, `1440×900`.
+
 ## Links
 
 - Play: https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/index.html
@@ -85,11 +84,13 @@ python -m http.server 8000
 
 **v0.5 Production Asset Extraction & Animation Pass**
 
-Priority order:
+Priority:
 
-1. one doctor production vertical slice,
-2. remaining two doctors,
-3. six patient bodies,
-4. ingredient/prop cutouts,
-5. animation/VFX polish,
-6. only then consider content expansion.
+1. DR. SPEED production vertical slice.
+2. visual consistency review and lock.
+3. DR. HEAT + DR. STRATEGY.
+4. six patient body sets.
+5. ingredient/prop cutouts from `props_station.avif`.
+6. animation/VFX and responsive QA.
+
+Do not expand to a second recipe before this production-art pass is complete.
