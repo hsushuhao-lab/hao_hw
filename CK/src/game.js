@@ -30,7 +30,9 @@ const state = {
   tossTimer: null,
   tossPosition: 4,
   tossDirection: 1,
-  tossHit: null
+  tossHit: null,
+  doctorState: 'idle',
+  doctorAnimTimer: null
 };
 
 const doctorCards = $('doctorCards');
@@ -48,6 +50,59 @@ function renderDoctors() {
   });
 }
 
+function setDoctorAnimation(animName, tempDuration = 0) {
+  if (!state.doctor) return;
+  state.doctorState = animName;
+  const stage = $('doctorStage');
+  const img = $('doctorBodyImage');
+  const badge = $('doctorStateBadge');
+  if (!stage || !img) return;
+
+  stage.classList.remove('is-hidden');
+  img.src = `assets/characters/doctors/doctor_${state.doctor.id}_${animName}.svg`;
+
+  img.className = 'doctor-body-img';
+  void img.offsetWidth;
+
+  const classMap = {
+    entrance: `doc-entrance-${state.doctor.id}`,
+    idle: 'doc-idle',
+    prep: 'doc-prep',
+    cut: 'doc-cut',
+    cook: 'doc-cook',
+    serve: 'doc-serve',
+    ultimate: `doc-ultimate-${state.doctor.id}`
+  };
+
+  const badgeMap = {
+    entrance: 'ENTRANCE · 就位',
+    idle: 'IDLE · 待命中',
+    prep: 'PREP · 備料中',
+    cut: 'CUT · 切配挑戰',
+    cook: 'WOK · 火候掌杓',
+    serve: 'SERVE · 完美出餐',
+    ultimate: `ULTIMATE · ${state.doctor.ultimate.name}`
+  };
+
+  if (classMap[animName]) img.classList.add(classMap[animName]);
+  if (badge) badge.textContent = badgeMap[animName] || animName.toUpperCase();
+
+  clearTimeout(state.doctorAnimTimer);
+  if (tempDuration > 0) {
+    state.doctorAnimTimer = setTimeout(() => {
+      if (state.phase === 'prep') {
+        setDoctorAnimation(state.cutChallenge ? 'cut' : 'prep');
+      } else if (state.phase === 'cook') {
+        setDoctorAnimation('cook');
+      } else if (state.phase === 'serve') {
+        setDoctorAnimation('serve');
+      } else {
+        setDoctorAnimation('idle');
+      }
+    }, tempDuration);
+  }
+}
+
 function selectDoctor(id) {
   state.doctor = doctors.find(d => d.id === id);
   document.querySelectorAll('.doctor-card').forEach(el => el.classList.toggle('is-selected', el.dataset.doctor === id));
@@ -59,6 +114,7 @@ function selectDoctor(id) {
   $('doctorPresence').classList.remove('is-hidden','is-arriving');
   void $('doctorPresence').offsetWidth;
   $('doctorPresence').classList.add('is-arriving');
+  setDoctorAnimation('entrance', 800);
   $('acceptOrderBtn').disabled = false;
   $('orderPanel').classList.remove('is-disabled');
   sound('select');
@@ -113,6 +169,7 @@ function newPatient() {
   updateMeters();
   renderIngredients();
   setPhase('prep', false);
+  if (state.doctor) setDoctorAnimation('idle');
   animatePatient('is-entering');
   sound('ticket');
 }
@@ -128,6 +185,7 @@ function acceptOrder() {
   flashScene();
   sound('start');
   setStatus('備料中');
+  setDoctorAnimation('prep');
   updateUltimateButton(true);
   startCravingTimer();
 }
@@ -201,6 +259,7 @@ function startCutChallenge(id) {
   $('cutStatus').textContent = '0 / 3';
   $('cutChallenge').classList.remove('is-hidden');
   ingredientGrid.classList.add('is-locked');
+  setDoctorAnimation('cut');
   state.cutTimer = setInterval(() => {
     const c = state.cutChallenge;
     if (!c) return;
@@ -238,6 +297,7 @@ function cutAction() {
   completePrepIngredient(id, hits * 2);
   $('cutChallenge').classList.add('is-hidden');
   ingredientGrid.classList.remove('is-locked');
+  setDoctorAnimation('prep');
   updatePrepStatus();
   updateMeters();
   maybeFinishPrep();
@@ -262,6 +322,7 @@ function enterCookPhase() {
   $('cookStatus').textContent = `0 / ${cookSteps.length}`;
   $('cookActionBtn').textContent = `火候到位 → ${cookSteps[0]}`;
   setStatus('烹調中');
+  setDoctorAnimation('cook');
   startHeatMeter();
 }
 
@@ -399,6 +460,7 @@ function useUltimate() {
   }
   updateMeters();
   updateUltimateButton(false);
+  setDoctorAnimation('ultimate', 1200);
   flashScene();
   sound('ultimate');
 }
@@ -406,6 +468,7 @@ function useUltimate() {
 function enterServePhase() {
   state.phase = 'serve';
   setPhase('serve', true);
+  setDoctorAnimation('serve');
   const goodHeat = state.heatHits.filter(Boolean).length;
   $('serveSummary').innerHTML = `
     <div class="summary-chip"><span>材料</span><strong>${state.prepped.size}/${state.required.length}</strong></div>
@@ -443,6 +506,7 @@ function serve() {
 function failOrder() {
   state.active = false;
   stopTimers();
+  setDoctorAnimation('idle');
   state.streak = 0;
   sound('fail');
   $('resultTitle').textContent = 'Craving 爆表';
@@ -508,6 +572,7 @@ function stopTimers() {
   clearInterval(state.heatTimer);
   clearInterval(state.cutTimer);
   clearInterval(state.tossTimer);
+  clearTimeout(state.doctorAnimTimer);
 }
 
 $('startBtn').addEventListener('click', () => {
