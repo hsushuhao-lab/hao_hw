@@ -14,10 +14,11 @@
 - 訂單結算、分數、連勝
 - 病人進場 / 離場動畫、診間切換閃光
 - Web Audio 程序音效與 mute 控制
-- 5 張主要概念美術＋角色/病人 portrait crops
 - 無 build system、無外部套件；可直接用靜態 HTTP server 執行
 
 ## 執行
+
+在 `CK/` 目錄：
 
 ```bash
 python -m http.server 8000
@@ -25,12 +26,11 @@ python -m http.server 8000
 
 瀏覽器開啟 `http://localhost:8000`。
 
-## 目錄
+## GitHub 分支內容
 
 ```text
 assets/
-  concept/      # 角色、診間、Cooking Mode、道具、病人概念圖
-  portraits/    # 遊戲介面用角色/病人裁切圖
+  concept/      # 5 張輕量 SVG web fallback：角色、診間、Cooking Mode、道具、病人
 src/
   data.js       # 角色、病人、材料、料理流程資料
   game.js       # 遊戲狀態與互動
@@ -43,7 +43,10 @@ docs/
   AGENT_HANDOFF.md
 tests/
   smoke_test.py
+PROGRESS.md
 ```
+
+完整 release ZIP 另外保留高解析概念美術與角色 / 病人 portrait crops；GitHub 工作分支使用 SVG fallback，讓 prototype 維持輕量且可直接靜態執行。
 
 ## 遊戲定位
 
@@ -51,9 +54,9 @@ CK 是荒謬喜劇式的 arcade cooking game，不是醫療模擬器。遊戲中
 
 ## 下一版目標（v0.3）
 
-1. 把概念圖拆成正式可動 sprite / animation。
-2. 做真正的點餐動畫與候診隊列。
-3. 加入豆腐切割、勾芡、甩鍋三種獨立 mini-game。
+1. 把概念圖拆成正式透明 sprite / animation。
+2. 完整病人：進門 → 坐下 → 點餐 → 用餐 → 離場動畫。
+3. 把勾芡與甩鍋拆成獨立 mini-game。
 4. 每位醫師增加專屬入場動畫與 ultimate skill。
-5. 音效：印表機出票、炒鍋、切菜、服務鈴、craving 警報。
-6. GitHub Pages / deployment workflow。
+5. 補上 production SFX / BGM。
+6. 建立公開 deployment。
