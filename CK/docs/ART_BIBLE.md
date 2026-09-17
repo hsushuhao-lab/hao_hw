@@ -1,42 +1,44 @@
-# CK — Approved Art Bible v0.4
+# CK — Approved Art Bible v0.4.1
 
 ## Status
 
-**APPROVED VISUAL SOURCE OF TRUTH — 2026-09-17**
+**APPROVED VISUAL SOURCE OF TRUTH — CORRECTED 2026-09-17**
 
-The following five sheets are the highest-priority visual references for all future CK work:
+The following five WebP sheets are the highest-priority visual references for all future CK work:
 
 ```text
 assets/art_direction/source_of_truth/
-  doctor_concepts.jpg
-  clinic_layout.jpg
-  cooking_mode.jpg
-  props_station.jpg
-  patient_npcs.jpg
+  doctor_concepts.webp
+  clinic_layout.webp
+  cooking_mode.webp
+  props_station.webp
+  patient_npcs.webp
 ```
 
-Legacy SVG characters and environments are gameplay placeholders/fallbacks only. They are not the final production art direction.
+They supersede the older compressed JPEG copies and all legacy SVG interpretations.
+
+Legacy SVG characters/environments remain gameplay fallback assets only. They are **not** the final production art direction.
 
 ## Core Direction
 
-CK is a **stylized 2.5D arcade illustration** game: warm, bright, semi-realistic, friendly, and humorous. It should feel like a polished indie cooking-management game occurring inside a psychiatric outpatient clinic.
+CK is a **stylized 2.5D arcade illustration** game: warm, bright, semi-realistic, friendly, humorous, and visually polished. It should feel like an indie cooking-management game occurring inside a psychiatric outpatient clinic.
 
 Core phrase: **Same Clinic, Different Flavors.**
 
-The joke works only if Cooking Mode still clearly looks like the same clinic. Do not redesign the room into a generic restaurant or commercial kitchen.
+The visual joke works only if Cooking Mode still clearly reads as the same clinic. Do not redesign the room into a generic restaurant or commercial kitchen.
 
 ## Palette
 
-- Deep navy: titles, strong UI anchors, medical professionalism.
-- Warm cream / paper white: cards, clinic surfaces, order slips.
-- Soft sky blue: clinic information, calm UI states.
-- Warm yellow: sticky-note emphasis, selection, positive feedback.
-- Chili red / flame orange: heat, wok, craving pressure.
-- Fresh scallion green: focus, completion, ingredients.
+- Deep navy — titles, strong UI anchors, medical professionalism.
+- Warm cream / paper white — cards, clinic surfaces, order slips.
+- Soft sky blue — calm clinic information states.
+- Warm yellow — sticky notes, selection, positive feedback.
+- Chili red / flame orange — wok heat, cooking energy, craving pressure.
+- Fresh scallion green — focus, completion, ingredient freshness.
 
-## UI Language
+## Presentation Language
 
-Use the same presentation language as the approved concept sheets:
+Use the same visual language as the approved sheets:
 
 - rounded white cards
 - handwritten-note feeling
@@ -45,34 +47,40 @@ Use the same presentation language as the approved concept sheets:
 - recipe prescription sheets
 - soft drop shadows
 - navy headings with warm yellow accents
-- clean white/cream clinic background
+- bright clinic background
+- warm cooking highlights
 
-UI text must be real HTML/CSS text. Do not bake generated pseudo-text into production UI assets.
+Production UI copy must use real HTML/CSS text. Do not depend on AI-generated pseudo-text baked into artwork.
 
 ## Doctors
 
 ### DR. SPEED
+
 - friendly, energetic, extroverted
 - transparent/light glasses
-- bowl/chopsticks/fast-prep visual identity
-- motion language: quick, springy, playful
+- bowl/chopsticks/fast-prep identity
+- quick, springy, playful motion language
 - Ultimate: lightning-fast prep
 
 ### DR. HEAT
+
 - calm, centered, precise
 - blue shirt under white coat
 - wok / spice / flame identity
-- motion language: controlled, stable, confident
+- controlled, stable, confident motion language
 - Ultimate: precision heat
 
 ### DR. STRATEGY
+
 - analytical, composed
-- round glasses + pale green mask element
+- round glasses + pale-green mask element
 - clipboard / recipe prescription identity
-- motion language: deliberate, tactical
+- deliberate, tactical motion language
 - Ultimate: craving prescription / order management
 
-Production character art should include consistent proportions and the following states: entrance, idle, prep, cut, cook, serve, ultimate, fail, victory.
+Future production character art should preserve consistent anatomy, face identity, clothing, glasses, hairstyle, coat length, and props across:
+
+`entrance / idle / prep / cut / cook / serve / ultimate / fail / victory`
 
 ## Patient NPCs
 
@@ -85,9 +93,13 @@ Approved archetypes:
 5. The Quiet Young Adult
 6. The Repeat Visitor
 
-Each patient must be recognizable by silhouette and clothing, not facial details alone. Gameplay states: walk in, sit, order, eat, leave.
+Each patient must remain recognizable by silhouette and clothing, not facial details alone.
 
-Avoid glamorizing smoking in repeated gameplay imagery. Craving should be conveyed primarily through fidgeting, restlessness, pocket-checking, expression, motion, and the CRAVING meter.
+Gameplay states:
+
+`walk in / sit / order / eat / leave`
+
+Avoid repeated glamorized smoking imagery. Craving should be conveyed mainly through restlessness, fidgeting, pocket-checking, expression, pacing, and the CRAVING meter.
 
 ## Environment
 
@@ -115,28 +127,53 @@ Target visual balance: **at least ~70% still reads as clinic; cooking elements i
 
 ## Props / Ingredients
 
-Use the approved prop sheet as the source of truth for tofu, minced pork, doubanjiang, fermented black beans, garlic, scallion, chili, Sichuan pepper, rice, wok, ladle, spatula, knife, chopping board, portable stove, order slips, and recipe prescription.
+Use `props_station.webp` as the authority for:
 
-Production ingredient assets should use a consistent 3/4 perspective, transparent background, unified lighting, and high one-glance recognizability.
+- tofu
+- minced pork
+- doubanjiang
+- fermented black beans
+- garlic
+- scallion
+- chili
+- Sichuan pepper
+- rice
+- wok
+- ladle
+- spatula
+- knife
+- chopping board
+- portable stove
+- order slips
+- recipe prescription
+
+Production interaction assets should use consistent 3/4 perspective, transparent background, unified lighting, and high one-glance recognizability.
 
 ## Camera
 
-- Main gameplay: slightly elevated 3/4 front perspective.
-- Dialogue/order: medium character card / portrait presentation.
-- Heat/toss feedback: short close-up or VFX emphasis without losing clinic context.
+- Main gameplay — slightly elevated 3/4 front perspective.
+- Dialogue/order — medium character card / portrait presentation.
+- Heat/toss feedback — short close-up or VFX emphasis without losing clinic context.
+
+## Runtime bridge
+
+Until transparent production sprites are available, the web build may crop visible doctor/patient imagery directly from the approved concept sheets. This is preferable to showing the visually inconsistent legacy SVGs.
 
 ## Do / Don't
 
 ### DO
+
 - keep clinic identity visible
-- use approved five sheets as visual authority
+- use the five WebP sheets as the highest visual authority
 - maintain warm semi-realistic illustrated look
-- make UI look like notes, prescriptions and tickets
-- use real web text for labels and copy
+- make UI feel like notes, prescriptions, labels, and tickets
+- use real web text for final labels and copy
 
 ### DON'T
+
 - convert the room into a generic restaurant
 - treat legacy SVGs as production-final art
-- add unrelated anime/chibi styles that break consistency
+- revert runtime to old `assets/art/*.jpg`
+- introduce unrelated anime/chibi styles that break consistency
 - use generated misspelled text as final UI
 - add a second recipe before the first dish reaches production-quality visual polish
