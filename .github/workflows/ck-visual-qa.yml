@@ -1,0 +1,39 @@
+name: CK visual QA
+on:
+  push:
+    branches: [ck-game]
+    paths: ['CK/**', '.github/workflows/ck-visual-qa.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  visual-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preserve exact source snapshot for review
+        run: |
+          mkdir -p review
+          git rev-parse HEAD > review/COMMIT.txt
+          tar -czf review/CK-source.tar.gz CK
+      - name: Check JavaScript syntax
+        run: |
+          node --check CK/src/game.js
+          node --check CK/src/data.js
+          node --check CK/src/art-direction.js
+      - name: Install browser QA tools
+        if: ${{ hashFiles('CK/tests/visual_qa.py') != '' }}
+        run: |
+          python -m pip install playwright Pillow
+          python -m playwright install --with-deps chromium
+      - name: Run browser QA
+        if: ${{ hashFiles('CK/tests/visual_qa.py') != '' }}
+        run: python CK/tests/visual_qa.py --output review
+      - name: Upload review evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: CK-visual-review
+          path: review/
+          retention-days: 14
