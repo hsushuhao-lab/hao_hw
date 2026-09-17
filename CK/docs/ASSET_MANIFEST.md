@@ -1,33 +1,61 @@
-# CK — Asset Manifest v0.1
+# CK — Asset Manifest v0.4.2
 
-## Concept Art
+## Canonical approved art
+
+The following five AVIF files are the only production visual authority:
 
 | File | Purpose |
 |---|---|
-| `assets/concept/doctor_concepts.svg` | GitHub web fallback；三位可選醫師角色方向 |
-| `assets/concept/clinic_layout.svg` | GitHub web fallback；一般門診與空間配置 |
-| `assets/concept/cooking_mode.svg` | GitHub web fallback；診間切換 Cooking Mode |
-| `assets/concept/props.svg` | GitHub web fallback；麻婆豆腐材料、鍋具、order slip |
-| `assets/concept/patient_npcs.svg` | GitHub web fallback；病人 NPC 方向 |
+| `assets/art_direction/source_of_truth/doctor_concepts.avif` | DR. SPEED / DR. HEAT / DR. STRATEGY identity, clothing, props, brushwork |
+| `assets/art_direction/source_of_truth/clinic_layout.avif` | outpatient consultation-room spatial baseline |
+| `assets/art_direction/source_of_truth/cooking_mode.avif` | same clinic transformed into Cooking Mode |
+| `assets/art_direction/source_of_truth/props_station.avif` | mapo-tofu ingredients, tools, station, order/prescription language |
+| `assets/art_direction/source_of_truth/patient_npcs.avif` | six patient NPC archetypes and visual identity |
 
-完整 release ZIP 另含 5 張高解析 PNG/JPG 概念圖與角色/病人 portrait crops。
+## Runtime integration
 
-## Production Raster References in Release ZIP
+Canonical art is bound by:
 
-Doctors: `doctor_speed.jpg`, `doctor_heat.jpg`, `doctor_strategy.jpg`.
+- `src/art-direction.js`
+- `art-direction.css`
+- `art-original.html`
 
-Patients: `patient_office.jpg`, `patient_student.jpg`, `patient_driver.jpg`, `patient_auntie.jpg`, `patient_quiet.jpg`, `patient_repeat.jpg`.
+The runtime must not use `assets/art/*.jpg` as visual authority.
 
-## Still Missing for Production
+## Legacy / fallback assets
 
-- Transparent full-body doctor sprites
-- Idle / walk / prep / cook / serve sprite sheets
-- Patient entry / waiting / eating animation
-- Ingredient PNG icons with transparent background
-- Wok fire VFX sprite sheet
-- Steam / chili / Sichuan pepper particle sprites
-- Sound effects and BGM
+These files remain for state-machine compatibility and emergency fallback only:
 
-## GitHub branch
+```text
+assets/concept/*.svg
+assets/portraits/*.svg
+assets/characters/doctors/*.svg
+assets/characters/patients/*.svg
+```
 
-The GitHub branch uses lightweight `.svg` web fallbacks for a self-contained prototype. Full-resolution raster art remains in the release ZIP.
+They are not production-final art.
+
+## Legacy state counts
+
+Doctors: 3 × 7 states = 21 SVG fallbacks.
+
+`entrance / idle / prep / cut / cook / serve / ultimate`
+
+Patients: 6 × 5 states = 30 SVG fallbacks.
+
+`walk_in / sit / order / eat / leave`
+
+## Still missing for production v0.5
+
+- purpose-built transparent full-body doctor sprites derived from `doctor_concepts.avif`
+- fail/victory states for each doctor
+- purpose-built patient lifecycle sprites derived from `patient_npcs.avif`
+- transparent ingredient/prop cutouts derived from `props_station.avif`
+- final character animation pass
+- production VFX polish
+
+Audio is already represented by procedural Web Audio/BGM and is not the current art blocker.
+
+## Visual governance
+
+**Same Clinic, Different Flavors.** The clinic remains recognizable in Cooking Mode. New assets must visually trace back to the five canonical sheets and must not introduce a new unrelated style.
