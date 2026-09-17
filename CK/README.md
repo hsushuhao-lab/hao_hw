@@ -1,62 +1,72 @@
-# Craving Kitchen (CK) — v0.2 Vertical Slice
+# Craving Kitchen (CK) — v0.3 Production Slice
 
-> 一款發生在診間的麻婆豆腐料理小遊戲：病人煙癮突然升高，玩家操作三位可選醫師，在有限時間內完成病人指定的麻婆豆腐訂單，利用備料與料理任務把注意力拉回當下。
+[▶ **直接試玩 CK v0.3**](https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/index.html)
 
-## v0.2 已完成
+> 診間麻婆豆腐料理小遊戲：病人 craving 上升時，玩家操作三位可選醫師，接單、備料、切配、掌握火候、甩鍋並上菜。
 
-- 3 位可選角色：DR. SPEED / DR. HEAT / DR. STRATEGY
-- 6 類病人 NPC 與不同點餐偏好
-- 診間 → Cooking Mode 場景切換
-- 備料 mini-game：正確材料 / 錯誤材料懲罰
-- 豆腐 / 青蔥切配 timing mini-game
-- 火候 mini-game：4 個烹調步驟與 timing 判定 + Perfect Heat VFX
-- CRAVING / FOCUS 雙資源
-- 訂單結算、分數、連勝
-- 病人進場 / 離場動畫、診間切換閃光
-- Web Audio 程序音效與 mute 控制
-- 無 build system、無外部套件；可直接用靜態 HTTP server 執行
+## v0.3 已完成
 
-## 執行
+- 3 位可選醫師，角色能力與主動 **Ultimate** 均不同。
+- 6 類病人與多種訂單偏好。
+- 診間 → Cooking Mode 場景轉換。
+- 豆腐 / 青蔥 timing 切配。
+- 4 階段火候判定 + Perfect Heat VFX。
+- 新增 **甩鍋收尾 mini-game**。
+- 病人進場 → 點餐 → 用餐 → 離場演出。
+- DR. SPEED：閃電備料；DR. HEAT：下一次火候必定 Perfect；DR. STRATEGY：降低 Craving 並恢復 Focus。
+- Web Audio 程序音效、mute、鍵盤 Space timing / U Ultimate。
+- GitHub web build 使用輕量 SVG 角色 / 病人 portraits；完整 release ZIP 保留高解析概念美術。
 
-在 `CK/` 目錄：
+## 直接試玩
+
+GitHub branch 的靜態內容以 raw.githack 提供瀏覽器預覽：
+
+**https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/index.html**
+
+正式 GitHub Pages 網址預留為：
+
+**https://hsushuhao-lab.github.io/hao_hw/CK/**
+
+GitHub Pages 需在 repository Settings → Pages 將 publishing source 啟用後才會生效；目前上方 raw.githack 連結可立即試玩。
+
+## 本機執行
 
 ```bash
+cd CK
 python -m http.server 8000
 ```
 
-瀏覽器開啟 `http://localhost:8000`。
+開啟 `http://localhost:8000`。
 
-## GitHub 分支內容
+## 專案結構
 
 ```text
 assets/
-  concept/      # 5 張輕量 SVG web fallback：角色、診間、Cooking Mode、道具、病人
+  concept/      # 5 張主要美術概念圖
+  portraits/    # 3 位醫師 + 6 位病人角色裁切
 src/
-  data.js       # 角色、病人、材料、料理流程資料
+  data.js       # 角色、Ultimate、病人、材料、料理流程
   game.js       # 遊戲狀態與互動
-styles.css      # UI / responsive layout
-index.html      # 單頁遊戲入口
+styles.css
+index.html
 docs/
   GDD.md
   ART_BIBLE.md
   ASSET_MANIFEST.md
   AGENT_HANDOFF.md
-tests/
-  smoke_test.py
+  DEPLOYMENT.md
+tests/smoke_test.py
 PROGRESS.md
 ```
 
-完整 release ZIP 另外保留高解析概念美術與角色 / 病人 portrait crops；GitHub 工作分支使用 SVG fallback，讓 prototype 維持輕量且可直接靜態執行。
-
 ## 遊戲定位
 
-CK 是荒謬喜劇式的 arcade cooking game，不是醫療模擬器。遊戲中的「麻婆豆腐分散煙癮」是世界觀設定，不應被解讀為戒菸療法或醫療建議。
+CK 是荒謬喜劇式 arcade cooking game，不是醫療模擬器。麻婆豆腐分散煙癮屬虛構遊戲設定，不代表戒菸療法或醫療建議。
 
-## 下一版目標（v0.3）
+## 下一版 v0.4
 
-1. 把概念圖拆成正式透明 sprite / animation。
-2. 完整病人：進門 → 坐下 → 點餐 → 用餐 → 離場動畫。
-3. 把勾芡與甩鍋拆成獨立 mini-game。
-4. 每位醫師增加專屬入場動畫與 ultimate skill。
-5. 補上 production SFX / BGM。
-6. 建立公開 deployment。
+1. 角色透明 sprite / expression sheet，取代 portrait overlay。
+2. 三位醫師各自不同的入場與 Ultimate 動畫。
+3. 病人完整 body walk / sit / eat / leave sprite animation。
+4. 正式 BGM / SFX 與音量控制。
+5. GitHub Pages 正式部署與手機實機 QA。
