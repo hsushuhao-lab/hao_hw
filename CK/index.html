@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Craving Kitchen — CK v0.2</title>
+  <title>Craving Kitchen — CK v0.3</title>
   <meta name="description" content="診間麻婆豆腐小遊戲 prototype" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -11,7 +11,7 @@
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">CK v0.2 · Vertical Slice</p>
+        <p class="eyebrow">CK v0.3 · Vertical Slice</p>
         <h1>Craving Kitchen</h1>
         <p class="subtitle">煙癮來了？先開火。以料理任務撐過這一波 craving。</p>
       </div>
@@ -45,8 +45,12 @@
         <div class="clinic-stage" id="clinicStage">
           <img id="stageArt" src="assets/concept/clinic_layout.svg" alt="診間環境概念圖" />
           <div class="stage-shade"></div>
+          <div id="doctorPresence" class="doctor-presence is-hidden">
+            <img id="doctorPresenceImage" src="assets/portraits/doctor_speed.svg" alt="目前操作醫師" />
+            <div><span class="tiny-label">ON DUTY</span><strong id="doctorPresenceName">尚未選擇</strong></div>
+          </div>
           <div class="patient-card" id="patientCard">
-            <img id="patientImage" src="assets/concept/patient_npcs.svg" alt="病人角色" />
+            <img id="patientImage" src="assets/portraits/patient_office.svg" alt="病人角色" />
             <div>
               <p class="tiny-label">TODAY'S PATIENT</p>
               <h3 id="patientName">等待掛號中</h3>
@@ -64,6 +68,15 @@
             <div class="meter-label"><span>FOCUS 注意力</span><strong id="focusText">0%</strong></div>
             <div class="meter"><div id="focusBar" class="meter-fill focus-fill" style="width:0%"></div></div>
           </div>
+        </div>
+
+        <div class="skill-panel">
+          <div>
+            <p class="tiny-label">CHARACTER ULTIMATE · 每張訂單 1 次</p>
+            <strong id="skillName">選擇醫師後解鎖</strong>
+            <p id="skillDesc" class="skill-desc">每位角色有不同的主動技能。</p>
+          </div>
+          <button id="ultimateBtn" class="ultimate-btn" type="button" disabled>ULTIMATE</button>
         </div>
 
         <div id="orderPanel" class="order-panel is-disabled">
@@ -116,6 +129,12 @@
               <div id="heatFx" class="heat-fx" aria-hidden="true">PERFECT HEAT!</div>
             </div>
             <button id="cookActionBtn" class="primary-btn wide" type="button">開始爆香</button>
+            <div id="tossChallenge" class="toss-challenge is-hidden">
+              <div class="cut-header"><strong>甩鍋收尾</strong><span id="tossStatus">等待節奏</span></div>
+              <div class="toss-track"><div class="toss-zone"></div><div id="tossCursor" class="toss-cursor"></div></div>
+              <button id="tossActionBtn" class="primary-btn wide" type="button">甩鍋！</button>
+              <p class="hint">最後一次 timing 會影響 Focus、Craving 與結算分數。</p>
+            </div>
             <p class="hint">游標進入中央最佳火候區時按下。角色技能會改變容錯範圍。</p>
           </div>
 
@@ -143,8 +162,9 @@
             <li>3 位可選醫師</li>
             <li>6 類病人 NPC</li>
             <li>5 種主要訂單變化</li>
-            <li>備料 → 火候 → 上菜</li>
+            <li>備料 → 火候 → 甩鍋 → 上菜</li>
             <li>Craving / Focus 雙資源</li>
+            <li>3 種角色 Ultimate</li>
           </ul>
         </div>
       </aside>
@@ -176,7 +196,7 @@
         <button id="nextPatientBtn" class="primary-btn wide" type="button">下一位病人</button>
       </div>
     </section>
-    <footer class="game-footer">遊戲中的麻婆豆腐為喜劇世界觀設定，並非戒菸治療或醫療建議。</footer>
+    <footer class="game-footer">遊戲中的麻婆豆腐為喜劇世界觀設定，並非戒菸治療或醫療建議。｜鍵盤：Space = timing、U = Ultimate</footer>
   </main>
 
   <script type="module" src="src/game.js"></script>
