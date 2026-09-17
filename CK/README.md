@@ -1,4 +1,4 @@
-# Craving Kitchen (CK) — v0.4.1 Corrected Art Build
+# Craving Kitchen (CK) — v0.4.2 Art Closeout
 
 [▶ **直接試玩 CK**](https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/index.html)  
 [🎨 **正式美術 Source of Truth**](https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/art-original.html)  
@@ -9,48 +9,43 @@
 
 ## Current status
 
-**v0.4.1 ART CORRECTION — CORRECTED CANONICAL ART PUBLISHED / RUNTIME BOUND TO APPROVED ART**
+**v0.4.2 ART CLOSEOUT — CANONICAL ART ONLINE / RUNTIME BOUND / LEGACY ART FALLBACK ONLY**
 
-先前 v0.4 的主要問題是：文件雖宣告了正確美術方向，但 runtime 仍讀取舊的 `assets/art/*.jpg` 與 legacy SVG，因此線上畫面與核准的五張美術設計不一致。
-
-v0.4.1 已修正這個治理錯誤。
+本版修正先前最大的治理錯誤：文件、美術頁與 runtime 現在全部指向同一組正式美術，不再由舊 `assets/art/*.jpg` 或 legacy SVG 決定視覺風格。
 
 ## 唯一正式美術 Source of Truth
 
-以下五張 WebP 是目前 CK 最高優先級視覺準則：
-
 ```text
 assets/art_direction/source_of_truth/
-  doctor_concepts.webp
-  clinic_layout.webp
-  cooking_mode.webp
-  props_station.webp
-  patient_npcs.webp
+  doctor_concepts.avif
+  clinic_layout.avif
+  cooking_mode.avif
+  props_station.avif
+  patient_npcs.avif
 ```
 
-這五張直接來自本輪核准的正確美術設計，保留 4:3 完整構圖並以 WebP 提供線上遊戲使用。
+這五張圖是 CK 的最高視覺 authority：
 
-### 視覺核心
+- `doctor_concepts.avif`：三位可選醫師的造型、服裝、道具與筆觸。
+- `clinic_layout.avif`：同一個診間的空間基準。
+- `cooking_mode.avif`：診間進入 Cooking Mode 後的正式氣氛與工作站配置。
+- `props_station.avif`：麻婆豆腐材料、器具、備料站與 prescription/order-ticket 語言。
+- `patient_npcs.avif`：六位病人 archetype 的正式視覺。
 
-**Same Clinic, Different Flavors.**
+核心規則：**Same Clinic, Different Flavors.** Cooking Mode 是料理元素侵入同一診間，不得改造成 generic restaurant 或 commercial kitchen。
 
-- 仍然是同一個門診診間。
-- Cooking Mode 是料理元素「侵入」診間，而不是改造成一般餐廳。
-- 角色、病人、材料、UI 語言、色彩與場景都以五張正式 concept sheets 為準。
-- Legacy SVG 只能作 fallback / 程式相容資產，不再具有 production art authority。
+## Runtime art policy
 
-## v0.4.1 修正內容
+`src/art-direction.js` 與 `art-direction.css` 直接讀取 `assets/art_direction/source_of_truth/*.avif`。
 
-- 發布五張正確 canonical WebP artwork。
-- `src/art-direction.js` 改成直接讀取 `assets/art_direction/source_of_truth/*.webp`。
-- Hero 直接使用正式 `cooking_mode.webp`。
-- Clinic / Cooking stage 會被 runtime 強制導向正式場景。
-- Doctor selection cards 由正式 doctor concept sheet 產生可見角色圖，不再顯示舊 portrait SVG。
-- Doctor presence / doctor stage 由正式 doctor sheet 顯示。
-- Patient card / patient stage 由正式 patient NPC sheet 顯示。
-- 遊戲內 Art Gallery 強制使用正式五張 WebP。
-- `art-original.html` 已改成 canonical art gallery。
-- 文件、handoff、asset index 與 regression gate 同步改成正確資產治理。
+既有：
+
+- `assets/art/`
+- `assets/concept/`
+- `assets/characters/`
+- `assets/portraits/`
+
+全部降級為 **legacy compatibility / gameplay fallback**，不得再標示為 production-final art。
 
 ## Core gameplay baseline
 
@@ -58,7 +53,7 @@ assets/art_direction/source_of_truth/
 
 Failure：`CRAVING >= 100%`。
 
-遊戲仍保留：
+目前保留：
 
 - 3 位可選醫師與不同 passive / Ultimate。
 - 6 類病人與不同訂單偏好。
@@ -68,23 +63,21 @@ Failure：`CRAVING >= 100%`。
 - CRAVING / FOCUS 雙資源。
 - Web Audio / BGM / volume mixer。
 
+## Art closeout rules
+
+1. 新增 production asset 時必須能追溯到五張 canonical sheets。
+2. 主角、病人與場景不得重新發明畫風。
+3. UI 使用 navy / cream / sky blue / warm yellow / chili red / scallion green，搭配 rounded card、sticky note、order ticket、recipe prescription。
+4. 文字使用 HTML/CSS 真文字，不使用圖像中的 AI pseudo-text 作正式 UI。
+5. 不增加第二道料理，直到麻婆豆腐的 production character / patient / prop assets 完成。
+
 ## 線上入口
 
 - Play: https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/index.html
 - Approved art: https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/art-original.html
 - GitHub: https://github.com/hsushuhao-lab/hao_hw/tree/ck-game/CK
 
-Repository 目前 `has_pages=false`，因此原生 GitHub Pages 尚未啟用；raw.githack 為目前直接試玩入口。
-
-## 開發規則
-
-後續任何 AGENT 必須：
-
-1. 先讀 `docs/00_START_HERE.md`。
-2. 把五張 canonical WebP 視為最高美術 authority。
-3. 不得再以 `assets/concept/*.svg`、`assets/characters/*.svg` 或 `assets/portraits/*.svg` 宣稱 production-final art。
-4. 不增加第二道料理，直到麻婆豆腐的 production character/prop assets 完成。
-5. 不把診間改造成 generic restaurant。
+Repository 目前未啟用原生 GitHub Pages，因此 raw.githack 為直接試玩入口。
 
 ## Regression commands
 
@@ -97,4 +90,4 @@ node --check src/art-direction.js
 python -m http.server 8000
 ```
 
-遊戲中的麻婆豆腐為喜劇世界觀設定，並非戒菸治療或醫療建議。
+遊戲中的麻婆豆腐為喜劇世界觀設定，不是戒菸治療或醫療建議。
