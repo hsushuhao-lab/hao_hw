@@ -1,6 +1,6 @@
-# MASTER AGENT PROMPT — Craving Kitchen v0.4 Art Alignment
+# MASTER AGENT PROMPT — Craving Kitchen v0.5 Production Asset Pass
 
-You are taking over **Craving Kitchen (CK)** from an already playable build. Work directly from the repository and preserve existing behavior.
+You are taking over **Craving Kitchen (CK)** from the corrected v0.4.1 art build. Work directly from the repository and preserve existing gameplay behavior.
 
 ## REPOSITORY
 
@@ -8,9 +8,10 @@ You are taking over **Craving Kitchen (CK)** from an already playable build. Wor
 - Branch: `ck-game`
 - Project root: `CK/`
 - Play build: `https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/index.html`
-- Approved concept art: `https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/art-original.html`
+- Approved art: `https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/art-original.html`
 
 Read in this order before modifying code:
+
 1. `CK/docs/00_START_HERE.md`
 2. `CK/docs/FINAL_HANDOFF.md`
 3. `CK/docs/SCENE_AND_GAME_FLOW.md`
@@ -25,75 +26,116 @@ Read in this order before modifying code:
 
 ## GOAL
 
-Advance CK from the current playable build to a **production-quality art-aligned slice** without breaking the established gameplay loop.
+Advance CK from the corrected art bridge to a **production-quality character/prop asset slice** without breaking the established loop.
 
-The established loop is:
+The loop is frozen:
 
 `doctor select → patient enter → order → clinic transforms → prep/cut → four heat judgements → final toss → serve → patient eat → result → patient leave → next patient`
 
 Failure remains `CRAVING >= 100%`.
 
-## APPROVED VISUAL SOURCE OF TRUTH
+Do not add a second recipe.
 
-These five files override every older SVG concept sheet and every older interpretation of the art direction:
+## ONLY APPROVED VISUAL SOURCE OF TRUTH
+
+These five WebP files override every older JPEG, SVG concept sheet, portrait, animation asset, or interpretation:
 
 ```text
 CK/assets/art_direction/source_of_truth/
-  doctor_concepts.jpg
-  clinic_layout.jpg
-  cooking_mode.jpg
-  props_station.jpg
-  patient_npcs.jpg
+  doctor_concepts.webp
+  clinic_layout.webp
+  cooking_mode.webp
+  props_station.webp
+  patient_npcs.webp
 ```
 
-Treat them as the highest-priority visual authority for characters, environment, props, UI language, palette, mood, framing and presentation.
+Treat them as the highest-priority authority for:
 
-Legacy files under `assets/concept/`, `assets/characters/`, and `assets/portraits/` are **placeholder/fallback gameplay assets only** unless explicitly promoted later. Do not mistake them for production-final art.
+- character identity
+- patient identity
+- environment
+- props
+- UI language
+- palette
+- mood
+- framing
+- presentation
 
-The central visual rule is non-negotiable:
+Legacy files under `assets/concept/`, `assets/characters/`, `assets/portraits/`, and `assets/art/*.jpg` are **fallback / deprecated assets only**.
 
-> **Same Clinic, Different Flavors.** The cooking area is the SAME consultation room transformed into a compact mapo-tofu station.
+Do not call those legacy assets production-final.
+
+## VISUAL RULE
+
+> **Same Clinic, Different Flavors.**
+
+The cooking area is the same consultation room transformed into a compact mapo-tofu station.
 
 Do not replace it with a restaurant, commercial kitchen, fantasy kitchen, cafe, or unrelated location.
 
-## VISUAL STYLE
+Target environment balance: roughly **70% clinic identity / 30% cooking intervention**.
 
-Target style:
+## CURRENT RUNTIME BRIDGE
 
-- stylized 2.5D arcade illustration
-- warm, bright, clean, semi-realistic
-- polished indie cooking-management game
-- clinic white / cream / sky blue base
-- navy typography and anchors
-- warm yellow sticky-note accents
-- chili red / flame orange cooking emphasis
-- scallion green positive/focus emphasis
-- rounded cards, recipe prescriptions, order tickets, handwritten-note motifs
+The current online build intentionally crops visible doctor/patient imagery from the canonical concept sheets through:
 
-All production UI copy must use real HTML/CSS text. Never bake AI-generated pseudo-text or misspelled text into final UI assets.
+- `CK/src/art-direction.js`
+- `CK/art-direction.css`
 
-## DOCTOR PRODUCTION TASKS
+This bridge fixed the previous wrong-art problem. Preserve it until a production replacement is verified online.
 
-### DR. SPEED
-Visual identity: friendly, energetic, bowl/chopsticks, quick-prep motion.
-Required states: entrance, idle, prep, cut, cook, serve, ultimate, fail, victory.
-Ultimate: **閃電備料**.
+Never remove a working fallback before its replacement passes QA.
 
-### DR. HEAT
-Visual identity: calm, precise, blue shirt, wok/spice/flame focus.
-Required states: entrance, idle, prep, cut, cook, serve, ultimate, fail, victory.
-Ultimate: **精準火候**.
+## PRODUCTION TASK ORDER
 
-### DR. STRATEGY
-Visual identity: analytical, round glasses, pale-green mask element, clipboard / recipe prescription.
-Required states: entrance, idle, prep, cut, cook, serve, ultimate, fail, victory.
-Ultimate: **Craving 處方**.
+### P0 — DR. SPEED vertical slice
 
-The three entrances and ultimates MUST be visually different. Color swaps alone do not pass.
+Create production art derived from the approved doctor sheet for:
 
-## PATIENT PRODUCTION TASKS
+- entrance
+- idle
+- prep
+- cut
+- cook
+- serve
+- ultimate
+- fail
+- victory
 
-Use the approved NPC sheet for these six archetypes:
+Requirements:
+
+- same face identity across every pose
+- same transparent/light glasses
+- same hairstyle
+- same white coat and inner clothing identity
+- recognizable bowl/chopsticks / fast-prep motif
+- transparent background
+- consistent canvas and scale
+- no baked pseudo-text
+
+Integrate only after visual review.
+
+### P1 — DR. HEAT / DR. STRATEGY
+
+Repeat after DR. SPEED style is locked.
+
+DR. HEAT identity:
+
+- blue shirt
+- centered / precise
+- wok / spice / flame focus
+
+DR. STRATEGY identity:
+
+- round glasses
+- pale-green mask element
+- clipboard / recipe prescription focus
+
+The three entrances and ultimates must be visually different. Color swaps alone do not pass.
+
+### P2 — six patient production sets
+
+Use the approved patient sheet:
 
 1. The Anxious Office Worker
 2. The Tired Student
@@ -102,52 +144,55 @@ Use the approved NPC sheet for these six archetypes:
 5. The Quiet Young Adult
 6. The Repeat Visitor
 
-Each must be recognizable by silhouette/clothing, not face alone.
-Required states: walk in, sit, order/react, eat, leave.
+Each requires:
 
-Avoid repeated glamorized smoking imagery. Convey craving primarily through restlessness, fidgeting, pocket-checking, expression, pacing and the CRAVING meter.
+- walk in
+- sit
+- order/react
+- eat
+- leave
 
-## ENVIRONMENT TASKS
+Characters must remain recognizable by silhouette/clothing, not face alone.
 
-The room must remain visibly clinical. Preserve:
+Avoid repeated glamorized smoking imagery; convey craving primarily via fidgeting, restlessness, pacing, expression, and CRAVING UI.
 
-- doctor desk
-- patient seat
-- printer/storage
-- wash area
-- cabinets
-- clinic lighting
-- white walls
-- doorway
+### P3 — ingredient / prop extraction
 
-Cooking Mode converts existing objects:
+Use `props_station.webp` as authority.
 
-- monitor → order screen
-- printer → order ticket printer
-- drawers → spice cabinet
-- desk → prep/plating counter
-- wash area → ingredient wash station
-- open floor → portable wok station
+Create transparent production interaction assets for:
 
-Target visual balance: roughly 70% clinic identity, 30% cooking intervention.
+- tofu
+- minced pork
+- doubanjiang
+- fermented black beans
+- garlic
+- scallion
+- chili
+- Sichuan pepper
+- rice
+- wok
+- ladle
+- spatula
+- knife
+- chopping board
+- portable stove
+- order slips
+- recipe prescription
 
-## PROP TASKS
-
-Use `props_station.jpg` as the source for tofu, minced pork, doubanjiang, fermented black beans, garlic, scallion, chili, Sichuan pepper, rice, wok, ladle, spatula, knife, chopping board, portable stove, order slips and recipe prescription.
-
-Create production interaction assets with consistent 3/4 perspective, transparent background, unified lighting and immediate recognizability.
+Use consistent 3/4 perspective and unified lighting.
 
 ## ENGINEERING RULES
 
 - Preserve existing gameplay state flow.
 - Make the smallest targeted changes required.
-- Do not refactor adjacent code unless necessary for the milestone.
-- Do not add a second recipe.
-- Do not introduce a framework/build system unless static hosting is demonstrably blocked.
+- Do not refactor adjacent code unless required for this milestone.
+- Do not add a framework/build system unless static hosting is demonstrably blocked.
 - Preserve relative-path static hosting compatibility.
-- Keep fallbacks until production replacements are verified online.
+- Do not reintroduce old art paths into visible runtime.
+- Do not use generated text baked into final UI assets.
 
-## MANDATORY REGRESSION GATES
+## REQUIRED REGRESSION GATES
 
 After each meaningful batch:
 
@@ -165,54 +210,64 @@ Then serve locally:
 python -m http.server 8000
 ```
 
-Manual QA at:
+Manual QA:
+
 - 390×844
 - 768×1024
 - 1440×900
 
-Required end-to-end checks:
-1. approved hero/background art loads;
-2. clinic stage uses approved clinic layout;
-3. cooking transition uses approved cooking mode art;
-4. all three doctors remain selectable;
-5. passive + Ultimate mechanics still work;
+Required checks:
+
+1. all five canonical WebP assets load;
+2. hero uses approved Cooking Mode art;
+3. clinic stage resolves to approved Clinic Layout;
+4. cooking stage resolves to approved Cooking Mode;
+5. all three doctors remain selectable;
 6. all six patients can appear;
-7. prep/cut works;
-8. four heat steps work;
-9. toss works;
-10. CRAVING 100% still fails;
-11. successful order reaches score/result;
-12. next patient starts without reload;
-13. mute/audio controls remain functional;
-14. online build has no 404 asset paths.
+7. passive + Ultimate mechanics still work;
+8. prep/cut works;
+9. four heat steps work;
+10. toss works;
+11. CRAVING 100% still fails;
+12. successful order reaches result;
+13. next patient starts without reload;
+14. audio controls remain functional;
+15. online build has no 404s;
+16. no visible component silently falls back to the old wrong art direction.
 
 ## COMMIT DISCIPLINE
 
-Use small commits by concern, e.g.:
-- `art: add approved doctor production sprites`
-- `art: split approved ingredient assets`
-- `feat: integrate doctor state art`
-- `feat: integrate patient lifecycle art`
-- `style: align ui with approved art bible`
-- `test: harden art-alignment regression gates`
-- `docs: finalize production art handoff`
+Use small commits by concern, for example:
+
+- `art: add DR SPEED production state set`
+- `feat: integrate approved DR SPEED sprites`
+- `art: add remaining approved doctor sprites`
+- `art: add approved patient lifecycle assets`
+- `art: extract approved mapo tofu props`
+- `test: harden canonical art regression gates`
+- `docs: finalize v0.5 production asset handoff`
 
 Do not merge to `main` unless explicitly instructed by the PI.
 
 ## STOP CONDITION
 
-Do not declare the production art pass complete while the visible gameplay still reads primarily as placeholder SVG art. If a production asset is missing, keep the fallback and report it explicitly.
+Do not declare v0.5 complete while visible gameplay still depends primarily on concept-sheet cropping or legacy SVGs.
+
+If a production asset is missing, keep the corrected v0.4.1 bridge and report the missing item explicitly.
 
 ## FINAL REPORT FORMAT
 
 Return:
-- milestone status (`PASS`, `PASS_WITH_NOTES`, or `BLOCKED`),
-- exact commit SHA,
-- files changed,
-- automated test results,
-- manual viewport QA results,
-- live play URL,
-- live approved-art URL,
-- remaining placeholder assets,
-- remaining blockers,
-- next recommended milestone.
+
+- milestone status (`PASS`, `PASS_WITH_NOTES`, or `BLOCKED`)
+- exact commit SHA
+- files changed
+- canonical art files verified
+- automated test results
+- manual viewport QA results
+- live play URL
+- live approved-art URL
+- remaining concept-sheet bridge elements
+- remaining legacy fallback assets
+- blockers
+- next recommended milestone
