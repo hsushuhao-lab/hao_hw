@@ -432,6 +432,15 @@ h3 { margin-bottom:0; }
 }
 
 @media (max-width:760px) {
+  .doctor-stage {
+    left: 8px;
+    bottom: 6px;
+    height: 220px;
+    width: 150px;
+  }
+  .doctor-body-img {
+    height: 185px;
+  }
   .patient-stage {
     right: 8px;
     bottom: 6px;
