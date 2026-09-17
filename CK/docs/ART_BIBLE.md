@@ -1,37 +1,142 @@
-# CK — Art Bible v0.1
+# CK — Approved Art Bible v0.4
 
-## Art Direction
+## Status
 
-- 半寫實、溫暖、可愛但不幼兒化。
-- 臨床空間：白、米色、淡藍；乾淨、規整。
-- Cooking Mode：加入豆瓣紅、花椒棕、蔥綠與火焰橘，提高飽和度與動態感。
-- 視覺核心：**Same Clinic, Different Mode.** 不要把場景改成普通餐廳。
+**APPROVED VISUAL SOURCE OF TRUTH — 2026-09-17**
 
-## Character Silhouette
+The following five sheets are the highest-priority visual references for all future CK work:
 
-- DR. SPEED：透明框眼鏡、較活潑姿勢、手持碗/筷子。
-- DR. HEAT：藍襯衫、穩定站姿、炒鍋/香料罐。
-- DR. STRATEGY：圓框眼鏡、淡綠口罩元素、clipboard / order slip。
+```text
+assets/art_direction/source_of_truth/
+  doctor_concepts.jpg
+  clinic_layout.jpg
+  cooking_mode.jpg
+  props_station.jpg
+  patient_npcs.jpg
+```
 
-## Environment Rules
+Legacy SVG characters and environments are gameplay placeholders/fallbacks only. They are not the final production art direction.
 
-診間原有物件在 Cooking Mode 應「轉職」而不是消失：
+## Core Direction
 
-- 電腦 → 訂單畫面
-- 印表機 → order ticket printer
-- 小藥櫃 → spice cabinet
-- 診療桌 → prep / plating counter
-- 洗手區 → wash station
-- 開放區 → portable wok station
+CK is a **stylized 2.5D arcade illustration** game: warm, bright, semi-realistic, friendly, and humorous. It should feel like a polished indie cooking-management game occurring inside a psychiatric outpatient clinic.
+
+Core phrase: **Same Clinic, Different Flavors.**
+
+The joke works only if Cooking Mode still clearly looks like the same clinic. Do not redesign the room into a generic restaurant or commercial kitchen.
+
+## Palette
+
+- Deep navy: titles, strong UI anchors, medical professionalism.
+- Warm cream / paper white: cards, clinic surfaces, order slips.
+- Soft sky blue: clinic information, calm UI states.
+- Warm yellow: sticky-note emphasis, selection, positive feedback.
+- Chili red / flame orange: heat, wok, craving pressure.
+- Fresh scallion green: focus, completion, ingredients.
+
+## UI Language
+
+Use the same presentation language as the approved concept sheets:
+
+- rounded white cards
+- handwritten-note feeling
+- sticky notes / labels
+- order tickets
+- recipe prescription sheets
+- soft drop shadows
+- navy headings with warm yellow accents
+- clean white/cream clinic background
+
+UI text must be real HTML/CSS text. Do not bake generated pseudo-text into production UI assets.
+
+## Doctors
+
+### DR. SPEED
+- friendly, energetic, extroverted
+- transparent/light glasses
+- bowl/chopsticks/fast-prep visual identity
+- motion language: quick, springy, playful
+- Ultimate: lightning-fast prep
+
+### DR. HEAT
+- calm, centered, precise
+- blue shirt under white coat
+- wok / spice / flame identity
+- motion language: controlled, stable, confident
+- Ultimate: precision heat
+
+### DR. STRATEGY
+- analytical, composed
+- round glasses + pale green mask element
+- clipboard / recipe prescription identity
+- motion language: deliberate, tactical
+- Ultimate: craving prescription / order management
+
+Production character art should include consistent proportions and the following states: entrance, idle, prep, cut, cook, serve, ultimate, fail, victory.
+
+## Patient NPCs
+
+Approved archetypes:
+
+1. The Anxious Office Worker
+2. The Tired Student
+3. The Chain-Smoking Driver
+4. The Cheerful Auntie
+5. The Quiet Young Adult
+6. The Repeat Visitor
+
+Each patient must be recognizable by silhouette and clothing, not facial details alone. Gameplay states: walk in, sit, order, eat, leave.
+
+Avoid glamorizing smoking in repeated gameplay imagery. Craving should be conveyed primarily through fidgeting, restlessness, pocket-checking, expression, motion, and the CRAVING meter.
+
+## Environment
+
+The original clinic remains the structural base:
+
+- doctor desk
+- patient seat
+- printer / storage
+- wash area
+- cabinets
+- clinic lighting
+- white walls
+- doorway
+
+Cooking Mode transforms existing clinic objects rather than replacing them:
+
+- monitor → order screen
+- printer → order ticket printer
+- drawers → spice cabinet
+- desk → prep / plating counter
+- wash area → ingredient wash station
+- open floor space → portable wok station
+
+Target visual balance: **at least ~70% still reads as clinic; cooking elements invade the clinic rather than replacing it.**
+
+## Props / Ingredients
+
+Use the approved prop sheet as the source of truth for tofu, minced pork, doubanjiang, fermented black beans, garlic, scallion, chili, Sichuan pepper, rice, wok, ladle, spatula, knife, chopping board, portable stove, order slips, and recipe prescription.
+
+Production ingredient assets should use a consistent 3/4 perspective, transparent background, unified lighting, and high one-glance recognizability.
 
 ## Camera
 
-- 主 gameplay：3/4 top-down，讓玩家同時看見病人、備料區、炒鍋與上菜台。
-- 對話：中景角色 portrait。
-- Perfect heat：短暫 close-up + 火焰/花椒粒特效。
+- Main gameplay: slightly elevated 3/4 front perspective.
+- Dialogue/order: medium character card / portrait presentation.
+- Heat/toss feedback: short close-up or VFX emphasis without losing clinic context.
 
-## UI Motifs
+## Do / Don't
 
-- 處方箋、order ticket、標籤紙、藥櫃抽屜、門診號碼牌。
-- UI 邊角圓潤，但不要過度 mobile-app 化。
-- Craving 使用黃 → 紅；Focus 使用淡綠 → 深綠。
+### DO
+- keep clinic identity visible
+- use approved five sheets as visual authority
+- maintain warm semi-realistic illustrated look
+- make UI look like notes, prescriptions and tickets
+- use real web text for labels and copy
+
+### DON'T
+- convert the room into a generic restaurant
+- treat legacy SVGs as production-final art
+- add unrelated anime/chibi styles that break consistency
+- use generated misspelled text as final UI
+- add a second recipe before the first dish reaches production-quality visual polish
