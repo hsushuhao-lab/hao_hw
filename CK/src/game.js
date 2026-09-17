@@ -24,7 +24,13 @@ const state = {
   active: false,
   heatHits: [],
   soundEnabled: true,
-  audioCtx: null
+  audioCtx: null,
+  skillUsed: false,
+  guaranteedHeat: false,
+  tossTimer: null,
+  tossPosition: 4,
+  tossDirection: 1,
+  tossHit: null
 };
 
 const doctorCards = $('doctorCards');
@@ -46,6 +52,13 @@ function selectDoctor(id) {
   state.doctor = doctors.find(d => d.id === id);
   document.querySelectorAll('.doctor-card').forEach(el => el.classList.toggle('is-selected', el.dataset.doctor === id));
   $('doctorBonus').textContent = state.doctor.bonusText;
+  $('skillName').textContent = state.doctor.ultimate.name;
+  $('skillDesc').textContent = state.doctor.ultimate.desc;
+  $('doctorPresenceImage').src = state.doctor.portrait;
+  $('doctorPresenceName').textContent = state.doctor.subtitle;
+  $('doctorPresence').classList.remove('is-hidden','is-arriving');
+  void $('doctorPresence').offsetWidth;
+  $('doctorPresence').classList.add('is-arriving');
   $('acceptOrderBtn').disabled = false;
   $('orderPanel').classList.remove('is-disabled');
   sound('select');
@@ -59,10 +72,11 @@ function randomPatient() {
 
 function animatePatient(className) {
   const card = $('patientCard');
-  card.classList.remove('is-entering','is-leaving');
+  card.classList.remove('is-entering','is-leaving','is-eating');
   void card.offsetWidth;
   card.classList.add(className);
   if (className === 'is-entering') setTimeout(() => card.classList.remove(className), 500);
+  if (className === 'is-eating') setTimeout(() => card.classList.remove(className), 800);
 }
 
 function newPatient() {
@@ -77,6 +91,9 @@ function newPatient() {
   state.phase = 'order';
   state.active = false;
   state.cutChallenge = null;
+  state.skillUsed = false;
+  state.guaranteedHeat = false;
+  state.tossHit = null;
 
   $('patientImage').src = state.patient.portrait;
   $('patientName').textContent = state.patient.name;
@@ -87,6 +104,9 @@ function newPatient() {
   $('acceptOrderBtn').disabled = false;
   $('acceptOrderBtn').textContent = '接單';
   $('workstation').classList.add('is-hidden');
+  $('tossChallenge').classList.add('is-hidden');
+  $('cookActionBtn').classList.remove('is-hidden');
+  updateUltimateButton(false);
   $('cutChallenge').classList.add('is-hidden');
   ingredientGrid.classList.remove('is-locked');
   $('stageArt').src = 'assets/concept/clinic_layout.svg';
@@ -108,6 +128,7 @@ function acceptOrder() {
   flashScene();
   sound('start');
   setStatus('備料中');
+  updateUltimateButton(true);
   startCravingTimer();
 }
 
@@ -278,7 +299,8 @@ function cookAction() {
   const tolerance = state.doctor?.heatTolerance ?? 0;
   const low = 40 - tolerance / 2;
   const high = 60 + tolerance / 2;
-  const hit = state.heatPosition >= low && state.heatPosition <= high;
+  const hit = state.guaranteedHeat || (state.heatPosition >= low && state.heatPosition <= high);
+  if (state.guaranteedHeat) state.guaranteedHeat = false;
   state.heatHits.push(hit);
   if (hit) {
     state.focus = clamp(state.focus + 12, 0, 100);
@@ -295,11 +317,90 @@ function cookAction() {
   $('cookStatus').textContent = `${state.cookStep} / ${cookSteps.length}`;
   if (state.cookStep >= cookSteps.length) {
     clearInterval(state.heatTimer);
-    enterServePhase();
+    startTossChallenge();
     return;
   }
   $('cookInstruction').textContent = `步驟 ${state.cookStep + 1}：${cookSteps[state.cookStep]}`;
   $('cookActionBtn').textContent = `火候到位 → ${cookSteps[state.cookStep]}`;
+}
+
+function startTossChallenge() {
+  state.phase = 'cook';
+  state.tossPosition = 4;
+  state.tossDirection = 1;
+  $('cookInstruction').textContent = '最後收尾：甩鍋讓醬汁均勻包覆豆腐';
+  $('cookActionBtn').classList.add('is-hidden');
+  $('tossChallenge').classList.remove('is-hidden');
+  $('tossStatus').textContent = '瞄準中央 PERFECT 區';
+  clearInterval(state.tossTimer);
+  state.tossTimer = setInterval(() => {
+    state.tossPosition += state.tossDirection * 2.55;
+    if (state.tossPosition >= 98) state.tossDirection = -1;
+    if (state.tossPosition <= 2) state.tossDirection = 1;
+    $('tossCursor').style.left = `${state.tossPosition}%`;
+  }, 24);
+  setStatus('甩鍋收尾');
+}
+
+function tossAction() {
+  if (!state.active || state.phase !== 'cook' || $('tossChallenge').classList.contains('is-hidden')) return;
+  const tolerance = state.doctor?.id === 'speed' ? 4 : state.doctor?.id === 'heat' ? 8 : 0;
+  const hit = state.tossPosition >= 44 - tolerance / 2 && state.tossPosition <= 56 + tolerance / 2;
+  state.tossHit = hit;
+  clearInterval(state.tossTimer);
+  if (hit) {
+    state.focus = clamp(state.focus + 12, 0, 100);
+    state.craving = clamp(state.craving - 6, 0, 100);
+    $('tossStatus').textContent = 'PERFECT TOSS!';
+    triggerHeatFx();
+    sound('toss');
+  } else {
+    state.focus = clamp(state.focus - 4, 0, 100);
+    state.craving = clamp(state.craving + 3, 0, 100);
+    $('tossStatus').textContent = '收尾完成';
+    sound('wrong');
+  }
+  updateMeters();
+  setTimeout(enterServePhase, 420);
+}
+
+function updateUltimateButton(active) {
+  const btn = $('ultimateBtn');
+  const ready = Boolean(active && state.doctor && !state.skillUsed && state.active);
+  btn.disabled = !ready;
+  btn.textContent = state.skillUsed ? '已使用' : state.doctor ? state.doctor.ultimate.name : 'ULTIMATE';
+  btn.classList.toggle('is-ready', ready);
+}
+
+function useUltimate() {
+  if (!state.active || !state.doctor || state.skillUsed) return;
+  state.skillUsed = true;
+  if (state.doctor.id === 'speed') {
+    const remaining = state.required.find(id => !state.prepped.has(id));
+    if (remaining) {
+      if (state.cutChallenge) {
+        clearInterval(state.cutTimer);
+        state.cutChallenge = null;
+        $('cutChallenge').classList.add('is-hidden');
+        ingredientGrid.classList.remove('is-locked');
+      }
+      completePrepIngredient(remaining, 8);
+      updatePrepStatus();
+      maybeFinishPrep();
+    } else {
+      state.focus = clamp(state.focus + 12, 0, 100);
+    }
+  } else if (state.doctor.id === 'heat') {
+    state.guaranteedHeat = true;
+    state.focus = clamp(state.focus + 6, 0, 100);
+  } else {
+    state.craving = clamp(state.craving - 18, 0, 100);
+    state.focus = clamp(state.focus + 10, 0, 100);
+  }
+  updateMeters();
+  updateUltimateButton(false);
+  flashScene();
+  sound('ultimate');
 }
 
 function enterServePhase() {
@@ -309,6 +410,7 @@ function enterServePhase() {
   $('serveSummary').innerHTML = `
     <div class="summary-chip"><span>材料</span><strong>${state.prepped.size}/${state.required.length}</strong></div>
     <div class="summary-chip"><span>火候</span><strong>${goodHeat}/${cookSteps.length}</strong></div>
+    <div class="summary-chip"><span>甩鍋</span><strong>${state.tossHit ? 'PERFECT' : 'OK'}</strong></div>
     <div class="summary-chip"><span>Craving</span><strong>${Math.round(state.craving)}%</strong></div>
   `;
   setStatus('等待上菜');
@@ -318,20 +420,23 @@ function serve() {
   if (!state.active || state.phase !== 'serve') return;
   state.active = false;
   stopTimers();
-  animatePatient('is-leaving');
+  animatePatient('is-eating');
   sound('serve');
   const heatScore = state.heatHits.filter(Boolean).length * 25;
   const cravingScore = Math.max(0, 100 - Math.round(state.craving));
   const focusScore = Math.round(state.focus * 0.6);
-  const earned = 80 + heatScore + cravingScore + focusScore;
+  const tossScore = state.tossHit ? 35 : 10;
+  const earned = 80 + heatScore + tossScore + cravingScore + focusScore;
   state.score += earned;
   state.done += 1;
   state.streak += 1;
   state.bestStreak = Math.max(state.bestStreak, state.streak);
   $('resultTitle').textContent = `${state.patient.name}：成功撐過這一波！`;
-  $('resultText').textContent = `完成 ${state.patient.order.spice} 麻婆豆腐。火候成功 ${state.heatHits.filter(Boolean).length}/${cookSteps.length} 次，結束時 craving ${Math.round(state.craving)}%。`;
+  $('resultText').textContent = `完成 ${state.patient.order.spice} 麻婆豆腐。火候成功 ${state.heatHits.filter(Boolean).length}/${cookSteps.length} 次，甩鍋 ${state.tossHit ? 'Perfect' : '完成'}，結束時 craving ${Math.round(state.craving)}%。`;
   $('resultScore').textContent = `+${earned} pts`;
-  setTimeout(() => $('resultModal').classList.remove('is-hidden'), 260);
+  setStatus('病人用餐中');
+  setTimeout(() => animatePatient('is-leaving'), 760);
+  setTimeout(() => $('resultModal').classList.remove('is-hidden'), 1060);
   updateStats();
 }
 
@@ -377,7 +482,7 @@ function sound(kind) {
     const settings = {
       select:[440,.045,'sine'], ticket:[660,.06,'square'], start:[220,.11,'sawtooth'],
       prep:[520,.045,'sine'], cutGood:[760,.04,'square'], perfect:[880,.11,'sine'],
-      wrong:[150,.09,'square'], serve:[1040,.12,'sine'], fail:[110,.25,'sawtooth']
+      wrong:[150,.09,'square'], toss:[980,.08,'triangle'], ultimate:[720,.16,'sawtooth'], serve:[1040,.12,'sine'], fail:[110,.25,'sawtooth']
     }[kind] ?? [440,.05,'sine'];
     osc.type = settings[2];
     osc.frequency.setValueAtTime(settings[0], now);
@@ -402,6 +507,7 @@ function stopTimers() {
   clearInterval(state.cravingTimer);
   clearInterval(state.heatTimer);
   clearInterval(state.cutTimer);
+  clearInterval(state.tossTimer);
 }
 
 $('startBtn').addEventListener('click', () => {
@@ -416,11 +522,25 @@ $('startBtn').addEventListener('click', () => {
 $('acceptOrderBtn').addEventListener('click', acceptOrder);
 $('cutActionBtn').addEventListener('click', cutAction);
 $('cookActionBtn').addEventListener('click', cookAction);
+$('tossActionBtn').addEventListener('click', tossAction);
+$('ultimateBtn').addEventListener('click', useUltimate);
 $('serveBtn').addEventListener('click', serve);
 $('nextPatientBtn').addEventListener('click', nextPatient);
 $('soundBtn').addEventListener('click', toggleSound);
 $('artBtn').addEventListener('click', () => $('artGallery').classList.toggle('is-hidden'));
 $('closeArtBtn').addEventListener('click', () => $('artGallery').classList.add('is-hidden'));
+
+window.addEventListener('keydown', (event) => {
+  if (event.repeat) return;
+  if (event.code === 'KeyU') { useUltimate(); return; }
+  if (event.code !== 'Space') return;
+  const tag = document.activeElement?.tagName;
+  if (tag === 'BUTTON') return;
+  event.preventDefault();
+  if (state.cutChallenge) cutAction();
+  else if (!$('tossChallenge').classList.contains('is-hidden') && state.phase === 'cook') tossAction();
+  else if (state.phase === 'cook') cookAction();
+});
 
 window.addEventListener('beforeunload', stopTimers);
 renderDoctors();
