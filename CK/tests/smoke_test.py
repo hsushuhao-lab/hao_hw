@@ -18,10 +18,10 @@ html = (ROOT / 'index.html').read_text(encoding='utf-8')
 js = (ROOT / 'src/game.js').read_text(encoding='utf-8')
 data = (ROOT / 'src/data.js').read_text(encoding='utf-8')
 
-for token in ['Craving Kitchen', 'src/game.js', 'doctorCards', 'ingredientGrid']:
+for token in ['Craving Kitchen', 'src/game.js', 'doctorCards', 'ingredientGrid', 'cutActionBtn', 'soundBtn', 'heatFx']:
     assert token in html, f'index.html missing token: {token}'
 
-for token in ['acceptOrder', 'pickIngredient', 'cookAction', 'serve', 'failOrder']:
+for token in ['acceptOrder', 'pickIngredient', 'startCutChallenge', 'cutAction', 'cookAction', 'triggerHeatFx', 'toggleSound', 'serve', 'failOrder']:
     assert token in js, f'game.js missing function/token: {token}'
 
 for token in ['DR. SPEED', 'DR. HEAT', 'DR. STRATEGY', 'patients', 'cookSteps']:
