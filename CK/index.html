@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Craving Kitchen — CK v0.1</title>
+  <title>Craving Kitchen — CK v0.2</title>
   <meta name="description" content="診間麻婆豆腐小遊戲 prototype" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -11,14 +11,18 @@
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">CK v0.1 · Vertical Slice</p>
+        <p class="eyebrow">CK v0.2 · Vertical Slice</p>
         <h1>Craving Kitchen</h1>
         <p class="subtitle">煙癮來了？先開火。以料理任務撐過這一波 craving。</p>
       </div>
-      <button id="artBtn" class="ghost-btn" type="button">美術設定</button>
+      <div class="top-actions">
+        <button id="soundBtn" class="ghost-btn" type="button" aria-pressed="true">音效：開</button>
+        <button id="artBtn" class="ghost-btn" type="button">美術設定</button>
+      </div>
     </header>
 
-    <section id="hero" class="hero-panel" aria-label="遊戲主畫面">
+    <section id="hero" class="hero-panel scene-intro" aria-label="遊戲主畫面">
+      <div id="sceneFlash" class="scene-flash" aria-hidden="true"></div>
       <div class="hero-overlay"></div>
       <div class="hero-copy">
         <p class="chapter">OUTPATIENT CLINIC · 08:30</p>
@@ -86,8 +90,14 @@
               </div>
               <span id="prepStatus" class="pill">0 / 0</span>
             </div>
+            <div id="cutChallenge" class="cut-challenge is-hidden" aria-live="polite">
+              <div class="cut-header"><strong id="cutLabel">切豆腐</strong><span id="cutStatus">0 / 3</span></div>
+              <div class="cut-track"><div class="cut-zone"></div><div id="cutCursor" class="cut-cursor"></div></div>
+              <button id="cutActionBtn" class="primary-btn wide" type="button">切！</button>
+              <p class="hint">游標進入中央區域時切下；三次後完成這項備料。</p>
+            </div>
             <div id="ingredientGrid" class="ingredient-grid"></div>
-            <p class="hint">錯拿材料會提高 craving。完成所有必要材料後進入炒鍋。</p>
+            <p class="hint">豆腐與青蔥有專屬切配 timing；錯拿材料會提高 craving。</p>
           </div>
 
           <div id="cookPhase" class="phase-card is-hidden">
@@ -98,9 +108,12 @@
               </div>
               <span id="cookStatus" class="pill">0 / 4</span>
             </div>
-            <div class="heat-track" aria-label="火候計">
-              <div class="heat-zone"></div>
-              <div id="heatCursor" class="heat-cursor"></div>
+            <div class="heat-stage">
+              <div class="heat-track" aria-label="火候計">
+                <div class="heat-zone"></div>
+                <div id="heatCursor" class="heat-cursor"></div>
+              </div>
+              <div id="heatFx" class="heat-fx" aria-hidden="true">PERFECT HEAT!</div>
             </div>
             <button id="cookActionBtn" class="primary-btn wide" type="button">開始爆香</button>
             <p class="hint">游標進入中央最佳火候區時按下。角色技能會改變容錯範圍。</p>
@@ -163,6 +176,7 @@
         <button id="nextPatientBtn" class="primary-btn wide" type="button">下一位病人</button>
       </div>
     </section>
+    <footer class="game-footer">遊戲中的麻婆豆腐為喜劇世界觀設定，並非戒菸治療或醫療建議。</footer>
   </main>
 
   <script type="module" src="src/game.js"></script>
