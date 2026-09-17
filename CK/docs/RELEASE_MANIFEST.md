@@ -1,37 +1,82 @@
-# CK v0.4 Online Handoff Manifest
+# CK v0.4.1 Corrected Art Manifest
 
 ## Canonical repository
 
 - Repo: `hsushuhao-lab/hao_hw`
 - Branch: `ck-game`
 - Root: `CK/`
-- Milestone: `v0.4 Character Animation & Deployment QA`
+- Milestone: `v0.4.1 Corrected Art Build`
 
-## Online deliverables
+## Canonical visual assets
 
-- `index.html` — playable game with full-body doctor and patient stage layers and audio mixer
-- `art.html` — browsable art gallery with 21 doctor states and 30 patient states
-- `assets/concept/*.svg` — five primary lightweight concept sheets
-- `assets/portraits/*.svg` — three doctors + six patients (portrait badge fallbacks)
-- `assets/characters/doctors/*.svg` — 21 full-body doctor animation state assets (entrance, idle, prep, cut, cook, serve, ultimate)
-- `assets/characters/patients/*.svg` — 30 full-body patient lifecycle animation state assets (walk_in, sit, order, eat, leave)
-- `src/data.js`, `src/game.js`, `styles.css` — v0.4 code with full-body animation state machine, procedural layered SFX, BGM, and volume controls
-- `PROGRESS.md` — milestone progression log
-- `docs/00_START_HERE.md` — handoff index
-- `docs/FINAL_HANDOFF.md` — v0.4 completion record and next milestone
-- `docs/MASTER_AGENT_PROMPT.md` — master agent execution prompt
-- `docs/SCENE_AND_GAME_FLOW.md` — state and scene flow
-- `docs/ONLINE_ASSET_INDEX.md` — public asset map
-- `docs/ART_BIBLE.md`, `docs/GDD.md`, `docs/ASSET_MANIFEST.md`, `docs/DEPLOYMENT.md`
-- `tests/smoke_test.py` — regression test suite asserting 69 files, syntax, and DOM tokens
+```text
+assets/art_direction/source_of_truth/
+  doctor_concepts.webp
+  clinic_layout.webp
+  cooking_mode.webp
+  props_station.webp
+  patient_npcs.webp
+```
+
+These five WebP files are the current production visual source of truth.
+
+## Runtime files
+
+- `index.html` — playable game shell.
+- `styles.css` — base layout/game styles.
+- `art-direction.css` — corrected approved-art presentation layer.
+- `src/data.js` — doctors, patients, ingredients, cook steps.
+- `src/game.js` — core gameplay state machine.
+- `src/art-direction.js` — canonical-art runtime bridge.
+- `art-original.html` — online canonical art review page.
+
+## Legacy fallback assets
+
+The following remain for compatibility but are not production-final art:
+
+- `assets/concept/*.svg`
+- `assets/portraits/*.svg`
+- `assets/characters/doctors/*.svg`
+- `assets/characters/patients/*.svg`
+- deprecated `assets/art/*.jpg`
+- deprecated older `assets/art_direction/source_of_truth/*.jpg`
+
+## Documentation
+
+- `README.md`
+- `PROGRESS.md`
+- `docs/00_START_HERE.md`
+- `docs/FINAL_HANDOFF.md`
+- `docs/MASTER_AGENT_PROMPT.md`
+- `docs/SCENE_AND_GAME_FLOW.md`
+- `docs/ONLINE_ASSET_INDEX.md`
+- `docs/ART_BIBLE.md`
+- `docs/GDD.md`
+- `docs/ASSET_MANIFEST.md`
+- `docs/DEPLOYMENT.md`
+
+## Regression test
+
+`tests/smoke_test.py` now checks:
+
+- existence of the five canonical WebP assets,
+- substantial file size for canonical art,
+- approved-art runtime references,
+- absence of the old wrong `assets/art/*.jpg` runtime mappings,
+- preserved doctor/patient legacy fallbacks,
+- DOM/gameplay tokens,
+- JavaScript syntax when Node is available.
 
 ## Play / review links
 
 - Play: `https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/index.html`
-- Art: `https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/art.html`
+- Approved art: `https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/art-original.html`
 - Repository: `https://github.com/hsushuhao-lab/hao_hw/tree/ck-game/CK`
 
-## Offline package & public data policy
+## Deployment note
 
-GitHub copy intentionally uses lightweight SVG derivatives for stable direct web access and zero external runtime dependencies.
-Only derived game artwork is public. The original source photographs showing real people are excluded from the public repository.
+The repository currently reports `has_pages=false`; native GitHub Pages is not enabled. raw.githack remains the current direct-play surface.
+
+## Public data policy
+
+Only derived game artwork is public. Original source photographs showing real people remain outside the public repository.
