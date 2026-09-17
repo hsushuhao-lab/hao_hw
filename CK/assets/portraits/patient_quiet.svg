@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="420" viewBox="0 0 360 420">
+<rect width="360" height="420" rx="32" fill="#e8e2d8"/><circle cx="180" cy="150" r="72" fill="#e4b78d"/>
+<path d="M110 125 Q120 70 180 72 Q242 70 252 126 Q225 105 196 108 Q148 111 110 125Z" fill="#2a2526"/>
+<circle cx="153" cy="149" r="5" fill="#243142"/><circle cx="207" cy="149" r="5" fill="#243142"/>
+<path d="M154 180 Q180 196 206 180" fill="none" stroke="#7a4b3f" stroke-width="4" stroke-linecap="round"/>
+<path d="M70 375 Q78 250 180 238 Q282 250 290 375Z" fill="#e4d6c6"/><path d="M130 254 L180 318 L230 254" fill="#b9a590"/>
+<path d="M180 318 L180 375" stroke="#9b836d" stroke-width="10" opacity=".9"/>
+<rect x="22" y="326" width="316" height="72" rx="22" fill="#102a43" opacity=".93"/><text x="180" y="356" text-anchor="middle" font-family="Arial" font-size="24" font-weight="800" fill="#fff">QUIET</text><text x="180" y="382" text-anchor="middle" font-family="Arial" font-size="15" fill="#d8e6f1">NO SCALLION</text>
+</svg>
