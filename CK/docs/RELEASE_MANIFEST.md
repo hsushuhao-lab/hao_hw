@@ -1,30 +1,30 @@
-# CK v0.4.1 Corrected Art Manifest
+# CK v0.4.2 Art Closeout Manifest
 
 ## Canonical repository
 
 - Repo: `hsushuhao-lab/hao_hw`
 - Branch: `ck-game`
 - Root: `CK/`
-- Milestone: `v0.4.1 Corrected Art Build`
+- Milestone: `v0.4.2 Art Closeout`
 
 ## Canonical visual assets
 
 ```text
 assets/art_direction/source_of_truth/
-  doctor_concepts.webp
-  clinic_layout.webp
-  cooking_mode.webp
-  props_station.webp
-  patient_npcs.webp
+  doctor_concepts.avif
+  clinic_layout.avif
+  cooking_mode.avif
+  props_station.avif
+  patient_npcs.avif
 ```
 
-These five WebP files are the current production visual source of truth.
+These five AVIF files are the only production visual source of truth.
 
 ## Runtime files
 
 - `index.html` — playable game shell.
 - `styles.css` — base layout/game styles.
-- `art-direction.css` — corrected approved-art presentation layer.
+- `art-direction.css` — canonical approved-art presentation layer.
 - `src/data.js` — doctors, patients, ingredients, cook steps.
 - `src/game.js` — core gameplay state machine.
 - `src/art-direction.js` — canonical-art runtime bridge.
@@ -39,7 +39,7 @@ The following remain for compatibility but are not production-final art:
 - `assets/characters/doctors/*.svg`
 - `assets/characters/patients/*.svg`
 - deprecated `assets/art/*.jpg`
-- deprecated older `assets/art_direction/source_of_truth/*.jpg`
+- deprecated older JPG/WebP source-of-truth copies
 
 ## Documentation
 
@@ -57,15 +57,21 @@ The following remain for compatibility but are not production-final art:
 
 ## Regression test
 
-`tests/smoke_test.py` now checks:
+`tests/smoke_test.py` checks:
 
-- existence of the five canonical WebP assets,
-- substantial file size for canonical art,
-- approved-art runtime references,
-- absence of the old wrong `assets/art/*.jpg` runtime mappings,
-- preserved doctor/patient legacy fallbacks,
-- DOM/gameplay tokens,
+- existence of all five canonical AVIF assets;
+- non-zero/non-truncated conservative file-size gate;
+- canonical runtime/gallery/document references;
+- absence of active old `assets/art/*.jpg` runtime mappings;
+- preserved doctor/patient legacy fallbacks;
+- DOM/gameplay tokens;
 - JavaScript syntax when Node is available.
+
+## Frozen gameplay baseline
+
+`doctor select → patient enter → order → clinic transforms → prep/cut → four heat judgements → final toss → serve → patient eat → result → patient leave → next patient`
+
+Failure remains `CRAVING >= 100%`.
 
 ## Play / review links
 
@@ -75,8 +81,8 @@ The following remain for compatibility but are not production-final art:
 
 ## Deployment note
 
-The repository currently reports `has_pages=false`; native GitHub Pages is not enabled. raw.githack remains the current direct-play surface.
+Native GitHub Pages is not currently enabled for this repository. raw.githack remains the current direct-play surface.
 
 ## Public data policy
 
-Only derived game artwork is public. Original source photographs showing real people remain outside the public repository.
+The public release contains derived game artwork and code only. Original private source photographs are not runtime dependencies.
