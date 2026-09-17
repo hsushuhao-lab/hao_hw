@@ -1,23 +1,26 @@
 # Craving Kitchen — Development Progress
 
-## Milestone v0.2 — INTERACTION POLISH
+## Milestone v0.3 — PRODUCTION SLICE
 
 Status: **COMPLETE / SMOKE TEST PASS**
 
-Added after v0.1:
-- Tofu/scallion three-hit cutting timing mini-game.
-- DR. SPEED now receives an actual cutting-speed/tolerance advantage.
-- Patient enter/leave animation.
-- Clinic → Cooking Mode transition flash.
-- Perfect Heat feedback VFX.
-- Procedural Web Audio feedback + mute toggle; no external audio dependency.
-- Reduced-motion accessibility handling.
+Implemented:
+- v0.2 full gameplay loop retained.
+- Lightweight SVG doctor/patient portraits added for the GitHub web build; high-resolution concept art remains in the release ZIP.
+- Doctor presence overlay and arrival animation.
+- One-use-per-order character Ultimate skills.
+- Dedicated final wok-toss timing mini-game.
+- Patient eat animation before leaving and result screen.
+- Keyboard controls: Space for timing actions, U for Ultimate.
+- Direct-play URL documented in GitHub README.
+- Deployment guide added.
 
-Still production-pending:
-- Transparent animated character sprite sheets.
-- Patient body animation sprite sheets.
-- Production SFX/BGM.
-- Public deployment.
+## v0.4 — NEXT
 
-GitHub work branch:
-https://github.com/hsushuhao-lab/hao_hw/tree/ck-game/CK
+1. Transparent production sprites and expression sheets.
+2. Character-specific entrance/ultimate animation sequences.
+3. Full patient walk/sit/eat/leave body animation.
+4. Production audio/BGM and volume mixer.
+5. GitHub Pages enablement + mobile QA.
+
+Do not add a second recipe until the first recipe has production-quality character animation and deployment QA.
