@@ -26,7 +26,7 @@ h1{color:var(--ck-navy);font-weight:950;letter-spacing:-.055em;text-shadow:0 3px
 
 .hero-panel{
   min-height:500px;
-  background:url('assets/art_direction/source_of_truth/cooking_mode.webp') center 44%/cover no-repeat;
+  background:url('assets/art_direction/source_of_truth/cooking_mode.avif') center 44%/cover no-repeat;
   border:6px solid #fff;
   box-shadow:0 24px 60px rgba(32,43,56,.18);
 }
@@ -58,7 +58,7 @@ h1{color:var(--ck-navy);font-weight:950;letter-spacing:-.055em;text-shadow:0 3px
 .legacy-approved-hidden{display:none!important}
 .approved-doctor-portrait{
   display:block;width:92px;height:112px;border-radius:16px;
-  background-image:url('assets/art_direction/source_of_truth/doctor_concepts.webp');
+  background-image:url('assets/art_direction/source_of_truth/doctor_concepts.avif');
   background-repeat:no-repeat;background-size:300% auto;
   box-shadow:inset 0 0 0 2px rgba(255,255,255,.9);
 }
@@ -79,7 +79,7 @@ h1{color:var(--ck-navy);font-weight:950;letter-spacing:-.055em;text-shadow:0 3px
   box-shadow:0 12px 28px rgba(19,54,83,.18),inset 0 0 0 3px rgba(255,255,255,.86);
 }
 .doctor-stage::before{
-  background-image:url('assets/art_direction/source_of_truth/doctor_concepts.webp');
+  background-image:url('assets/art_direction/source_of_truth/doctor_concepts.avif');
   background-size:300% auto;
 }
 .doctor-stage[data-doctor='speed']::before{background-position:0 14%}
@@ -87,7 +87,7 @@ h1{color:var(--ck-navy);font-weight:950;letter-spacing:-.055em;text-shadow:0 3px
 .doctor-stage[data-doctor='strategy']::before{background-position:100% 12%}
 
 .patient-stage::before{
-  background-image:url('assets/art_direction/source_of_truth/patient_npcs.webp');
+  background-image:url('assets/art_direction/source_of_truth/patient_npcs.avif');
   background-size:300% 200%;
 }
 .patient-stage[data-patient='office']::before{background-position:0 0}
@@ -108,14 +108,14 @@ h1{color:var(--ck-navy);font-weight:950;letter-spacing:-.055em;text-shadow:0 3px
   box-shadow:0 4px 12px rgba(21,54,95,.16),inset 0 0 0 3px #fff;
 }
 .doctor-presence::before{
-  background-image:url('assets/art_direction/source_of_truth/doctor_concepts.webp');
+  background-image:url('assets/art_direction/source_of_truth/doctor_concepts.avif');
   background-size:300% auto;
 }
 .doctor-presence[data-doctor='speed']::before{background-position:0 14%}
 .doctor-presence[data-doctor='heat']::before{background-position:50% 12%}
 .doctor-presence[data-doctor='strategy']::before{background-position:100% 12%}
 .patient-card::before{
-  background-image:url('assets/art_direction/source_of_truth/patient_npcs.webp');
+  background-image:url('assets/art_direction/source_of_truth/patient_npcs.avif');
   background-size:300% 200%;
 }
 .patient-card[data-patient='office']::before{background-position:0 0}
