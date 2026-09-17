@@ -4,7 +4,7 @@
 
 Status: **COMPLETE / PLAYABLE**
 
-Established gameplay baseline:
+Frozen gameplay baseline:
 
 `doctor select → patient enter → order → clinic transforms → prep/cut → four heat judgements → final toss → serve → patient eat → result → patient leave → next patient`
 
@@ -23,62 +23,60 @@ Implemented gameplay:
 
 ## v0.4 — Legacy Character Animation Pass
 
-Historical status: **FUNCTIONALLY COMPLETE, BUT ART STATUS SUPERSEDED**
+Historical status: **FUNCTIONALLY COMPLETE, ART STATUS SUPERSEDED**
 
-This milestone added 21 doctor SVG state assets and 30 patient SVG lifecycle assets. They remain useful as programmatic fallback assets and state-machine references.
+This milestone added 21 doctor SVG state assets and 30 patient SVG lifecycle assets. They remain useful as programmatic fallback assets and state-machine references, but they are **not production-final art**.
 
-However, they are **not production-final art**. The earlier documentation that called them production art is superseded by v0.4.1.
+## v0.4.1 — Art Correction
 
-## v0.4.1 — Corrected Art Build
+Historical status: **CORRECTIVE BUILD**
 
-Status: **PASS_WITH_NOTES / CORRECTED CANONICAL ART ONLINE**
+The major defect was identified: approved concept art existed, but the visible runtime still depended on the wrong `assets/art/*.jpg` / legacy SVG visual language. Runtime art binding was corrected and moved to `assets/art_direction/source_of_truth/`.
 
-Reason for corrective milestone:
+## v0.4.2 — Art Closeout
 
-- the approved visual designs were not actually driving the runtime,
-- old JPEG/SVG assets remained visible,
-- the online game therefore did not match the approved Craving Kitchen look.
+Status: **CLOSEOUT READY / CANONICAL ART ONLINE / RUNTIME BOUND**
 
-### Corrected canonical art
+### Canonical art authority
 
 ```text
 assets/art_direction/source_of_truth/
-  doctor_concepts.webp
-  clinic_layout.webp
-  cooking_mode.webp
-  props_station.webp
-  patient_npcs.webp
+  doctor_concepts.avif
+  clinic_layout.avif
+  cooking_mode.avif
+  props_station.avif
+  patient_npcs.avif
 ```
 
-### Completed corrections
+### Closeout completed
 
-- published all five approved concept sheets as WebP.
-- Hero now uses approved Cooking Mode art.
-- runtime stage normalizer now resolves clinic/cooking scenes to canonical WebP assets.
-- doctor selection, doctor presence, and visible doctor stage use the approved doctor sheet rather than visible legacy SVG art.
-- patient card and visible patient stage use the approved patient NPC sheet.
-- in-game art gallery now resolves to the five canonical sheets.
-- `art-original.html` rebuilt as the canonical online art review page.
-- Art Bible, handoff documents, asset index, release manifest, and AGENT instructions are being normalized around the corrected source of truth.
+- runtime bridge points directly to the five canonical AVIF sheets.
+- visible CSS layers point to canonical Cooking Mode / doctor / patient art.
+- approved-art gallery points only to canonical AVIF assets.
+- README, Art Bible, Online Asset Index and AGENT prompt use the same source-of-truth paths.
+- regression gate checks canonical AVIF assets rather than obsolete WebP/JPEG paths.
+- old `assets/art/*.jpg`, `assets/concept/*.svg`, `assets/characters/*.svg`, and `assets/portraits/*.svg` are explicitly downgraded to legacy/fallback status.
+- `Same Clinic, Different Flavors` is frozen as the environment rule.
+- second recipe remains out of scope.
 
-### Remaining limitations
+### Known limitations carried forward
 
-- current doctor/patient gameplay art is cropped from the approved concept sheets rather than purpose-built transparent production sprites.
+- current doctor/patient gameplay presentation still uses concept-sheet cropping plus legacy state-machine fallbacks; purpose-built transparent production sprites are not yet complete.
 - individual ingredient/prop cutouts are not yet extracted.
-- legacy SVGs still exist in the repository for fallback/state compatibility.
+- legacy SVG files remain in the repository for compatibility and must not be mistaken for approved production art.
 
-These are known limitations, not blockers for the corrected art-direction milestone.
+These limitations define v0.5 work; they do not invalidate the v0.4.2 art closeout.
 
 ## Next milestone — v0.5 Production Asset Extraction & Animation
 
 Priority:
 
 1. DR. SPEED production sprite vertical slice.
-2. DR. HEAT + DR. STRATEGY production sprites.
-3. six patient production body sets.
-4. transparent ingredient/prop assets.
-5. animation/VFX polish.
-6. final responsive QA.
+2. lock character consistency after visual review.
+3. DR. HEAT + DR. STRATEGY production sprites.
+4. six patient production body sets.
+5. transparent ingredient / prop assets from `props_station.avif`.
+6. animation / VFX polish and responsive QA.
 
 Do not add a second recipe until the first dish reaches production-quality visual polish.
 
