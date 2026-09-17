@@ -32,7 +32,9 @@ const state = {
   tossDirection: 1,
   tossHit: null,
   doctorState: 'idle',
-  doctorAnimTimer: null
+  doctorAnimTimer: null,
+  patientState: 'sit',
+  patientAnimTimer: null
 };
 
 const doctorCards = $('doctorCards');
@@ -135,6 +137,49 @@ function animatePatient(className) {
   if (className === 'is-eating') setTimeout(() => card.classList.remove(className), 800);
 }
 
+function setPatientAnimation(animName, tempDuration = 0) {
+  if (!state.patient) return;
+  state.patientState = animName;
+  const stage = $('patientStage');
+  const img = $('patientBodyImage');
+  const badge = $('patientStateBadge');
+  if (!stage || !img) return;
+
+  stage.classList.remove('is-hidden');
+  img.src = `assets/characters/patients/patient_${state.patient.id}_${animName}.svg`;
+
+  img.className = 'patient-body-img';
+  void img.offsetWidth;
+
+  const classMap = {
+    walk_in: 'pat-walk-in',
+    sit: 'pat-sit',
+    order: 'pat-order',
+    eat: 'pat-eat',
+    leave: 'pat-leave'
+  };
+
+  const badgeMap = {
+    walk_in: 'VISIT · 入座中',
+    sit: 'SEATED · 候診中',
+    order: 'ORDER · 點餐中',
+    eat: 'EATING · 用餐中',
+    leave: 'LEAVING · 滿足離院'
+  };
+
+  if (classMap[animName]) img.classList.add(classMap[animName]);
+  if (badge) badge.textContent = badgeMap[animName] || animName.toUpperCase();
+
+  clearTimeout(state.patientAnimTimer);
+  if (tempDuration > 0) {
+    state.patientAnimTimer = setTimeout(() => {
+      if (animName === 'walk_in' || animName === 'order') {
+        setPatientAnimation('sit');
+      }
+    }, tempDuration);
+  }
+}
+
 function newPatient() {
   stopTimers();
   state.patient = randomPatient();
@@ -170,6 +215,7 @@ function newPatient() {
   renderIngredients();
   setPhase('prep', false);
   if (state.doctor) setDoctorAnimation('idle');
+  setPatientAnimation('walk_in', 650);
   animatePatient('is-entering');
   sound('ticket');
 }
@@ -186,6 +232,7 @@ function acceptOrder() {
   sound('start');
   setStatus('備料中');
   setDoctorAnimation('prep');
+  setPatientAnimation('order', 1200);
   updateUltimateButton(true);
   startCravingTimer();
 }
@@ -484,6 +531,7 @@ function serve() {
   state.active = false;
   stopTimers();
   animatePatient('is-eating');
+  setPatientAnimation('eat');
   sound('serve');
   const heatScore = state.heatHits.filter(Boolean).length * 25;
   const cravingScore = Math.max(0, 100 - Math.round(state.craving));
@@ -498,7 +546,10 @@ function serve() {
   $('resultText').textContent = `完成 ${state.patient.order.spice} 麻婆豆腐。火候成功 ${state.heatHits.filter(Boolean).length}/${cookSteps.length} 次，甩鍋 ${state.tossHit ? 'Perfect' : '完成'}，結束時 craving ${Math.round(state.craving)}%。`;
   $('resultScore').textContent = `+${earned} pts`;
   setStatus('病人用餐中');
-  setTimeout(() => animatePatient('is-leaving'), 760);
+  setTimeout(() => {
+    animatePatient('is-leaving');
+    setPatientAnimation('leave');
+  }, 760);
   setTimeout(() => $('resultModal').classList.remove('is-hidden'), 1060);
   updateStats();
 }
@@ -507,6 +558,7 @@ function failOrder() {
   state.active = false;
   stopTimers();
   setDoctorAnimation('idle');
+  setPatientAnimation('leave');
   state.streak = 0;
   sound('fail');
   $('resultTitle').textContent = 'Craving 爆表';
@@ -573,6 +625,7 @@ function stopTimers() {
   clearInterval(state.cutTimer);
   clearInterval(state.tossTimer);
   clearTimeout(state.doctorAnimTimer);
+  clearTimeout(state.patientAnimTimer);
 }
 
 $('startBtn').addEventListener('click', () => {
