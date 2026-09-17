@@ -1,124 +1,68 @@
-# CK Online Asset Index — v0.4.1 Corrected Art Build
+# CK Online Asset Index — v0.4.2 Art Closeout
 
-All public game-art assets are committed to GitHub under the `ck-game` branch. Original source photographs of real people are intentionally **not** published; only derived game artwork is public.
+All public CK assets are committed to the `ck-game` branch. The five canonical AVIF sheets below are the **only production visual authority**.
 
-## 1. Canonical production visual source of truth
+## Canonical approved art
 
-These five files have the highest visual authority in the project:
-
-| Asset | GitHub path | Purpose |
+| Asset | GitHub path | Role |
 |---|---|---|
-| Playable doctors | `assets/art_direction/source_of_truth/doctor_concepts.webp` | DR. SPEED / DR. HEAT / DR. STRATEGY appearance, props, mood |
-| Clinic layout | `assets/art_direction/source_of_truth/clinic_layout.webp` | consultation room structure before transformation |
-| Cooking mode | `assets/art_direction/source_of_truth/cooking_mode.webp` | same clinic transformed into compact mapo-tofu cooking mode |
-| Props & station | `assets/art_direction/source_of_truth/props_station.webp` | ingredients, wok, tools, order slips, prescription motifs |
-| Patient NPCs | `assets/art_direction/source_of_truth/patient_npcs.webp` | six patient archetypes, clothing, expressions, order identity |
+| Playable doctors | `assets/art_direction/source_of_truth/doctor_concepts.avif` | 3 playable doctor identities, clothing, props, brushwork |
+| Clinic layout | `assets/art_direction/source_of_truth/clinic_layout.avif` | consultation-room spatial baseline |
+| Cooking mode | `assets/art_direction/source_of_truth/cooking_mode.avif` | same clinic transformed into mapo-tofu cooking mode |
+| Props & station | `assets/art_direction/source_of_truth/props_station.avif` | ingredients, utensils, wok station, order/prescription language |
+| Patient NPCs | `assets/art_direction/source_of_truth/patient_npcs.avif` | six patient archetypes and visual identities |
 
-Online review:
+## Runtime binding
 
-`https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/art-original.html`
+The live build references the canonical assets through:
 
-## 2. Runtime visual bridge
+- `src/art-direction.js`
+- `art-direction.css`
+- `art-original.html`
 
-`src/art-direction.js` and `art-direction.css` force the visible online build to use the canonical WebP sheets.
+The live build must never fall back to `assets/art/*.jpg` as its visual authority.
 
-Current bridge usage:
+## Legacy compatibility assets
 
-- Hero → `cooking_mode.webp`
-- Clinic stage → `clinic_layout.webp`
-- Cooking stage → `cooking_mode.webp`
-- Doctor cards / doctor presence / visible doctor stage → cropped presentation from `doctor_concepts.webp`
-- Patient card / visible patient stage → cropped presentation from `patient_npcs.webp`
-- Art gallery → all five canonical sheets
-
-This bridge is temporary until transparent production sprites are created.
-
-## 3. Legacy fallback assets — NOT production-final art
-
-### Legacy concept SVGs
+The following folders remain because the existing gameplay/animation state machine still uses them as compatibility fallbacks:
 
 ```text
-assets/concept/doctor_concepts.svg
-assets/concept/clinic_layout.svg
-assets/concept/cooking_mode.svg
-assets/concept/props.svg
-assets/concept/patient_npcs.svg
+assets/concept/
+assets/portraits/
+assets/characters/doctors/
+assets/characters/patients/
 ```
 
-### Legacy portrait SVGs
+They are **not production-final art** and should be progressively replaced by new assets derived from the five canonical sheets.
 
-Doctors:
+### Legacy doctor states
 
-```text
-assets/portraits/doctor_speed.svg
-assets/portraits/doctor_heat.svg
-assets/portraits/doctor_strategy.svg
-```
+3 doctors × 7 states = 21 SVG fallbacks:
 
-Patients:
+`entrance / idle / prep / cut / cook / serve / ultimate`
 
-```text
-assets/portraits/patient_office.svg
-assets/portraits/patient_student.svg
-assets/portraits/patient_driver.svg
-assets/portraits/patient_auntie.svg
-assets/portraits/patient_quiet.svg
-assets/portraits/patient_repeat.svg
-```
+### Legacy patient lifecycle states
 
-### Legacy doctor animation state SVGs
+6 patients × 5 states = 30 SVG fallbacks:
 
-`assets/characters/doctors/` contains 21 files across:
+`walk_in / sit / order / eat / leave`
 
-- entrance
-- idle
-- prep
-- cut
-- cook
-- serve
-- ultimate
+## Approved visual identity
 
-### Legacy patient lifecycle SVGs
+**Same Clinic, Different Flavors.**
 
-`assets/characters/patients/` contains 30 files across:
+Cooking Mode keeps the consultation room recognizable. Monitor → order screen; printer → ticket printer; drawers → spice cabinet; desk → prep/plating counter; wash area → ingredient washing; open floor → portable wok station.
 
-- walk_in
-- sit
-- order
-- eat
-- leave
+## Deprecated paths
 
-These assets remain for fallback and state-machine compatibility only. They must not override the canonical concept-sheet identities.
-
-## 4. Deprecated duplicate raster assets
-
-Older files under `assets/art/*.jpg` and the older `source_of_truth/*.jpg` were part of the incorrect art pass. They are deprecated and must not be used for new work.
-
-New work must reference the WebP files listed in section 1.
-
-## 5. Next production asset structure
-
-Target paths for v0.5:
-
-```text
-assets/production/
-  characters/doctors/
-  characters/patients/
-  environments/
-  ingredients/
-  props/
-  ui/
-  vfx/
-```
-
-Production sprites should be derived visually from the canonical sheets, not from the legacy SVG style.
+Older `assets/art/*.jpg`, `source_of_truth/*.jpg`, and obsolete WebP references are deprecated. They must not be used for new production work.
 
 ## Online viewing
 
-- Play: `https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/index.html`
 - Approved art: `https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/art-original.html`
-- Repository: `https://github.com/hsushuhao-lab/hao_hw/tree/ck-game/CK`
+- Play build: `https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/index.html`
+- GitHub source: `https://github.com/hsushuhao-lab/hao_hw/tree/ck-game/CK`
 
 ## Public/private boundary
 
-Public GitHub contains only derived game artwork and code. Original real-person source photographs remain outside the public repository unless separately approved for redistribution.
+The public repository contains derived game artwork and code. Original private source photographs are not required by the runtime and are not part of the public release.
