@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Craving Kitchen — CK v0.4 Art Alignment</title>
-  <meta name="description" content="診間麻婆豆腐小遊戲 — approved art direction build" />
+  <title>Craving Kitchen — CK v0.4.2 Art Closeout</title>
+  <meta name="description" content="診間麻婆豆腐小遊戲 — canonical approved art closeout build" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="art-direction.css" />
 </head>
@@ -12,7 +12,7 @@
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">CK v0.4 · APPROVED ART DIRECTION</p>
+        <p class="eyebrow">CK v0.4.2 · APPROVED ART RUNTIME</p>
         <h1>Craving Kitchen</h1>
         <p class="subtitle">Same Clinic, Different Flavors. 診間不消失，只是突然開始煮麻婆豆腐。</p>
       </div>
@@ -45,22 +45,22 @@
 
       <section class="center-panel panel">
         <div class="clinic-stage" id="clinicStage">
-          <img id="stageArt" src="assets/art/clinic_layout.jpg" alt="診間環境概念圖" />
+          <img id="stageArt" src="assets/art_direction/source_of_truth/clinic_layout.avif" alt="CK 正式診間環境" />
           <div class="stage-shade"></div>
           <div id="doctorStage" class="doctor-stage is-hidden" aria-live="polite">
-            <img id="doctorBodyImage" class="doctor-body-img" src="assets/characters/doctors/doctor_speed_idle.svg" alt="醫師動作狀態" />
+            <img id="doctorBodyImage" class="doctor-body-img" src="assets/characters/doctors/doctor_speed_idle.svg" alt="醫師動作狀態 fallback" />
             <span id="doctorStateBadge" class="doctor-state-badge">IDLE</span>
           </div>
           <div id="doctorPresence" class="doctor-presence is-hidden">
-            <img id="doctorPresenceImage" src="assets/portraits/doctor_speed.svg" alt="目前操作醫師" />
+            <img id="doctorPresenceImage" src="assets/portraits/doctor_speed.svg" alt="目前操作醫師 fallback" />
             <div><span class="tiny-label">ON DUTY</span><strong id="doctorPresenceName">尚未選擇</strong></div>
           </div>
           <div id="patientStage" class="patient-stage is-hidden" aria-live="polite">
-            <img id="patientBodyImage" class="patient-body-img" src="assets/characters/patients/patient_office_sit.svg" alt="病人動作狀態" />
+            <img id="patientBodyImage" class="patient-body-img" src="assets/characters/patients/patient_office_sit.svg" alt="病人動作狀態 fallback" />
             <span id="patientStateBadge" class="patient-state-badge">WAITING</span>
           </div>
           <div class="patient-card" id="patientCard">
-            <img id="patientImage" src="assets/portraits/patient_office.svg" alt="病人角色" />
+            <img id="patientImage" src="assets/portraits/patient_office.svg" alt="病人角色 fallback" />
             <div>
               <p class="tiny-label">TODAY'S PATIENT</p>
               <h3 id="patientName">等待掛號中</h3>
@@ -198,11 +198,11 @@
         <button id="closeArtBtn" class="ghost-btn" type="button">關閉</button>
       </div>
       <div class="gallery-grid">
-        <figure><img src="assets/art/doctor_concepts.jpg" alt="三位醫師角色設計" /><figcaption>Playable Doctors｜正式主角設定</figcaption></figure>
-        <figure><img src="assets/art/clinic_layout.jpg" alt="診間規劃" /><figcaption>Clinic Layout｜診間 source of truth</figcaption></figure>
-        <figure><img src="assets/art/cooking_mode.jpg" alt="診間料理模式" /><figcaption>Cooking Mode｜Same Clinic, Different Flavors</figcaption></figure>
-        <figure><img src="assets/art/props.jpg" alt="麻婆豆腐材料與道具" /><figcaption>Props &amp; Ingredients｜備料與 station</figcaption></figure>
-        <figure><img src="assets/art/patient_npcs.jpg" alt="病人角色設計" /><figcaption>Patient NPCs｜六位病人設定</figcaption></figure>
+        <figure><img src="assets/art_direction/source_of_truth/doctor_concepts.avif" alt="三位醫師正式角色設計" /><figcaption>Playable Doctors｜正式主角設定</figcaption></figure>
+        <figure><img src="assets/art_direction/source_of_truth/clinic_layout.avif" alt="正式診間規劃" /><figcaption>Clinic Layout｜診間 source of truth</figcaption></figure>
+        <figure><img src="assets/art_direction/source_of_truth/cooking_mode.avif" alt="正式診間料理模式" /><figcaption>Cooking Mode｜Same Clinic, Different Flavors</figcaption></figure>
+        <figure><img src="assets/art_direction/source_of_truth/props_station.avif" alt="麻婆豆腐正式材料與道具" /><figcaption>Props &amp; Ingredients｜備料與 station</figcaption></figure>
+        <figure><img src="assets/art_direction/source_of_truth/patient_npcs.avif" alt="病人正式角色設計" /><figcaption>Patient NPCs｜六位病人設定</figcaption></figure>
       </div>
     </section>
 
