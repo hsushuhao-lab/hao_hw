@@ -3,11 +3,11 @@
 
 const ART_ROOT = 'assets/art_direction/source_of_truth';
 const ART = {
-  clinic: `${ART_ROOT}/clinic_layout.webp`,
-  cooking: `${ART_ROOT}/cooking_mode.webp`,
-  doctors: `${ART_ROOT}/doctor_concepts.webp`,
-  props: `${ART_ROOT}/props_station.webp`,
-  patients: `${ART_ROOT}/patient_npcs.webp`
+  clinic: `${ART_ROOT}/clinic_layout.avif`,
+  cooking: `${ART_ROOT}/cooking_mode.avif`,
+  doctors: `${ART_ROOT}/doctor_concepts.avif`,
+  props: `${ART_ROOT}/props_station.avif`,
+  patients: `${ART_ROOT}/patient_npcs.avif`
 };
 
 const DOCTOR_IDS = ['speed', 'heat', 'strategy'];
@@ -115,9 +115,9 @@ function applyApprovedArt() {
   });
 
   const eyebrow = document.querySelector('.topbar .eyebrow');
-  if (eyebrow) eyebrow.textContent = 'CK v0.4.1 · CORRECTED APPROVED ART';
+  if (eyebrow) eyebrow.textContent = 'CK v0.4.2 · APPROVED ART RUNTIME';
 
-  document.documentElement.dataset.artDirection = 'approved-corrected-2026-09-17';
+  document.documentElement.dataset.artDirection = 'approved-canonical-avif-2026-09-17';
 }
 
 if (document.readyState === 'loading') {
