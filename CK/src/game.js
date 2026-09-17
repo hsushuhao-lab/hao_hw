@@ -18,9 +18,13 @@ const state = {
   heatDirection: 1,
   heatTimer: null,
   cravingTimer: null,
+  cutTimer: null,
+  cutChallenge: null,
   phase: 'idle',
   active: false,
-  heatHits: []
+  heatHits: [],
+  soundEnabled: true,
+  audioCtx: null
 };
 
 const doctorCards = $('doctorCards');
@@ -44,12 +48,21 @@ function selectDoctor(id) {
   $('doctorBonus').textContent = state.doctor.bonusText;
   $('acceptOrderBtn').disabled = false;
   $('orderPanel').classList.remove('is-disabled');
+  sound('select');
   newPatient();
   setStatus(`已選擇 ${state.doctor.subtitle}`);
 }
 
 function randomPatient() {
   return patients[Math.floor(Math.random() * patients.length)];
+}
+
+function animatePatient(className) {
+  const card = $('patientCard');
+  card.classList.remove('is-entering','is-leaving');
+  void card.offsetWidth;
+  card.classList.add(className);
+  if (className === 'is-entering') setTimeout(() => card.classList.remove(className), 500);
 }
 
 function newPatient() {
@@ -63,6 +76,7 @@ function newPatient() {
   state.heatHits = [];
   state.phase = 'order';
   state.active = false;
+  state.cutChallenge = null;
 
   $('patientImage').src = state.patient.portrait;
   $('patientName').textContent = state.patient.name;
@@ -73,10 +87,14 @@ function newPatient() {
   $('acceptOrderBtn').disabled = false;
   $('acceptOrderBtn').textContent = '接單';
   $('workstation').classList.add('is-hidden');
+  $('cutChallenge').classList.add('is-hidden');
+  ingredientGrid.classList.remove('is-locked');
   $('stageArt').src = 'assets/concept/clinic_layout.svg';
   updateMeters();
   renderIngredients();
   setPhase('prep', false);
+  animatePatient('is-entering');
+  sound('ticket');
 }
 
 function acceptOrder() {
@@ -87,8 +105,18 @@ function acceptOrder() {
   $('acceptOrderBtn').textContent = '料理中';
   $('workstation').classList.remove('is-hidden');
   $('stageArt').src = 'assets/concept/cooking_mode.svg';
+  flashScene();
+  sound('start');
   setStatus('備料中');
   startCravingTimer();
+}
+
+function flashScene() {
+  const el = $('sceneFlash');
+  el.classList.remove('is-active');
+  void el.offsetWidth;
+  el.classList.add('is-active');
+  setTimeout(() => el.classList.remove('is-active'), 520);
 }
 
 function startCravingTimer() {
@@ -116,22 +144,85 @@ function renderIngredients() {
 }
 
 function pickIngredient(id) {
-  if (!state.active || state.phase !== 'prep') return;
+  if (!state.active || state.phase !== 'prep' || state.cutChallenge) return;
   const btn = ingredientGrid.querySelector(`[data-ingredient="${id}"]`);
   if (state.required.includes(id)) {
-    if (!state.prepped.has(id)) {
-      state.prepped.add(id);
-      btn.classList.add('is-done');
-      state.focus = clamp(state.focus + (state.doctor?.prepFocusBonus ?? 4), 0, 100);
-      state.craving = clamp(state.craving - 2, 0, 100);
+    if (state.prepped.has(id)) return;
+    if (id === 'tofu' || id === 'scallion') {
+      startCutChallenge(id);
+      return;
     }
+    completePrepIngredient(id);
   } else {
     state.craving = clamp(state.craving + 6, 0, 100);
     state.focus = clamp(state.focus - 6, 0, 100);
+    sound('wrong');
     btn.animate([{transform:'translateX(0)'},{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:220});
   }
   updatePrepStatus();
   updateMeters();
+  maybeFinishPrep();
+}
+
+function completePrepIngredient(id, extraFocus = 0) {
+  const btn = ingredientGrid.querySelector(`[data-ingredient="${id}"]`);
+  state.prepped.add(id);
+  btn?.classList.add('is-done');
+  state.focus = clamp(state.focus + (state.doctor?.prepFocusBonus ?? 4) + extraFocus, 0, 100);
+  state.craving = clamp(state.craving - 2, 0, 100);
+  sound('prep');
+}
+
+function startCutChallenge(id) {
+  clearInterval(state.cutTimer);
+  state.cutChallenge = { id, attempts: 0, hits: 0, position: 4, direction: 1 };
+  $('cutLabel').textContent = id === 'tofu' ? '切豆腐：保持完整方塊' : '切青蔥：節奏切配';
+  $('cutStatus').textContent = '0 / 3';
+  $('cutChallenge').classList.remove('is-hidden');
+  ingredientGrid.classList.add('is-locked');
+  state.cutTimer = setInterval(() => {
+    const c = state.cutChallenge;
+    if (!c) return;
+    const speed = state.doctor?.id === 'speed' ? 1.7 : 2.15;
+    c.position += c.direction * speed;
+    if (c.position >= 98) c.direction = -1;
+    if (c.position <= 2) c.direction = 1;
+    $('cutCursor').style.left = `${c.position}%`;
+  }, 26);
+}
+
+function cutAction() {
+  const c = state.cutChallenge;
+  if (!state.active || state.phase !== 'prep' || !c) return;
+  const tolerance = state.doctor?.id === 'speed' ? 14 : 0;
+  const hit = c.position >= 40 - tolerance / 2 && c.position <= 60 + tolerance / 2;
+  c.attempts += 1;
+  if (hit) {
+    c.hits += 1;
+    state.focus = clamp(state.focus + 5, 0, 100);
+    state.craving = clamp(state.craving - 2, 0, 100);
+    sound('cutGood');
+  } else {
+    state.focus = clamp(state.focus - 3, 0, 100);
+    state.craving = clamp(state.craving + 4, 0, 100);
+    sound('wrong');
+  }
+  $('cutStatus').textContent = `${c.attempts} / 3 · Perfect ${c.hits}`;
+  updateMeters();
+  if (c.attempts < 3) return;
+
+  clearInterval(state.cutTimer);
+  const { id, hits } = c;
+  state.cutChallenge = null;
+  completePrepIngredient(id, hits * 2);
+  $('cutChallenge').classList.add('is-hidden');
+  ingredientGrid.classList.remove('is-locked');
+  updatePrepStatus();
+  updateMeters();
+  maybeFinishPrep();
+}
+
+function maybeFinishPrep() {
   if (state.prepped.size === state.required.length) enterCookPhase();
 }
 
@@ -140,6 +231,10 @@ function updatePrepStatus() {
 }
 
 function enterCookPhase() {
+  clearInterval(state.cutTimer);
+  state.cutChallenge = null;
+  $('cutChallenge').classList.add('is-hidden');
+  ingredientGrid.classList.remove('is-locked');
   state.phase = 'cook';
   setPhase('cook', true);
   $('cookInstruction').textContent = `步驟 1：${cookSteps[0]}`;
@@ -170,6 +265,14 @@ function startHeatMeter() {
   }, 26);
 }
 
+function triggerHeatFx() {
+  const fx = $('heatFx');
+  fx.classList.remove('is-active');
+  void fx.offsetWidth;
+  fx.classList.add('is-active');
+  setTimeout(() => fx.classList.remove('is-active'), 600);
+}
+
 function cookAction() {
   if (!state.active || state.phase !== 'cook') return;
   const tolerance = state.doctor?.heatTolerance ?? 0;
@@ -180,9 +283,12 @@ function cookAction() {
   if (hit) {
     state.focus = clamp(state.focus + 12, 0, 100);
     state.craving = clamp(state.craving - 4, 0, 100);
+    triggerHeatFx();
+    sound('perfect');
   } else {
     state.focus = clamp(state.focus - 8, 0, 100);
     state.craving = clamp(state.craving + 4, 0, 100);
+    sound('wrong');
   }
   state.cookStep += 1;
   updateMeters();
@@ -212,6 +318,8 @@ function serve() {
   if (!state.active || state.phase !== 'serve') return;
   state.active = false;
   stopTimers();
+  animatePatient('is-leaving');
+  sound('serve');
   const heatScore = state.heatHits.filter(Boolean).length * 25;
   const cravingScore = Math.max(0, 100 - Math.round(state.craving));
   const focusScore = Math.round(state.focus * 0.6);
@@ -223,7 +331,7 @@ function serve() {
   $('resultTitle').textContent = `${state.patient.name}：成功撐過這一波！`;
   $('resultText').textContent = `完成 ${state.patient.order.spice} 麻婆豆腐。火候成功 ${state.heatHits.filter(Boolean).length}/${cookSteps.length} 次，結束時 craving ${Math.round(state.craving)}%。`;
   $('resultScore').textContent = `+${earned} pts`;
-  $('resultModal').classList.remove('is-hidden');
+  setTimeout(() => $('resultModal').classList.remove('is-hidden'), 260);
   updateStats();
 }
 
@@ -231,6 +339,7 @@ function failOrder() {
   state.active = false;
   stopTimers();
   state.streak = 0;
+  sound('fail');
   $('resultTitle').textContent = 'Craving 爆表';
   $('resultText').textContent = '這次出餐來不及。下一位病人會重新開始；遊戲設定不代表實際戒菸治療方式。';
   $('resultScore').textContent = '+0 pts';
@@ -257,21 +366,59 @@ function updateStats() {
   $('bestStreak').textContent = state.bestStreak;
 }
 
+function sound(kind) {
+  if (!state.soundEnabled) return;
+  try {
+    state.audioCtx ??= new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = state.audioCtx;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const settings = {
+      select:[440,.045,'sine'], ticket:[660,.06,'square'], start:[220,.11,'sawtooth'],
+      prep:[520,.045,'sine'], cutGood:[760,.04,'square'], perfect:[880,.11,'sine'],
+      wrong:[150,.09,'square'], serve:[1040,.12,'sine'], fail:[110,.25,'sawtooth']
+    }[kind] ?? [440,.05,'sine'];
+    osc.type = settings[2];
+    osc.frequency.setValueAtTime(settings[0], now);
+    if (kind === 'perfect') osc.frequency.exponentialRampToValueAtTime(1320, now + settings[1]);
+    gain.gain.setValueAtTime(.055, now);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + settings[1]);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(now); osc.stop(now + settings[1]);
+  } catch (_) { /* sound is optional */ }
+}
+
+function toggleSound() {
+  state.soundEnabled = !state.soundEnabled;
+  $('soundBtn').textContent = `音效：${state.soundEnabled ? '開' : '關'}`;
+  $('soundBtn').setAttribute('aria-pressed', String(state.soundEnabled));
+  if (state.soundEnabled) sound('select');
+}
+
 function setStatus(text) { $('statusText').textContent = text; }
 function clamp(n,min,max) { return Math.max(min,Math.min(max,n)); }
-function stopTimers() { clearInterval(state.cravingTimer); clearInterval(state.heatTimer); }
+function stopTimers() {
+  clearInterval(state.cravingTimer);
+  clearInterval(state.heatTimer);
+  clearInterval(state.cutTimer);
+}
 
 $('startBtn').addEventListener('click', () => {
   $('heroTitle').textContent = 'CRAVING 72%';
   $('heroText').textContent = '診間進入 Cooking Mode。選一位醫師接下第一張訂單。';
+  flashScene();
+  sound('start');
   $('game').classList.remove('is-hidden');
   $('game').scrollIntoView({behavior:'smooth', block:'start'});
   setStatus('等待角色選擇');
 });
 $('acceptOrderBtn').addEventListener('click', acceptOrder);
+$('cutActionBtn').addEventListener('click', cutAction);
 $('cookActionBtn').addEventListener('click', cookAction);
 $('serveBtn').addEventListener('click', serve);
 $('nextPatientBtn').addEventListener('click', nextPatient);
+$('soundBtn').addEventListener('click', toggleSound);
 $('artBtn').addEventListener('click', () => $('artGallery').classList.toggle('is-hidden'));
 $('closeArtBtn').addEventListener('click', () => $('artGallery').classList.add('is-hidden'));
 
