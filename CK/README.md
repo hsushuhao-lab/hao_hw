@@ -11,17 +11,35 @@
 - 火候 mini-game：4 個烹調步驟與 timing 判定
 - CRAVING / FOCUS 雙資源
 - 訂單結算、分數、連勝
-- 5 張主要概念美術＋角色/病人 portrait crops
+- 5 張主要概念美術＋角色/病人 portrait assets
 - 無 build system、無外部套件；可直接用靜態 HTTP server 執行
 
 ## 執行
 
 ```bash
-cd CK
 python -m http.server 8000
 ```
 
 瀏覽器開啟 `http://localhost:8000`。
+
+## 目錄
+
+```text
+assets/
+  concept/      # 角色、診間、Cooking Mode、道具、病人概念圖
+src/
+  data.js       # 角色、病人、材料、料理流程資料
+  game.js       # 遊戲狀態與互動
+styles.css      # UI / responsive layout
+index.html      # 單頁遊戲入口
+docs/
+  GDD.md
+  ART_BIBLE.md
+  ASSET_MANIFEST.md
+  AGENT_HANDOFF.md
+tests/
+  smoke_test.py
+```
 
 ## 遊戲定位
 
@@ -35,3 +53,7 @@ CK 是荒謬喜劇式的 arcade cooking game，不是醫療模擬器。遊戲中
 4. 每位醫師增加專屬入場動畫與 ultimate skill。
 5. 音效：印表機出票、炒鍋、切菜、服務鈴、craving 警報。
 6. GitHub Pages / deployment workflow。
+
+## GitHub asset policy
+
+GitHub branch keeps lightweight SVG fallbacks so the prototype is self-contained. The release ZIP contains the full-resolution generated concept art and raster portrait crops.
