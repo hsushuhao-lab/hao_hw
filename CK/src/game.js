@@ -21,10 +21,18 @@ const state = {
   cutTimer: null,
   cutChallenge: null,
   phase: 'idle',
-  active: false,
   heatHits: [],
   soundEnabled: true,
   audioCtx: null,
+  masterGainNode: null,
+  sfxGainNode: null,
+  musicGainNode: null,
+  masterVol: 0.8,
+  musicVol: 0.4,
+  sfxVol: 0.8,
+  bgmActive: true,
+  bgmStep: 0,
+  bgmTimer: null,
   skillUsed: false,
   guaranteedHeat: false,
   tossTimer: null,
@@ -587,34 +595,161 @@ function updateStats() {
   $('bestStreak').textContent = state.bestStreak;
 }
 
+function ensureAudioContext() {
+  if (!state.audioCtx) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return null;
+    state.audioCtx = new AudioContextClass();
+
+    state.masterGainNode = state.audioCtx.createGain();
+    state.masterGainNode.gain.setValueAtTime(state.soundEnabled ? state.masterVol : 0, state.audioCtx.currentTime);
+    state.masterGainNode.connect(state.audioCtx.destination);
+
+    state.sfxGainNode = state.audioCtx.createGain();
+    state.sfxGainNode.gain.setValueAtTime(state.sfxVol, state.audioCtx.currentTime);
+    state.sfxGainNode.connect(state.masterGainNode);
+
+    state.musicGainNode = state.audioCtx.createGain();
+    state.musicGainNode.gain.setValueAtTime(state.musicVol, state.audioCtx.currentTime);
+    state.musicGainNode.connect(state.masterGainNode);
+  }
+  if (state.audioCtx.state === 'suspended') {
+    state.audioCtx.resume().catch(() => {});
+  }
+  return state.audioCtx;
+}
+
+const bgmMelody = [261.63, 293.66, 329.63, 392.00, 440.00, 392.00, 329.63, 293.66];
+const bgmBass = [130.81, 130.81, 164.81, 164.81, 174.61, 174.61, 196.00, 196.00];
+
+function startBgm() {
+  if (state.bgmTimer) return;
+  ensureAudioContext();
+  state.bgmTimer = setInterval(() => {
+    if (!state.soundEnabled || !state.bgmActive || !state.audioCtx || !state.musicGainNode) return;
+    try {
+      const now = state.audioCtx.currentTime;
+      const step = state.bgmStep % 8;
+      state.bgmStep = (state.bgmStep + 1) % 8;
+
+      const bassOsc = state.audioCtx.createOscillator();
+      const bassGain = state.audioCtx.createGain();
+      bassOsc.type = 'triangle';
+      bassOsc.frequency.setValueAtTime(bgmBass[step], now);
+      bassGain.gain.setValueAtTime(0.04, now);
+      bassGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+      bassOsc.connect(bassGain).connect(state.musicGainNode);
+      bassOsc.start(now);
+      bassOsc.stop(now + 0.35);
+
+      if (step % 2 === 0) {
+        const melOsc = state.audioCtx.createOscillator();
+        const melGain = state.audioCtx.createGain();
+        melOsc.type = 'sine';
+        melOsc.frequency.setValueAtTime(bgmMelody[step], now);
+        melGain.gain.setValueAtTime(0.03, now);
+        melGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.48);
+        melOsc.connect(melGain).connect(state.musicGainNode);
+        melOsc.start(now);
+        melOsc.stop(now + 0.48);
+      }
+    } catch (_) {}
+  }, 420);
+}
+
+function stopBgm() {
+  clearInterval(state.bgmTimer);
+  state.bgmTimer = null;
+}
+
+function playTone(freq, dur, type = 'sine', vol = 0.05, time = 0, dest = null, rampTo = null) {
+  const ctx = state.audioCtx;
+  if (!ctx) return;
+  const t = time || ctx.currentTime;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, t);
+  if (rampTo) osc.frequency.exponentialRampToValueAtTime(rampTo, t + dur);
+  gain.gain.setValueAtTime(vol, t);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  osc.connect(gain).connect(dest || state.sfxGainNode || ctx.destination);
+  osc.start(t);
+  osc.stop(t + dur);
+}
+
 function sound(kind) {
   if (!state.soundEnabled) return;
   try {
-    state.audioCtx ??= new (window.AudioContext || window.webkitAudioContext)();
-    const ctx = state.audioCtx;
+    const ctx = ensureAudioContext();
+    if (!ctx) return;
     const now = ctx.currentTime;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const settings = {
-      select:[440,.045,'sine'], ticket:[660,.06,'square'], start:[220,.11,'sawtooth'],
-      prep:[520,.045,'sine'], cutGood:[760,.04,'square'], perfect:[880,.11,'sine'],
-      wrong:[150,.09,'square'], toss:[980,.08,'triangle'], ultimate:[720,.16,'sawtooth'], serve:[1040,.12,'sine'], fail:[110,.25,'sawtooth']
-    }[kind] ?? [440,.05,'sine'];
-    osc.type = settings[2];
-    osc.frequency.setValueAtTime(settings[0], now);
-    if (kind === 'perfect') osc.frequency.exponentialRampToValueAtTime(1320, now + settings[1]);
-    gain.gain.setValueAtTime(.055, now);
-    gain.gain.exponentialRampToValueAtTime(.0001, now + settings[1]);
-    osc.connect(gain).connect(ctx.destination);
-    osc.start(now); osc.stop(now + settings[1]);
-  } catch (_) { /* sound is optional */ }
+    const sfxOut = state.sfxGainNode || ctx.destination;
+
+    if (kind === 'select') {
+      playTone(523.25, 0.06, 'sine', 0.05, now, sfxOut);
+      playTone(659.25, 0.08, 'sine', 0.05, now + 0.05, sfxOut);
+    } else if (kind === 'ticket') {
+      playTone(784.00, 0.04, 'square', 0.03, now, sfxOut);
+      playTone(880.00, 0.05, 'triangle', 0.04, now + 0.04, sfxOut);
+    } else if (kind === 'start') {
+      playTone(220.00, 0.14, 'sawtooth', 0.06, now, sfxOut);
+      playTone(440.00, 0.18, 'sine', 0.06, now + 0.06, sfxOut);
+    } else if (kind === 'prep') {
+      playTone(480.00, 0.04, 'triangle', 0.06, now, sfxOut);
+      playTone(600.00, 0.05, 'sine', 0.04, now + 0.02, sfxOut);
+    } else if (kind === 'cutGood') {
+      playTone(720.00, 0.035, 'square', 0.05, now, sfxOut);
+      playTone(960.00, 0.05, 'sine', 0.04, now + 0.02, sfxOut);
+    } else if (kind === 'perfect') {
+      playTone(880.00, 0.15, 'sine', 0.06, now, sfxOut);
+      playTone(1108.73, 0.18, 'sine', 0.06, now + 0.04, sfxOut);
+      playTone(1318.51, 0.24, 'sine', 0.06, now + 0.08, sfxOut);
+    } else if (kind === 'wrong') {
+      playTone(180.00, 0.08, 'sawtooth', 0.07, now, sfxOut);
+      playTone(130.00, 0.11, 'square', 0.08, now + 0.06, sfxOut);
+    } else if (kind === 'toss') {
+      playTone(440.00, 0.10, 'triangle', 0.05, now, sfxOut, 880.00);
+      playTone(1046.50, 0.12, 'sine', 0.05, now + 0.05, sfxOut);
+    } else if (kind === 'ultimate') {
+      playTone(440.00, 0.12, 'sawtooth', 0.06, now, sfxOut);
+      playTone(554.37, 0.14, 'sawtooth', 0.06, now + 0.06, sfxOut);
+      playTone(659.25, 0.16, 'sawtooth', 0.06, now + 0.12, sfxOut);
+      playTone(880.00, 0.28, 'sine', 0.07, now + 0.18, sfxOut);
+    } else if (kind === 'serve') {
+      playTone(523.25, 0.14, 'sine', 0.06, now, sfxOut);
+      playTone(1046.50, 0.22, 'sine', 0.06, now + 0.05, sfxOut);
+    } else if (kind === 'fail') {
+      playTone(220.00, 0.18, 'sawtooth', 0.07, now, sfxOut, 110.00);
+    } else {
+      playTone(440.00, 0.05, 'sine', 0.05, now, sfxOut);
+    }
+  } catch (_) {
+    // Fallback simple tone
+    try {
+      state.audioCtx ??= new (window.AudioContext || window.webkitAudioContext)();
+      const osc = state.audioCtx.createOscillator();
+      const gain = state.audioCtx.createGain();
+      osc.connect(gain).connect(state.audioCtx.destination);
+      osc.start(); osc.stop(state.audioCtx.currentTime + 0.05);
+    } catch (e) {}
+  }
 }
 
 function toggleSound() {
   state.soundEnabled = !state.soundEnabled;
   $('soundBtn').textContent = `音效：${state.soundEnabled ? '開' : '關'}`;
   $('soundBtn').setAttribute('aria-pressed', String(state.soundEnabled));
-  if (state.soundEnabled) sound('select');
+  if (state.masterGainNode && state.audioCtx) {
+    state.masterGainNode.gain.setValueAtTime(state.soundEnabled ? state.masterVol : 0, state.audioCtx.currentTime);
+  }
+  if (state.soundEnabled) {
+    ensureAudioContext();
+    startBgm();
+    sound('select');
+  } else {
+    stopBgm();
+  }
 }
 
 function setStatus(text) { $('statusText').textContent = text; }
@@ -626,12 +761,15 @@ function stopTimers() {
   clearInterval(state.tossTimer);
   clearTimeout(state.doctorAnimTimer);
   clearTimeout(state.patientAnimTimer);
+  stopBgm();
 }
 
 $('startBtn').addEventListener('click', () => {
   $('heroTitle').textContent = 'CRAVING 72%';
   $('heroText').textContent = '診間進入 Cooking Mode。選一位醫師接下第一張訂單。';
   flashScene();
+  ensureAudioContext();
+  if (state.soundEnabled) startBgm();
   sound('start');
   $('game').classList.remove('is-hidden');
   $('game').scrollIntoView({behavior:'smooth', block:'start'});
@@ -647,6 +785,36 @@ $('nextPatientBtn').addEventListener('click', nextPatient);
 $('soundBtn').addEventListener('click', toggleSound);
 $('artBtn').addEventListener('click', () => $('artGallery').classList.toggle('is-hidden'));
 $('closeArtBtn').addEventListener('click', () => $('artGallery').classList.add('is-hidden'));
+
+$('masterVolSlider')?.addEventListener('input', (e) => {
+  state.masterVol = Number(e.target.value) / 100;
+  $('masterVolText').textContent = `${e.target.value}%`;
+  if (state.masterGainNode && state.audioCtx && state.soundEnabled) {
+    state.masterGainNode.gain.setValueAtTime(state.masterVol, state.audioCtx.currentTime);
+  }
+});
+$('musicVolSlider')?.addEventListener('input', (e) => {
+  state.musicVol = Number(e.target.value) / 100;
+  $('musicVolText').textContent = `${e.target.value}%`;
+  if (state.musicGainNode && state.audioCtx) {
+    state.musicGainNode.gain.setValueAtTime(state.musicVol, state.audioCtx.currentTime);
+  }
+});
+$('sfxVolSlider')?.addEventListener('input', (e) => {
+  state.sfxVol = Number(e.target.value) / 100;
+  $('sfxVolText').textContent = `${e.target.value}%`;
+  if (state.sfxGainNode && state.audioCtx) {
+    state.sfxGainNode.gain.setValueAtTime(state.sfxVol, state.audioCtx.currentTime);
+  }
+});
+$('audioPanelBtn')?.addEventListener('click', () => $('audioSettingsPanel').classList.toggle('is-hidden'));
+$('closeAudioBtn')?.addEventListener('click', () => $('audioSettingsPanel').classList.add('is-hidden'));
+$('bgmToggleBtn')?.addEventListener('click', () => {
+  state.bgmActive = !state.bgmActive;
+  $('bgmToggleBtn').textContent = `背景音樂：${state.bgmActive ? '播放中' : '已暫停'}`;
+  if (state.bgmActive) startBgm();
+  else stopBgm();
+});
 
 window.addEventListener('keydown', (event) => {
   if (event.repeat) return;

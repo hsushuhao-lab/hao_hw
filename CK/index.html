@@ -17,6 +17,7 @@
       </div>
       <div class="top-actions">
         <button id="soundBtn" class="ghost-btn" type="button" aria-pressed="true">音效：開</button>
+        <button id="audioPanelBtn" class="ghost-btn" type="button">音量控制</button>
         <button id="artBtn" class="ghost-btn" type="button">美術設定</button>
       </div>
     </header>
@@ -176,6 +177,33 @@
           </ul>
         </div>
       </aside>
+    </section>
+
+    <section id="audioSettingsPanel" class="audio-panel is-hidden" aria-labelledby="audioPanelTitle">
+      <div class="section-title-row">
+        <div>
+          <p class="eyebrow">AUDIO &amp; VOLUME MIXER</p>
+          <h2 id="audioPanelTitle">音效與音樂控制</h2>
+        </div>
+        <button id="closeAudioBtn" class="ghost-btn" type="button">關閉</button>
+      </div>
+      <div class="audio-controls-grid">
+        <div class="audio-control-row">
+          <label for="masterVolSlider"><span>主音量 (Master)</span><strong id="masterVolText">80%</strong></label>
+          <input id="masterVolSlider" type="range" min="0" max="100" value="80" />
+        </div>
+        <div class="audio-control-row">
+          <label for="musicVolSlider"><span>門診背景音樂 (BGM)</span><strong id="musicVolText">40%</strong></label>
+          <input id="musicVolSlider" type="range" min="0" max="100" value="40" />
+        </div>
+        <div class="audio-control-row">
+          <label for="sfxVolSlider"><span>料理動作音效 (SFX)</span><strong id="sfxVolText">80%</strong></label>
+          <input id="sfxVolSlider" type="range" min="0" max="100" value="80" />
+        </div>
+        <div class="audio-action-row">
+          <button id="bgmToggleBtn" class="primary-btn" type="button">背景音樂：播放中</button>
+        </div>
+      </div>
     </section>
 
     <section id="artGallery" class="art-gallery is-hidden">
