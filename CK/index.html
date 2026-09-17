@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Craving Kitchen — CK v0.1</title>
+  <meta name="description" content="診間麻婆豆腐小遊戲 prototype" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">CK v0.1 · Vertical Slice</p>
+        <h1>Craving Kitchen</h1>
+        <p class="subtitle">煙癮來了？先開火。以料理任務撐過這一波 craving。</p>
+      </div>
+      <button id="artBtn" class="ghost-btn" type="button">美術設定</button>
+    </header>
+
+    <section id="hero" class="hero-panel" aria-label="遊戲主畫面">
+      <div class="hero-overlay"></div>
+      <div class="hero-copy">
+        <p class="chapter">OUTPATIENT CLINIC · 08:30</p>
+        <h2 id="heroTitle">今天只是普通門診。</h2>
+        <p id="heroText">直到病人說：「醫師，我現在超想抽菸。」</p>
+        <button id="startBtn" class="primary-btn" type="button">開始門診</button>
+      </div>
+    </section>
+
+    <section id="game" class="game-grid is-hidden" aria-live="polite">
+      <aside class="left-panel panel">
+        <div class="section-title-row">
+          <h3>1. 選擇角色</h3>
+          <span id="doctorBonus" class="pill">尚未選擇</span>
+        </div>
+        <div id="doctorCards" class="doctor-cards"></div>
+      </aside>
+
+      <section class="center-panel panel">
+        <div class="clinic-stage" id="clinicStage">
+          <img id="stageArt" src="assets/concept/clinic_layout.jpg" alt="診間環境概念圖" />
+          <div class="stage-shade"></div>
+          <div class="patient-card" id="patientCard">
+            <img id="patientImage" src="assets/portraits/patient_office.jpg" alt="病人角色" />
+            <div>
+              <p class="tiny-label">TODAY'S PATIENT</p>
+              <h3 id="patientName">等待掛號中</h3>
+              <p id="patientLine">先選醫師，開始今天的門診。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="meters">
+          <div class="meter-wrap">
+            <div class="meter-label"><span>CRAVING 煙癮</span><strong id="cravingText">0%</strong></div>
+            <div class="meter"><div id="cravingBar" class="meter-fill craving-fill" style="width:0%"></div></div>
+          </div>
+          <div class="meter-wrap">
+            <div class="meter-label"><span>FOCUS 注意力</span><strong id="focusText">0%</strong></div>
+            <div class="meter"><div id="focusBar" class="meter-fill focus-fill" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <div id="orderPanel" class="order-panel is-disabled">
+          <div>
+            <p class="tiny-label">ORDER #<span id="orderNumber">001</span></p>
+            <h3 id="orderHeadline">尚未接單</h3>
+            <p id="orderDetails">選好角色後，病人才會開始點餐。</p>
+          </div>
+          <button id="acceptOrderBtn" class="primary-btn" type="button" disabled>接單</button>
+        </div>
+
+        <div id="workstation" class="workstation is-hidden">
+          <div class="phase-tabs" role="tablist" aria-label="料理流程">
+            <button class="phase-tab is-active" data-phase="prep" type="button">備料</button>
+            <button class="phase-tab" data-phase="cook" type="button" disabled>烹調</button>
+            <button class="phase-tab" data-phase="serve" type="button" disabled>上菜</button>
+          </div>
+
+          <div id="prepPhase" class="phase-card">
+            <div class="section-title-row">
+              <div>
+                <p class="tiny-label">PREP STATION</p>
+                <h3>依照訂單準備材料</h3>
+              </div>
+              <span id="prepStatus" class="pill">0 / 0</span>
+            </div>
+            <div id="ingredientGrid" class="ingredient-grid"></div>
+            <p class="hint">錯拿材料會提高 craving。完成所有必要材料後進入炒鍋。</p>
+          </div>
+
+          <div id="cookPhase" class="phase-card is-hidden">
+            <div class="section-title-row">
+              <div>
+                <p class="tiny-label">WOK STATION</p>
+                <h3 id="cookInstruction">準備開火</h3>
+              </div>
+              <span id="cookStatus" class="pill">0 / 4</span>
+            </div>
+            <div class="heat-track" aria-label="火候計">
+              <div class="heat-zone"></div>
+              <div id="heatCursor" class="heat-cursor"></div>
+            </div>
+            <button id="cookActionBtn" class="primary-btn wide" type="button">開始爆香</button>
+            <p class="hint">游標進入中央最佳火候區時按下。角色技能會改變容錯範圍。</p>
+          </div>
+
+          <div id="servePhase" class="phase-card is-hidden">
+            <p class="tiny-label">SERVE</p>
+            <h3>最後確認</h3>
+            <div id="serveSummary" class="serve-summary"></div>
+            <button id="serveBtn" class="primary-btn wide" type="button">端給病人</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="right-panel panel">
+        <div class="section-title-row">
+          <h3>今日紀錄</h3>
+          <span id="scorePill" class="pill">0 pts</span>
+        </div>
+        <div class="stat-box"><span>已完成訂單</span><strong id="ordersDone">0</strong></div>
+        <div class="stat-box"><span>最高連續成功</span><strong id="bestStreak">0</strong></div>
+        <div class="stat-box"><span>目前狀態</span><strong id="statusText">門診尚未開始</strong></div>
+
+        <div class="mini-manifest">
+          <p class="tiny-label">MVP CONTENT</p>
+          <ul>
+            <li>3 位可選醫師</li>
+            <li>6 類病人 NPC</li>
+            <li>5 種主要訂單變化</li>
+            <li>備料 → 火候 → 上菜</li>
+            <li>Craving / Focus 雙資源</li>
+          </ul>
+        </div>
+      </aside>
+    </section>
+
+    <section id="artGallery" class="art-gallery is-hidden">
+      <div class="section-title-row">
+        <div>
+          <p class="eyebrow">ART BIBLE PREVIEW</p>
+          <h2>CK 美術資產</h2>
+        </div>
+        <button id="closeArtBtn" class="ghost-btn" type="button">關閉</button>
+      </div>
+      <div class="gallery-grid">
+        <figure><img src="assets/concept/doctor_concepts.jpg" alt="三位醫師角色設計" /><figcaption>Playable Doctors</figcaption></figure>
+        <figure><img src="assets/concept/clinic_layout.jpg" alt="診間規劃" /><figcaption>Clinic Layout</figcaption></figure>
+        <figure><img src="assets/concept/cooking_mode.jpg" alt="診間料理模式" /><figcaption>Cooking Mode</figcaption></figure>
+        <figure><img src="assets/concept/props.jpg" alt="麻婆豆腐材料與道具" /><figcaption>Props & Ingredients</figcaption></figure>
+        <figure><img src="assets/concept/patient_npcs.jpg" alt="病人角色設計" /><figcaption>Patient NPCs</figcaption></figure>
+      </div>
+    </section>
+
+    <section id="resultModal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+      <div class="modal-card">
+        <p class="tiny-label">ORDER COMPLETE</p>
+        <h2 id="resultTitle">完成！</h2>
+        <p id="resultText"></p>
+        <div id="resultScore" class="result-score">+0</div>
+        <button id="nextPatientBtn" class="primary-btn wide" type="button">下一位病人</button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="src/game.js"></script>
+</body>
+</html>
