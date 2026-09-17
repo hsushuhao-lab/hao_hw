@@ -1,7 +1,8 @@
 # Craving Kitchen (CK) — v0.3 Production Slice
 
 [▶ **直接試玩 CK v0.3**](https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/index.html)  
-[🎨 **線上美術設計 / 場景圖鑑**](https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/art.html)  
+[🎨 **原始主美術 Concept Art**](https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/art-original.html)  
+[🧩 **角色動畫 / Art Bible**](https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/art.html)  
 [📦 **最終交班入口**](./docs/00_START_HERE.md)  
 [🤖 **MASTER AGENT PROMPT**](./docs/MASTER_AGENT_PROMPT.md)
 
@@ -31,13 +32,28 @@ Failure：`CRAVING >= 100%`。
 - DR. STRATEGY：降低 Craving 並恢復 Focus。
 - Web Audio 程序音效、mute、鍵盤 Space timing / U Ultimate。
 - 線上美術 gallery、GDD、Art Bible、asset index、scene/game flow、deployment notes、regression test、final handoff、next-agent master prompt。
+- **五張實際製作的主美術 concept sheets 已正式上 GitHub**：醫師角色、診間配置、Cooking Mode、料理材料/道具、病人 NPC。
 
 ## 線上內容
 
 ### Play
 https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/index.html
 
-### Art / Environment / Character design
+### Original concept art — production visual source of truth
+https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/art-original.html
+
+實際圖片位於：
+
+```text
+assets/art/
+  doctor_concepts.jpg
+  clinic_layout.jpg
+  cooking_mode.jpg
+  props.jpg
+  patient_npcs.jpg
+```
+
+### Animation Art Bible / SVG gameplay assets
 https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/art.html
 
 ### GitHub source
@@ -46,7 +62,7 @@ https://github.com/hsushuhao-lab/hao_hw/tree/ck-game/CK
 ### Intended GitHub Pages
 https://hsushuhao-lab.github.io/hao_hw/CK/
 
-GitHub Pages 仍需在 repository Settings → Pages 啟用 publishing source；raw.githack 目前可直接試玩。
+GitHub Pages 仍需在 repository Settings → Pages 啟用 publishing source；raw.githack 目前可直接試玩與瀏覽美術。
 
 ## Handoff documents
 
@@ -80,7 +96,9 @@ node --check src/game.js
 
 ## Public art boundary
 
-GitHub 公開版本只放衍生遊戲美術與程式碼，不公開原始真人照片。完整高解析 raster concept sheets 保留在 offline final handoff package；線上版本使用輕量 SVG derivatives，確保可以直接載入。
+GitHub 公開版本現在包含 **本專案生成的衍生遊戲 concept art**，但不公開原始真人照片。五張 JPEG concept sheets 是 production visual source of truth；既有 SVG 則作為遊戲執行、角色動畫與 fallback 資產。兩者用途不得混淆。
+
+核心規則：**Same Clinic, Different Mode**。Cooking Mode 必須仍能辨識原始診間，不得改造成一般餐廳。
 
 ## 下一版 v0.4
 
