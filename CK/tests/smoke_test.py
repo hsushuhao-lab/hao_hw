@@ -9,6 +9,15 @@ required = [
     'assets/concept/cooking_mode.svg',
     'assets/concept/props.svg',
     'assets/concept/patient_npcs.svg',
+    'assets/portraits/doctor_speed.svg',
+    'assets/portraits/doctor_heat.svg',
+    'assets/portraits/doctor_strategy.svg',
+    'assets/portraits/patient_office.svg',
+    'assets/portraits/patient_student.svg',
+    'assets/portraits/patient_driver.svg',
+    'assets/portraits/patient_auntie.svg',
+    'assets/portraits/patient_quiet.svg',
+    'assets/portraits/patient_repeat.svg',
 ]
 
 missing = [p for p in required if not (ROOT / p).exists()]
@@ -18,13 +27,21 @@ html = (ROOT / 'index.html').read_text(encoding='utf-8')
 js = (ROOT / 'src/game.js').read_text(encoding='utf-8')
 data = (ROOT / 'src/data.js').read_text(encoding='utf-8')
 
-for token in ['Craving Kitchen', 'src/game.js', 'doctorCards', 'ingredientGrid', 'cutActionBtn', 'soundBtn', 'heatFx']:
+for token in [
+    'Craving Kitchen', 'src/game.js', 'doctorCards', 'ingredientGrid',
+    'cutActionBtn', 'soundBtn', 'heatFx', 'ultimateBtn', 'tossActionBtn',
+    'doctorPresence'
+]:
     assert token in html, f'index.html missing token: {token}'
 
-for token in ['acceptOrder', 'pickIngredient', 'startCutChallenge', 'cutAction', 'cookAction', 'triggerHeatFx', 'toggleSound', 'serve', 'failOrder']:
+for token in [
+    'acceptOrder', 'pickIngredient', 'startCutChallenge', 'cutAction',
+    'cookAction', 'triggerHeatFx', 'toggleSound', 'startTossChallenge',
+    'tossAction', 'useUltimate', 'serve', 'failOrder'
+]:
     assert token in js, f'game.js missing function/token: {token}'
 
-for token in ['DR. SPEED', 'DR. HEAT', 'DR. STRATEGY', 'patients', 'cookSteps']:
+for token in ['DR. SPEED', 'DR. HEAT', 'DR. STRATEGY', 'ultimate', 'patients', 'cookSteps']:
     assert token in data, f'data.js missing content: {token}'
 
 print('CK smoke test: PASS')
