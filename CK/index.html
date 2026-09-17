@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Craving Kitchen — CK v0.3</title>
-  <meta name="description" content="診間麻婆豆腐小遊戲 prototype" />
+  <title>Craving Kitchen — CK v0.4 Art Alignment</title>
+  <meta name="description" content="診間麻婆豆腐小遊戲 — approved art direction build" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="art-direction.css" />
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">CK v0.3 · Vertical Slice</p>
+        <p class="eyebrow">CK v0.4 · APPROVED ART DIRECTION</p>
         <h1>Craving Kitchen</h1>
-        <p class="subtitle">煙癮來了？先開火。以料理任務撐過這一波 craving。</p>
+        <p class="subtitle">Same Clinic, Different Flavors. 診間不消失，只是突然開始煮麻婆豆腐。</p>
       </div>
       <div class="top-actions">
         <button id="soundBtn" class="ghost-btn" type="button" aria-pressed="true">音效：開</button>
@@ -44,7 +45,7 @@
 
       <section class="center-panel panel">
         <div class="clinic-stage" id="clinicStage">
-          <img id="stageArt" src="assets/concept/clinic_layout.svg" alt="診間環境概念圖" />
+          <img id="stageArt" src="assets/art/clinic_layout.jpg" alt="診間環境概念圖" />
           <div class="stage-shade"></div>
           <div id="doctorStage" class="doctor-stage is-hidden" aria-live="polite">
             <img id="doctorBodyImage" class="doctor-body-img" src="assets/characters/doctors/doctor_speed_idle.svg" alt="醫師動作狀態" />
@@ -164,7 +165,6 @@
         <div class="stat-box"><span>已完成訂單</span><strong id="ordersDone">0</strong></div>
         <div class="stat-box"><span>最高連續成功</span><strong id="bestStreak">0</strong></div>
         <div class="stat-box"><span>目前狀態</span><strong id="statusText">門診尚未開始</strong></div>
-
         <div class="mini-manifest">
           <p class="tiny-label">MVP CONTENT</p>
           <ul>
@@ -181,60 +181,38 @@
 
     <section id="audioSettingsPanel" class="audio-panel is-hidden" aria-labelledby="audioPanelTitle">
       <div class="section-title-row">
-        <div>
-          <p class="eyebrow">AUDIO &amp; VOLUME MIXER</p>
-          <h2 id="audioPanelTitle">音效與音樂控制</h2>
-        </div>
+        <div><p class="eyebrow">AUDIO &amp; VOLUME MIXER</p><h2 id="audioPanelTitle">音效與音樂控制</h2></div>
         <button id="closeAudioBtn" class="ghost-btn" type="button">關閉</button>
       </div>
       <div class="audio-controls-grid">
-        <div class="audio-control-row">
-          <label for="masterVolSlider"><span>主音量 (Master)</span><strong id="masterVolText">80%</strong></label>
-          <input id="masterVolSlider" type="range" min="0" max="100" value="80" />
-        </div>
-        <div class="audio-control-row">
-          <label for="musicVolSlider"><span>門診背景音樂 (BGM)</span><strong id="musicVolText">40%</strong></label>
-          <input id="musicVolSlider" type="range" min="0" max="100" value="40" />
-        </div>
-        <div class="audio-control-row">
-          <label for="sfxVolSlider"><span>料理動作音效 (SFX)</span><strong id="sfxVolText">80%</strong></label>
-          <input id="sfxVolSlider" type="range" min="0" max="100" value="80" />
-        </div>
-        <div class="audio-action-row">
-          <button id="bgmToggleBtn" class="primary-btn" type="button">背景音樂：播放中</button>
-        </div>
+        <div class="audio-control-row"><label for="masterVolSlider"><span>主音量 (Master)</span><strong id="masterVolText">80%</strong></label><input id="masterVolSlider" type="range" min="0" max="100" value="80" /></div>
+        <div class="audio-control-row"><label for="musicVolSlider"><span>門診背景音樂 (BGM)</span><strong id="musicVolText">40%</strong></label><input id="musicVolSlider" type="range" min="0" max="100" value="40" /></div>
+        <div class="audio-control-row"><label for="sfxVolSlider"><span>料理動作音效 (SFX)</span><strong id="sfxVolText">80%</strong></label><input id="sfxVolSlider" type="range" min="0" max="100" value="80" /></div>
+        <div class="audio-action-row"><button id="bgmToggleBtn" class="primary-btn" type="button">背景音樂：播放中</button></div>
       </div>
     </section>
 
     <section id="artGallery" class="art-gallery is-hidden">
       <div class="section-title-row">
-        <div>
-          <p class="eyebrow">ART BIBLE PREVIEW</p>
-          <h2>CK 美術資產</h2>
-        </div>
+        <div><p class="eyebrow">APPROVED ART BIBLE</p><h2>CK 正式美術設計</h2></div>
         <button id="closeArtBtn" class="ghost-btn" type="button">關閉</button>
       </div>
       <div class="gallery-grid">
-        <figure><img src="assets/concept/doctor_concepts.svg" alt="三位醫師角色設計" /><figcaption>Playable Doctors</figcaption></figure>
-        <figure><img src="assets/concept/clinic_layout.svg" alt="診間規劃" /><figcaption>Clinic Layout</figcaption></figure>
-        <figure><img src="assets/concept/cooking_mode.svg" alt="診間料理模式" /><figcaption>Cooking Mode</figcaption></figure>
-        <figure><img src="assets/concept/props.svg" alt="麻婆豆腐材料與道具" /><figcaption>Props & Ingredients</figcaption></figure>
-        <figure><img src="assets/concept/patient_npcs.svg" alt="病人角色設計" /><figcaption>Patient NPCs</figcaption></figure>
+        <figure><img src="assets/art/doctor_concepts.jpg" alt="三位醫師角色設計" /><figcaption>Playable Doctors｜正式主角設定</figcaption></figure>
+        <figure><img src="assets/art/clinic_layout.jpg" alt="診間規劃" /><figcaption>Clinic Layout｜診間 source of truth</figcaption></figure>
+        <figure><img src="assets/art/cooking_mode.jpg" alt="診間料理模式" /><figcaption>Cooking Mode｜Same Clinic, Different Flavors</figcaption></figure>
+        <figure><img src="assets/art/props.jpg" alt="麻婆豆腐材料與道具" /><figcaption>Props &amp; Ingredients｜備料與 station</figcaption></figure>
+        <figure><img src="assets/art/patient_npcs.jpg" alt="病人角色設計" /><figcaption>Patient NPCs｜六位病人設定</figcaption></figure>
       </div>
     </section>
 
     <section id="resultModal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
-      <div class="modal-card">
-        <p class="tiny-label">ORDER COMPLETE</p>
-        <h2 id="resultTitle">完成！</h2>
-        <p id="resultText"></p>
-        <div id="resultScore" class="result-score">+0</div>
-        <button id="nextPatientBtn" class="primary-btn wide" type="button">下一位病人</button>
-      </div>
+      <div class="modal-card"><p class="tiny-label">ORDER COMPLETE</p><h2 id="resultTitle">完成！</h2><p id="resultText"></p><div id="resultScore" class="result-score">+0</div><button id="nextPatientBtn" class="primary-btn wide" type="button">下一位病人</button></div>
     </section>
     <footer class="game-footer">遊戲中的麻婆豆腐為喜劇世界觀設定，並非戒菸治療或醫療建議。｜鍵盤：Space = timing、U = Ultimate</footer>
   </main>
 
   <script type="module" src="src/game.js"></script>
+  <script type="module" src="src/art-direction.js"></script>
 </body>
 </html>
