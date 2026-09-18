@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 440" width="320" height="440">
+  <defs>
+    <filter id="pat-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="bowl-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <linearGradient id="tofu-red" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e53e3e"/>
+      <stop offset="100%" stop-color="#9b2c2c"/>
+    </linearGradient>
+  </defs>
+
+    <g id="repeat-order">
+      
+    <!-- Clinic Consultation Chair -->
+    <rect x="115" y="270" width="90" height="12" rx="5" fill="#718096" stroke="#4a5568" stroke-width="1.5"/>
+    <rect x="122" y="215" width="76" height="58" rx="8" fill="#4a5568" stroke="#2d3748" stroke-width="2"/>
+    <!-- Chair stem & caster base -->
+    <rect x="154" y="282" width="12" height="50" rx="3" fill="#a0aec0"/>
+    <path d="M120 332 L200 332" stroke="#2d3748" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="124" cy="336" r="5" fill="#1a202c"/>
+    <circle cx="196" cy="336" r="5" fill="#1a202c"/>
+    
+      <path d="M135 270 L130 350 L120 375" stroke="#1a202c" stroke-width="18" stroke-linecap="round"/>
+      <path d="M185 270 L190 350 L200 375" stroke="#1a202c" stroke-width="18" stroke-linecap="round"/>
+      <path d="M120 145 L115 275 H205 L200 145 Z" fill="#2b6cb0"/>
+      <!-- Finger pointing: 一樣的，今天再辣一點！ -->
+      <path d="M120 150 L95 210 L125 240" stroke="#2b6cb0" stroke-width="16" stroke-linecap="round"/>
+      <circle cx="126" cy="242" r="8" fill="#e6b88a"/>
+      <path d="M200 150 L230 180 L220 150" stroke="#2b6cb0" stroke-width="16" stroke-linecap="round"/>
+      <circle cx="220" cy="148" r="8" fill="#e6b88a"/>
+      <rect x="175" y="25" width="135" height="42" rx="12" fill="#ffffff" stroke="#2b6cb0" stroke-width="2"/>
+      <text x="242" y="51" font-family="sans-serif" font-size="12" font-weight="bold" fill="#2b6cb0" text-anchor="middle">熟客配方 · 再辣一點</text>
+      <polygon points="190,67 200,67 185,80" fill="#ffffff" stroke="#2b6cb0" stroke-width="1.5"/>
+      
+    <!-- Head & Casual undercut hair -->
+    <circle cx="160" cy="105" r="40" fill="#e6b88a"/>
+    <path d="M120 100 Q124 59 160 60 Q198 60 200 100 Q180 87 160 87 Q140 87 120 100 Z" fill="#1a202c"/>
+    <!-- Confident eyes (one winking!) -->
+    <circle cx="145" cy="107" r="3.5" fill="#1a202c"/>
+    <path d="M168 107 Q175 101 182 107" stroke="#1a202c" stroke-width="3" fill="none"/>
+    <!-- Eyebrows -->
+    <path d="M136 91 L152 93" stroke="#1a202c" stroke-width="3" stroke-linecap="round"/>
+    <path d="M168 93 L184 91" stroke="#1a202c" stroke-width="3" stroke-linecap="round"/>
+    <path d="M150 130 Q160 140 172 130" stroke="#742a2a" stroke-width="3" fill="none"/>
+    
+    </g>
+    
+</svg>
