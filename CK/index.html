@@ -14,7 +14,7 @@
       <div>
         <p class="eyebrow">CK v0.4.2 · APPROVED ART RUNTIME</p>
         <h1>Craving Kitchen</h1>
-        <p class="subtitle">診間是真的診間，料理也真的發生在這裡。Same Clinic, Different Flavors.</p>
+        <p class="subtitle">第三人稱診間料理模擬：先看診、再開料理處方、走進後廚完成麻婆豆腐。</p>
       </div>
       <div class="top-actions">
         <button id="soundBtn" class="ghost-btn" type="button" aria-pressed="true">音效：開</button>
@@ -30,14 +30,20 @@
         <p class="chapter">OUTPATIENT CLINIC · 08:30</p>
         <h2 id="heroTitle">今天只是普通門診。</h2>
         <p id="heroText">直到病人說：「醫師，我現在超想抽菸。」</p>
-        <button id="startBtn" class="primary-btn" type="button">開始門診</button>
+        <button id="startBtn" class="primary-btn" type="button">進入 Clinic Kitchen</button>
       </div>
     </section>
 
+    <section id="missionBrief" class="mission-brief">
+      <div><p class="eyebrow">VERTICAL SLICE MISSION</p><h2>一位病人，一碗麻婆豆腐，完整走完從問診到第一口。</h2></div>
+      <div class="mission-flow">
+        <span>1 看診</span><span>2 開處方</span><span>3 走到後廚</span><span>4 取材備料</span><span>5 炒麻婆豆腐</span><span>6 端回診間</span><span>7 第一口反應</span>
+      </div>
+    </section>
     <section id="game" class="game-grid is-hidden" aria-live="polite">
       <aside class="left-panel panel">
         <div class="section-title-row">
-          <h3>1. 選擇角色</h3>
+          <h3>值班醫師</h3>
           <span id="doctorBonus" class="pill">尚未選擇</span>
         </div>
         <div id="doctorCards" class="doctor-cards"></div>
@@ -166,11 +172,11 @@
         <div class="stat-box"><span>最高連續成功</span><strong id="bestStreak">0</strong></div>
         <div class="stat-box"><span>目前狀態</span><strong id="statusText">門診尚未開始</strong></div>
         <div class="mini-manifest">
-          <p class="tiny-label">MVP CONTENT</p>
+          <p class="tiny-label">TODAY'S SHIFT</p>
           <ul>
             <li>3 位可選醫師</li>
             <li>6 類病人 NPC</li>
-            <li>5 種主要訂單變化</li>
+            <li>問診 → 料理處方 → 後廚執行</li>
             <li>備料 → 火候 → 甩鍋 → 上菜</li>
             <li>Craving / Focus 雙資源</li>
             <li>3 種角色 Ultimate</li>
