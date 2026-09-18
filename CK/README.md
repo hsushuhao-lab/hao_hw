@@ -1,3 +1,19 @@
+# CK v0.6 — Realistic Clinic-Kitchen Rebuild
+
+**STATUS: ACTIVE REBUILD / FIRST REALISTIC ENVIRONMENT PUBLISHED**
+
+The previous concept-sheet bridge was useful for art governance but did not feel like a believable game. v0.6 starts a deliberate rebuild around a realistic outpatient consultation room that is physically converted into a compact mapo-tofu workstation.
+
+Current v0.6 changes:
+- high-detail production clinic environment is now loaded by the runtime;
+- gameplay stage is larger and less card-like;
+- clinical workstation, wash area, prep cart and wok zone are spatially identified inside one room;
+- UI is quieter and more physical/clinical; rounded cartoon-card treatment is reduced;
+- the approved semi-realistic doctor/patient concept art remains identity authority while dedicated production character sheets are prepared;
+- the gameplay loop remains playable during the rebuild.
+
+**Non-negotiable target:** believable clinic first + improvised kitchen second; refined semi-realistic people; no generic restaurant; no flat/Q-style final characters.
+
 # Craving Kitchen (CK) — v0.4.2 Art Closeout
 
 [▶ **直接試玩 CK**](https://raw.githack.com/hsushuhao-lab/hao_hw/ck-game/CK/index.html)  
