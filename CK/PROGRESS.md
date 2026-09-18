@@ -1,3 +1,18 @@
+## v0.6 — Realistic Clinic-Kitchen Rebuild
+
+Status: **IN PROGRESS — ENVIRONMENT PASS PUBLISHED**
+
+Player/engineering review identified that v0.4.x remained visually too close to a concept-sheet demo: the stage lacked physical depth, characters were sheet crops, and cooking interactions felt abstract.
+
+Rebuild gates:
+1. believable clinic + kitchen hybrid environment;
+2. refined semi-realistic character presentation;
+3. spatially grounded prep / wash / order / wok stations;
+4. gameplay feedback tied to visible physical actions;
+5. preserve the working order → prep → cook → serve loop while replacing its presentation.
+
+Published first pass: production clinic environment + immersive stage/UI rebuild. Dedicated realistic doctor/patient production assets remain the next gate.
+
 # Craving Kitchen — Development Progress
 
 ## v0.3 — Production Slice
