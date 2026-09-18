@@ -1,73 +1,22 @@
-# CK 2.0 — Clinic Kitchen Rebuild Plan
+# CK2 Rebuild Plan
 
-## Status
-**ACTIVE REBUILD — TEXT DESIGN LOCKED / FIRST SHELL UPDATE PUBLISHED**
+## Product
+Third-person clinic-cooking simulation in one continuous space.
 
-This version abandons the old “dashboard timing mini-game” presentation and rebuilds CK around a believable continuous space and physical task flow.
+## Space
+1. Clinic — doctor desk, patient chair, printer, sink, medical storage.
+2. Transition/Prep — handwashing, fridge, trolley, recipe-printer.
+3. Kitchen — prep counter, spice rack, rice station, wok/stove.
 
-## Product definition
-Third-person 3D clinic-cooking simulation / mission management.
+## M0
+Environment walkthrough only. Player must understand the physical space without reading documentation.
 
-The player must physically move through one connected environment:
-**Clinic → Transition/Prep → Kitchen → back to Clinic**.
+## M1
+One doctor + one patient + one bowl of mapo tofu:
+consult → assess craving/stress/hunger → write prescription → print order → walk to prep → collect ingredients → knife work → wok cooking → plate → carry back → serve → first bite.
 
-## Vertical slice goal
-One playable doctor, one patient, one bowl of mapo tofu, fully playable from consultation to first bite.
+## Art
+Refined semi-realistic 3D. No chibi, anime, flat SVG, emoji or concept-sheet crops as final assets.
 
-## Frozen loop
-1. Patient enters clinic.
-2. Player approaches and starts consultation.
-3. Gather craving/stress/hunger/preferences.
-4. Write recipe prescription.
-5. Print and carry order.
-6. Walk through transition/prep area.
-7. Open storage/fridge and collect ingredients.
-8. Knife-work on tofu/scallion.
-9. Cook mapo tofu in a wok using visual/audio food feedback.
-10. Plate rice and tofu.
-11. Carry tray back to clinic.
-12. Serve.
-13. Patient takes first bite.
-14. Reaction + score + state change.
-
-## Environment
-### Zone A — Clinic
-Doctor desk, monitor, printer, patient chair, examination equipment, drawers, sink, fluorescent lighting.
-
-### Zone B — Transition / Prep
-Handwashing, stainless prep trolley, refrigerator, ingredient storage, prescription/order printer, apron/tool station.
-
-### Zone C — Kitchen
-Compact but real cooking line: stove, wok, chopping board, steel counter, spice rack, rice station, ventilation.
-
-The kitchen must remain visibly connected to the clinic. It is not a restaurant.
-
-## Character art
-Target: refined semi-realistic / photorealistic-stylized 3D.
-No chibi, flat SVG, emoji, anime-style production characters.
-
-Doctor identity must preserve hairstyle, glasses, coat, inner clothing and recognizable silhouette from approved references.
-
-## Interaction philosophy
-The player should look at the world, not at meters.
-
-HUD is secondary. Primary feedback comes from:
-- patient fidgeting/restlessness;
-- visible ingredients in hand;
-- tofu size and breakage;
-- wok color, steam, flame and sauce viscosity;
-- sound of oil, meat, doubanjiang and starch slurry;
-- patient facial reaction.
-
-## First implementation milestone
-**M1 — DR. SPEED vertical slice**
-- third-person locomotion shell
-- one clinic-patient interaction
-- recipe prescription UI
-- one complete ingredient pickup sequence
-- tofu cutting
-- full wok cooking sequence
-- tray carry
-- first-bite payoff
-
-No second patient and no second recipe until M1 is fun.
+## Interaction
+World-first feedback; HUD is secondary. Use patient body language, visible ingredients, tofu breakage, flame/steam, sauce color and sound.

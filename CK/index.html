@@ -1,224 +1,50 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Craving Kitchen — CK v0.4.2 Art Closeout</title>
-  <meta name="description" content="診間麻婆豆腐小遊戲 — canonical approved art closeout build" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="art-direction.css" />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Clinic Kitchen 2.0 — Environment Walkthrough</title>
+<link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-  <main class="app-shell">
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">CK v0.4.2 · APPROVED ART RUNTIME</p>
-        <h1>Craving Kitchen</h1>
-        <p class="subtitle">第三人稱診間料理模擬：先看診、再開料理處方、走進後廚完成麻婆豆腐。</p>
-      </div>
-      <div class="top-actions">
-        <button id="soundBtn" class="ghost-btn" type="button" aria-pressed="true">音效：開</button>
-        <button id="audioPanelBtn" class="ghost-btn" type="button">音量控制</button>
-        <button id="artBtn" class="ghost-btn" type="button">美術設定</button>
-      </div>
-    </header>
-
-    <section id="hero" class="hero-panel scene-intro" aria-label="遊戲主畫面">
-      <div id="sceneFlash" class="scene-flash" aria-hidden="true"></div>
-      <div class="hero-overlay"></div>
-      <div class="hero-copy">
-        <p class="chapter">OUTPATIENT CLINIC · 08:30</p>
-        <h2 id="heroTitle">今天只是普通門診。</h2>
-        <p id="heroText">直到病人說：「醫師，我現在超想抽菸。」</p>
-        <button id="startBtn" class="primary-btn" type="button">進入 Clinic Kitchen</button>
-      </div>
-    </section>
-
-    <section id="missionBrief" class="mission-brief">
-      <div><p class="eyebrow">VERTICAL SLICE MISSION</p><h2>一位病人，一碗麻婆豆腐，完整走完從問診到第一口。</h2></div>
-      <div class="mission-flow">
-        <span>1 看診</span><span>2 開處方</span><span>3 走到後廚</span><span>4 取材備料</span><span>5 炒麻婆豆腐</span><span>6 端回診間</span><span>7 第一口反應</span>
-      </div>
-    </section>
-    <section id="game" class="game-grid is-hidden" aria-live="polite">
-      <aside class="left-panel panel">
-        <div class="section-title-row">
-          <h3>值班醫師</h3>
-          <span id="doctorBonus" class="pill">尚未選擇</span>
-        </div>
-        <div id="doctorCards" class="doctor-cards"></div>
-      </aside>
-
-      <section class="center-panel panel">
-        <div class="clinic-stage" id="clinicStage">
-          <img id="stageArt" src="assets/art_direction/source_of_truth/clinic_layout.avif" alt="CK 正式診間環境" />
-          <div class="stage-shade"></div><div id="sceneStations" class="scene-stations" aria-hidden="true"><span class="station-tag station-order">處方／訂單</span><span class="station-tag station-wash">洗手／清洗</span><span class="station-tag station-prep">備料推車</span><span class="station-tag station-wok">麻婆炒鍋</span></div>
-          <div id="doctorStage" class="doctor-stage is-hidden" aria-live="polite">
-            <img id="doctorBodyImage" class="doctor-body-img" src="assets/characters/doctors/doctor_speed_idle.svg" alt="醫師動作狀態 fallback" />
-            <span id="doctorStateBadge" class="doctor-state-badge">IDLE</span>
-          </div>
-          <div id="doctorPresence" class="doctor-presence is-hidden">
-            <img id="doctorPresenceImage" src="assets/portraits/doctor_speed.svg" alt="目前操作醫師 fallback" />
-            <div><span class="tiny-label">ON DUTY</span><strong id="doctorPresenceName">尚未選擇</strong></div>
-          </div>
-          <div id="patientStage" class="patient-stage is-hidden" aria-live="polite">
-            <img id="patientBodyImage" class="patient-body-img" src="assets/characters/patients/patient_office_sit.svg" alt="病人動作狀態 fallback" />
-            <span id="patientStateBadge" class="patient-state-badge">WAITING</span>
-          </div>
-          <div class="patient-card" id="patientCard">
-            <img id="patientImage" src="assets/portraits/patient_office.svg" alt="病人角色 fallback" />
-            <div>
-              <p class="tiny-label">TODAY'S PATIENT</p>
-              <h3 id="patientName">等待掛號中</h3>
-              <p id="patientLine">先選醫師，開始今天的門診。</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="meters">
-          <div class="meter-wrap">
-            <div class="meter-label"><span>CRAVING 煙癮</span><strong id="cravingText">0%</strong></div>
-            <div class="meter"><div id="cravingBar" class="meter-fill craving-fill" style="width:0%"></div></div>
-          </div>
-          <div class="meter-wrap">
-            <div class="meter-label"><span>FOCUS 注意力</span><strong id="focusText">0%</strong></div>
-            <div class="meter"><div id="focusBar" class="meter-fill focus-fill" style="width:0%"></div></div>
-          </div>
-        </div>
-
-        <div class="skill-panel">
-          <div>
-            <p class="tiny-label">CHARACTER ULTIMATE · 每張訂單 1 次</p>
-            <strong id="skillName">選擇醫師後解鎖</strong>
-            <p id="skillDesc" class="skill-desc">每位角色有不同的主動技能。</p>
-          </div>
-          <button id="ultimateBtn" class="ultimate-btn" type="button" disabled>ULTIMATE</button>
-        </div>
-
-        <div id="orderPanel" class="order-panel is-disabled">
-          <div>
-            <p class="tiny-label">ORDER #<span id="orderNumber">001</span></p>
-            <h3 id="orderHeadline">尚未接單</h3>
-            <p id="orderDetails">選好角色後，病人才會開始點餐。</p>
-          </div>
-          <button id="acceptOrderBtn" class="primary-btn" type="button" disabled>接單</button>
-        </div>
-
-        <div id="workstation" class="workstation is-hidden">
-          <div class="phase-tabs" role="tablist" aria-label="料理流程">
-            <button class="phase-tab is-active" data-phase="prep" type="button">備料</button>
-            <button class="phase-tab" data-phase="cook" type="button" disabled>烹調</button>
-            <button class="phase-tab" data-phase="serve" type="button" disabled>上菜</button>
-          </div>
-
-          <div id="prepPhase" class="phase-card">
-            <div class="section-title-row">
-              <div>
-                <p class="tiny-label">PREP STATION</p>
-                <h3>依照訂單準備材料</h3>
-              </div>
-              <span id="prepStatus" class="pill">0 / 0</span>
-            </div>
-            <div id="cutChallenge" class="cut-challenge is-hidden" aria-live="polite">
-              <div class="cut-header"><strong id="cutLabel">切豆腐</strong><span id="cutStatus">0 / 3</span></div>
-              <div class="cut-track"><div class="cut-zone"></div><div id="cutCursor" class="cut-cursor"></div></div>
-              <button id="cutActionBtn" class="primary-btn wide" type="button">切！</button>
-              <p class="hint">游標進入中央區域時切下；三次後完成這項備料。</p>
-            </div>
-            <div id="ingredientGrid" class="ingredient-grid"></div>
-            <p class="hint">豆腐與青蔥有專屬切配 timing；錯拿材料會提高 craving。</p>
-          </div>
-
-          <div id="cookPhase" class="phase-card is-hidden">
-            <div class="section-title-row">
-              <div>
-                <p class="tiny-label">WOK STATION</p>
-                <h3 id="cookInstruction">準備開火</h3>
-              </div>
-              <span id="cookStatus" class="pill">0 / 4</span>
-            </div>
-            <div class="heat-stage">
-              <div class="heat-track" aria-label="火候計">
-                <div class="heat-zone"></div>
-                <div id="heatCursor" class="heat-cursor"></div>
-              </div>
-              <div id="heatFx" class="heat-fx" aria-hidden="true">PERFECT HEAT!</div>
-            </div>
-            <button id="cookActionBtn" class="primary-btn wide" type="button">開始爆香</button>
-            <div id="tossChallenge" class="toss-challenge is-hidden">
-              <div class="cut-header"><strong>甩鍋收尾</strong><span id="tossStatus">等待節奏</span></div>
-              <div class="toss-track"><div class="toss-zone"></div><div id="tossCursor" class="toss-cursor"></div></div>
-              <button id="tossActionBtn" class="primary-btn wide" type="button">甩鍋！</button>
-              <p class="hint">最後一次 timing 會影響 Focus、Craving 與結算分數。</p>
-            </div>
-            <p class="hint">游標進入中央最佳火候區時按下。角色技能會改變容錯範圍。</p>
-          </div>
-
-          <div id="servePhase" class="phase-card is-hidden">
-            <p class="tiny-label">SERVE</p>
-            <h3>最後確認</h3>
-            <div id="serveSummary" class="serve-summary"></div>
-            <button id="serveBtn" class="primary-btn wide" type="button">端給病人</button>
-          </div>
-        </div>
+<div id="app">
+  <header class="hud">
+    <div><strong>CLINIC KITCHEN 2.0</strong><span>M0 · ENVIRONMENT WALKTHROUGH</span></div>
+    <div class="controls">WASD / Arrow：移動　Shift：快走　E：互動　R：重置</div>
+  </header>
+  <main id="world" tabindex="0" aria-label="Clinic Kitchen walkthrough">
+    <div id="camera">
+      <section class="room clinic">
+        <h2>診間 CLINIC</h2>
+        <div class="desk prop">醫師桌＋電腦</div>
+        <div class="patient-chair prop">病人椅</div>
+        <div class="printer prop">印表機</div>
+        <div class="sink prop">洗手台</div>
       </section>
-
-      <aside class="right-panel panel">
-        <div class="section-title-row">
-          <h3>今日紀錄</h3>
-          <span id="scorePill" class="pill">0 pts</span>
-        </div>
-        <div class="stat-box"><span>已完成訂單</span><strong id="ordersDone">0</strong></div>
-        <div class="stat-box"><span>最高連續成功</span><strong id="bestStreak">0</strong></div>
-        <div class="stat-box"><span>目前狀態</span><strong id="statusText">門診尚未開始</strong></div>
-        <div class="mini-manifest">
-          <p class="tiny-label">TODAY'S SHIFT</p>
-          <ul>
-            <li>3 位可選醫師</li>
-            <li>6 類病人 NPC</li>
-            <li>問診 → 料理處方 → 後廚執行</li>
-            <li>備料 → 火候 → 甩鍋 → 上菜</li>
-            <li>Craving / Focus 雙資源</li>
-            <li>3 種角色 Ultimate</li>
-          </ul>
-        </div>
-      </aside>
-    </section>
-
-    <section id="audioSettingsPanel" class="audio-panel is-hidden" aria-labelledby="audioPanelTitle">
-      <div class="section-title-row">
-        <div><p class="eyebrow">AUDIO &amp; VOLUME MIXER</p><h2 id="audioPanelTitle">音效與音樂控制</h2></div>
-        <button id="closeAudioBtn" class="ghost-btn" type="button">關閉</button>
-      </div>
-      <div class="audio-controls-grid">
-        <div class="audio-control-row"><label for="masterVolSlider"><span>主音量 (Master)</span><strong id="masterVolText">80%</strong></label><input id="masterVolSlider" type="range" min="0" max="100" value="80" /></div>
-        <div class="audio-control-row"><label for="musicVolSlider"><span>門診背景音樂 (BGM)</span><strong id="musicVolText">40%</strong></label><input id="musicVolSlider" type="range" min="0" max="100" value="40" /></div>
-        <div class="audio-control-row"><label for="sfxVolSlider"><span>料理動作音效 (SFX)</span><strong id="sfxVolText">80%</strong></label><input id="sfxVolSlider" type="range" min="0" max="100" value="80" /></div>
-        <div class="audio-action-row"><button id="bgmToggleBtn" class="primary-btn" type="button">背景音樂：播放中</button></div>
-      </div>
-    </section>
-
-    <section id="artGallery" class="art-gallery is-hidden">
-      <div class="section-title-row">
-        <div><p class="eyebrow">REALISTIC ART DIRECTION</p><h2>CK 正式美術設計</h2></div>
-        <button id="closeArtBtn" class="ghost-btn" type="button">關閉</button>
-      </div>
-      <div class="gallery-grid">
-        <figure><img src="assets/art_direction/source_of_truth/doctor_concepts.avif" alt="三位醫師正式角色設計" /><figcaption>Playable Doctors｜正式主角設定</figcaption></figure>
-        <figure><img src="assets/art_direction/source_of_truth/clinic_layout.avif" alt="正式診間規劃" /><figcaption>Clinic Layout｜診間 source of truth</figcaption></figure>
-        <figure><img src="assets/art_direction/source_of_truth/cooking_mode.avif" alt="正式診間料理模式" /><figcaption>Cooking Mode｜Same Clinic, Different Flavors</figcaption></figure>
-        <figure><img src="assets/art_direction/source_of_truth/props_station.avif" alt="麻婆豆腐正式材料與道具" /><figcaption>Props &amp; Ingredients｜備料與 station</figcaption></figure>
-        <figure><img src="assets/art_direction/source_of_truth/patient_npcs.avif" alt="病人正式角色設計" /><figcaption>Patient NPCs｜六位病人設定</figcaption></figure>
-      </div>
-    </section>
-
-    <section id="resultModal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
-      <div class="modal-card"><p class="tiny-label">ORDER COMPLETE</p><h2 id="resultTitle">完成！</h2><p id="resultText"></p><div id="resultScore" class="result-score">+0</div><button id="nextPatientBtn" class="primary-btn wide" type="button">下一位病人</button></div>
-    </section>
-    <footer class="game-footer">遊戲中的麻婆豆腐為喜劇世界觀設定，並非戒菸治療或醫療建議。｜鍵盤：Space = timing、U = Ultimate</footer>
+      <section class="room prep">
+        <h2>過渡／備料 PREP</h2>
+        <div class="fridge prop">冰箱</div>
+        <div class="trolley prop">不鏽鋼推車</div>
+        <div class="order-printer prop">料理處方機</div>
+      </section>
+      <section class="room kitchen">
+        <h2>後廚 KITCHEN</h2>
+        <div class="counter prop">備料檯</div>
+        <div class="spice prop">香料架</div>
+        <div class="wok prop">炒鍋爐台</div>
+        <div class="rice prop">飯鍋</div>
+      </section>
+      <div id="player" class="player" aria-label="player"><div class="head"></div><div class="body"></div></div>
+    </div>
+    <div id="prompt" class="prompt">走到物件旁按 E 互動</div>
   </main>
-
-  <script type="module" src="src/game.js"></script>
-  <script type="module" src="src/art-direction.js"></script>
+  <aside class="mission">
+    <h3>M0 成功條件</h3>
+    <p>不看說明，也能理解前面是診間、中間是備料過渡區、後面是廚房，而且三區屬於同一個空間。</p>
+    <ol><li>走到病人椅</li><li>走到料理處方機</li><li>走到冰箱</li><li>走到炒鍋</li></ol>
+    <div id="log">尚未互動</div>
+  </aside>
+</div>
+<script type="module" src="src/main.js"></script>
 </body>
 </html>
