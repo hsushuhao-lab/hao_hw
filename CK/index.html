@@ -3,13 +3,15 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Clinic Kitchen 2.0 — Environment Walkthrough</title>
-<link rel="stylesheet" href="styles.css?v=20260918-art2"/>
+<title>Clinic Kitchen 2.0 — R2 Verified Prototype</title>
+<link rel="icon" href="data:,"/>
+<link rel="stylesheet" href="styles.css?v=r2-20260918"/>
+<link rel="stylesheet" href="r2-fixes.css?v=r2-20260918"/>
 </head>
 <body>
 <div id="app">
   <header class="hud">
-    <div><strong>CLINIC KITCHEN 2.0</strong><span>M0.3 · REALISTIC ART PASS</span></div>
+    <div><strong>CLINIC KITCHEN 2.0</strong><span>R2 · 2D 功能原型｜非 3D 成品</span></div>
     <div class="controls">WASD / Arrow：移動　Shift：快走　E：互動　R：重置</div>
   </header>
   <main id="world" tabindex="0" aria-label="Clinic Kitchen walkthrough">
@@ -37,23 +39,24 @@
       <div id="player" class="player" aria-label="值班醫師"><div class="doctor-model"><div class="hair"></div><div class="face"><span class="glasses"></span></div><div class="coat"><span class="shirt"></span><span class="badge">DR</span></div><div class="legs"></div></div></div>
     </div>
     <div id="prompt" class="prompt">走到物件旁按 E 互動</div>
+  <details class="mission">
+    <summary>探索任務與紀錄</summary>
+    <p>不看說明，也能理解前面是診間、中間是備料過渡區、後面是廚房，而且三區屬於同一個空間。</p>
+    <ol><li>走到病人椅</li><li>走到料理處方機</li><li>走到冰箱</li><li>走到炒鍋</li></ol>
+    <div id="log">尚未互動</div>
+  </details>
   </main>
 
-  <section id="cookingDeck" class="cooking-deck" aria-label="備料與煮菜操作區">
-    <div class="cook-head"><div><span>LOWER WORKBENCH</span><h2>備料・煮菜</h2></div><strong id="cookObjective">先在上方走到後廚炒鍋旁</strong></div>
+  <section id="cookingDeck" class="cooking-deck" aria-label="備料與煮菜操作區" tabindex="0">
+    <div class="cook-head"><div><span>LOWER WORKBENCH</span><h2>備料・煮菜</h2></div><strong id="cookObjective">備妥豆腐、絞肉、豆瓣醬、蒜，再開火下鍋</strong></div>
     <div class="cook-columns">
       <div class="prep-bench"><h3>備料 PREP</h3><div class="ingredient-tray"><button data-food="tofu"><i class="food-art tofu-art"></i><span>豆腐</span></button><button data-food="pork"><i class="food-art pork-art"></i><span>絞肉</span></button><button data-food="douban"><i class="food-art douban-art"></i><span>豆瓣醬</span></button><button data-food="garlic"><i class="food-art garlic-art"></i><span>蒜</span></button><button data-food="pepper"><i class="food-art pepper-art"></i><span>花椒</span></button><button data-food="scallion"><i class="food-art scallion-art"></i><span>青蔥</span></button></div><div class="board"><div id="boardFood">砧板空著</div><button id="cutBtn" disabled>切配</button></div></div>
       <div class="wok-bench"><h3>炒鍋 WOK</h3><div class="wok-visual"><div class="steam steam-a"></div><div class="steam steam-b"></div><div id="flame" class="flame"><span></span><span></span><span></span></div><div class="wok-rim"></div><div id="wokContents">空鍋</div></div><div class="wok-actions"><button id="heatBtn">開火</button><button id="addBtn" disabled>下鍋</button><button id="stirBtn" disabled>翻炒</button><button id="plateBtn" disabled>盛盤</button></div></div>
       <div class="cook-log"><h3>料理紀錄</h3><ol id="recipeLog"><li>等待開始</li></ol></div>
     </div>
   </section>
-  <aside class="mission">
-    <h3>M0 成功條件</h3>
-    <p>不看說明，也能理解前面是診間、中間是備料過渡區、後面是廚房，而且三區屬於同一個空間。</p>
-    <ol><li>走到病人椅</li><li>走到料理處方機</li><li>走到冰箱</li><li>走到炒鍋</li></ol>
-    <div id="log">尚未互動</div>
-  </aside>
+
 </div>
-<script src="src/main.js?v=20260918-art2"></script>
+<script src="src/main.js?v=r2-20260918"></script>
 </body>
 </html>

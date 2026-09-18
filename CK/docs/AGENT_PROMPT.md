@@ -1,252 +1,42 @@
-# AGENT MASTER PROMPT — CLINIC KITCHEN 2.0
+# AGENT 執行指令 — Clinic Kitchen R2
 
-## ROLE
-You are the lead game engineer, technical artist, gameplay designer, and release engineer for Clinic Kitchen 2.0.
+先讀 CK/README.md、docs/R2_MIGRATION.md。本repo是原型修復與交班來源；完整source R2包另外含七張美術原圖、閱覽頁、候選圖、manifest與推送腳本。
 
-## REPOSITORY / BRANCH POLICY
-Repository: hsushuhao-lab/hao_hw
-ACTIVE BRANCH: main ONLY.
-Do not create feature branches.
-Do not reopen or depend on ck-game.
-Do not rewrite history or force-push main unless explicitly instructed.
+## 目前真實狀態
+這是一個CSS／DOM 2D原型，不是3D建模。R2新增24項Chromium行為檢查；它們只涵蓋版面、移動、食材與翻炒條件、關火、盛盤、重置。上方站點與下方料理目前獨立運作，沒有病人問診—處方—搬運—第一口。不得用舊版的PASS宣稱替代檢查。
 
-## PROJECT GOAL
-Build a polished, believable third-person clinic-cooking game where the front half is a real outpatient consultation room, the middle is a transition/prep zone, and the rear is a real kitchen for cooking mapo tofu.
+## 分支與發布
+僅在main工作，不另建feature branch，不force push。新repo預定hsushuhao-lab/clinic-kitchen-2，目前未確認可存取。不能把舊repo更新稱為新repo發布成功。遇403／404要停在相應權限步驟；不得用舊repo token繞過建立／管理權限。
+完整下載包在新repo根目錄使用src/main.js；此舊repo使用CK/src/main.js。不能把整包root覆蓋到hao_hw根目錄。
 
-The game must feel like one continuous physical place, not a dashboard or collection of UI cards.
+## 先跑回歸
+```sh
+cd CK
+python tests/smoke_test.py
+python -m pip install playwright==1.57.0
+python -m playwright install chromium
+python -m http.server 8000 --bind 127.0.0.1
+# 第二個terminal
+python tests/browser_qa.py --base-url http://127.0.0.1:8000/
+```
+離線inline模式不是HTTP／CDN驗證。看1440×900、768×1024、390×844截圖，不能只看語法檢查或HTTP 200。
 
-## CURRENT APPROVED STRUCTURE
-Upper half = player movement / exploration / clinic-to-kitchen traversal.
-Lower half = prep + cooking workbench.
+## 已核准的遊戲／美術規格
+上方主角移動與探索，下方備料／煮菜。前半真實診間，中間清潔與備料過渡，後半固定存在的廚房。三區真正在同一空間，人物需走得過去。不是魔法換背景，也不是普通餐廳。
+精緻寫實成人比例，不能Q版、扁平SVG、emoji或貼照片冒充模型。先DR.SPEED：黑髮、透明框眼鏡、白袍、淺色內搭；正反側與3/4設定；實際模型、骨架、材質；idle/walk/sit/talk/pickup/carry/prep/cook/serve。一次先驗收一位，之後才做藍襯衫的DR.HEAT與圓框眼鏡／米色內搭／綠口罩元素的DR.STRATEGY。不得從真人照片推論姓名或真人能力。
+每位角色、每個場景、每項食材分別製作與交檔。完整PNG是視覺參考，不是可貼滿整個畫面充當實機遊戲的素材。候選WebP只是舊圖，不是完成的模型。最新寫實UI board與最新使用者要求優先於舊圖裡Q版與醫療功效標語。
 
-Keep this structure unless a change is clearly necessary for usability.
+## 第一條可玩鏈
+一位病人入座 → 問需求 → 寫料理訂單與列印 → 走到後廚 → 冰箱／櫃子取材 → 豆腐／蔥蒜備料 → 炒鍋料理 → 盛飯盛菜 → 托盤端回 → 病人第一口 → 反應結算。
+只有一位主角、一位病人、一碗麻婆豆腐；驗收前不加第二道菜與無關功能。
 
-## CORE EXPERIENCE
-Frozen loop:
-1. Enter / move through clinic.
-2. Approach patient and consult.
-3. Read patient craving, stress, hunger, and food preference.
-4. Write and print a cooking prescription.
-5. Walk from clinic to prep zone.
-6. Collect ingredients.
-7. Perform tofu/scallion prep.
-8. Cook mapo tofu in wok.
-9. Plate with rice.
-10. Carry dish back to clinic.
-11. Serve patient.
-12. Show first-bite reaction and state change.
+## 工程規則
+先提出最小即時3D引擎與部署方案，再實作有幾何、碰撞、材質和光線的診間—過渡區—後廚。不是再改CSS標題。
+每個bug先建立能重現的測試；保持R2缺豆腐／翻炒次數／關火／全重置／二次遊玩／窄螢幕回歸。上方站點與下方操作必須共享任務狀態。料理需看到食材與鍋內變化，不再只是串多條timing bar。
+原稿以完整解碼、尺寸、SHA-256驗證，不用幾KB門檻冒充完整性。CI、視覺驗收、完整素材上傳與新repo建立分開報告。
 
-## FIRST VERTICAL SLICE
-Only one doctor, one patient, one dish until the whole chain is fun.
+## 隱私
+原始真人照片、舊ZIP、歷史QA在private-history封包，不上傳本公開repo，不部署到靜態網站。來源不明不自行指定開源授權。
 
-### Doctor
-Use DR. SPEED first.
-Target visual: refined semi-realistic / photorealistic-stylized 3D.
-Preserve visual identity cues from approved art/reference:
-- short dark hair
-- glasses
-- white coat
-- realistic adult proportions
-- professional clinical appearance
-
-Do not use chibi, flat SVG cartoon, anime styling, emoji characters, or concept-sheet crops as final assets.
-
-### Patient
-One seated adult patient first.
-Must show craving through body language:
-- low: calm posture
-- medium: fidget / leg movement / looking around
-- high: restless, checking time, hands moving
-- critical: visibly distressed / about to leave
-
-HUD values may exist, but body language must communicate state.
-
-## ENVIRONMENT DESIGN
-### Zone A — Clinic
-Must read unmistakably as a real outpatient clinic:
-- doctor desk
-- EMR monitor
-- printer
-- patient chair
-- medical drawers/storage
-- sink
-- wall notices / posters
-- fluorescent clinical lighting
-- believable materials and proportions
-
-### Zone B — Transition / Prep
-This is the bridge between clinic and kitchen:
-- handwashing
-- stainless trolley
-- refrigerator
-- ingredient storage
-- cooking-prescription printer
-- apron / tool station
-
-### Zone C — Kitchen
-Must look like a real compact professional kitchen:
-- stainless counter
-- cutting board
-- knife
-- wok / burner
-- ventilation hood
-- spice shelf
-- rice cooker / serving area
-- steam, heat, oil and sauce feedback
-
-Never turn it into a restaurant dining room.
-
-## LOWER COOKING WORKBENCH
-Keep the lower half focused on tactile cooking:
-- ingredient selection with real food visuals
-- cutting / prep state
-- wok heat state
-- ingredient order
-- stir / simmer / thicken
-- plating
-
-Replace placeholder CSS art progressively with production-quality visual assets.
-
-The player should look at food and cookware, not a timing meter.
-
-## MAPO TOFU RECIPE
-Primary ingredients:
-- tofu
-- minced pork
-- doubanjiang
-- garlic
-- Sichuan pepper
-- scallion
-- optional chili
-- starch slurry
-- rice
-
-Desired cooking sequence:
-1. heat wok
-2. add oil
-3. aromatics
-4. minced pork
-5. doubanjiang
-6. tofu
-7. stock / simmer
-8. starch slurry
-9. Sichuan pepper / scallion
-10. plate with rice
-
-Use visible state changes:
-- meat browning
-- sauce turning deep red
-- steam
-- tofu integrity
-- sauce viscosity
-- flame intensity
-
-## ART DIRECTION
-Target:
-- realistic stylized 3D
-- cinematic but clean
-- believable clinic lighting in front
-- warmer cooking light in rear
-- stainless steel, painted wall, vinyl floor, wood cutting board
-- detailed food rendering
-- real human proportions
-
-Do not fake completion with CSS rectangles alone.
-CSS may remain as temporary blockout only.
-
-## CAMERA
-Exploration:
-- third-person over-the-shoulder
-
-Consultation:
-- cinematic two-shot
-
-Prep:
-- station camera / close-up
-
-Knife:
-- close-up workbench view
-
-Wok:
-- 45-degree cooking close-up
-
-Serve:
-- short cinematic carry/serve payoff
-
-## UX PRINCIPLES
-- World-first, HUD-second.
-- Avoid dashboard feel.
-- Keep interaction prompts contextual.
-- Keep readable bilingual labels where needed.
-- Preserve current upper-movement / lower-cooking separation until production assets are mature.
-- Do not add a second recipe.
-- Do not add more patients until the first vertical slice is enjoyable.
-
-## ENGINEERING REQUIREMENTS
-- main branch only.
-- Keep CK/ as active project root.
-- Make small verifiable commits.
-- Never claim success without checking the live build.
-- After each meaningful change:
-  1. run Python smoke test
-  2. run node --check on JS
-  3. serve CK via local HTTP in CI
-  4. verify index.html and JS are reachable
-- Maintain .github/workflows/ck2-main-qa.yml.
-- Update tests when new required UI/game states are introduced.
-- Use cache-busting query strings when runtime assets change and stale CDN content is possible.
-
-## RELEASE GATES
-### Gate A — Technical
-- page loads
-- keyboard movement works
-- interactions work
-- lower cooking workbench works
-- no JS syntax errors
-
-### Gate B — Spatial
-Without instructions, player can identify:
-- clinic
-- transition/prep
-- kitchen
-
-### Gate C — Visual
-- no final chibi/cartoon placeholders
-- no concept-sheet crop presented as production character
-- clinic and kitchen feel physically coherent
-- food looks appetizing and believable
-
-### Gate D — Gameplay
-The full first-patient chain works:
-consult → prescription → prep → cook → plate → serve → first bite
-
-## CURRENT PRIORITY ORDER
-P0. Production environment art pass
-P1. DR. SPEED production character
-P2. One patient + consultation state
-P3. Cooking prescription interaction
-P4. Real ingredient / knife / wok visuals
-P5. Plate + carry + first bite
-P6. Polish audio, camera, animation
-P7. Only then consider additional doctors/patients
-
-## DEFINITION OF DONE FOR NEXT RELEASE
-Do not call the next release complete unless:
-- main loads from the public playable URL
-- QA workflow passes on the same HEAD
-- upper half has believable movement scene
-- lower half has functional prep and cooking
-- at least one doctor and one patient visually fit the approved semi-realistic direction
-- no known regression is hidden in documentation
-
-## REPORTING FORMAT
-After implementation, report:
-1. exact main commit SHA
-2. files changed
-3. gameplay changes
-4. visual changes
-5. QA workflow run URL + conclusion
-6. public play URL
-7. remaining known limitations
-
-Do not report “done” if any of the above has not been verified.
+## 回報
+精確main SHA、實際修改、測試結果、同一SHA的CI、各尺寸截圖、真正開過的試玩網址、模型／素材manifest、尚未完成項目。沒有看過實機就不能稱為試玩；只有原型bugfix不能稱為精緻3D遊戲完成。

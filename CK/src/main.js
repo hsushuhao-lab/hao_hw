@@ -1,16 +1,136 @@
-const world=document.getElementById('world');const camera=document.getElementById('camera');const player=document.getElementById('player');const log=document.getElementById('log');const prompt=document.getElementById('prompt');
-let x=250,y=470;const keys=new Set();const props=[...document.querySelectorAll('.prop')];const visited=new Set();
-function clamp(v,a,b){return Math.max(a,Math.min(b,v))}function rect(el){return {x:el.offsetLeft,y:el.offsetTop,w:el.offsetWidth,h:el.offsetHeight}}
-function nearProp(){const px=x+21,py=y+43;let best=null,bd=1e9;for(const p of props){const r=rect(p);const cx=p.parentElement.offsetLeft+r.x+r.w/2,cy=p.parentElement.offsetTop+r.y+r.h/2;const d=Math.hypot(px-cx,py-cy);if(d<bd){bd=d;best=p}}return bd<120?best:null}
-function move(){const speed=keys.has('shift')?5.2:3.1;if(keys.has('w')||keys.has('arrowup'))y-=speed;if(keys.has('s')||keys.has('arrowdown'))y+=speed;if(keys.has('a')||keys.has('arrowleft'))x-=speed;if(keys.has('d')||keys.has('arrowright'))x+=speed;x=clamp(x,60,1695);y=clamp(y,130,565);player.style.left=x+'px';player.style.top=y+'px';const vw=world.clientWidth,vh=world.clientHeight;const cx=clamp(x-vw/2+120,0,1800-vw),cy=clamp(y-vh/2+60,0,760-vh);camera.style.transform=`translate(calc(-50% - ${cx}px),calc(-50% - ${cy}px))`;const p=nearProp();prompt.textContent=p?'E — '+p.textContent:'WASD 移動｜靠近物件按 E';requestAnimationFrame(move)}
-addEventListener('keydown',e=>{keys.add(e.key.toLowerCase());if(e.key.toLowerCase()==='e'){const p=nearProp();if(p){visited.add(p.textContent);log.textContent='互動：'+p.textContent+'｜已探索 '+visited.size+' 個重點';p.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:260})}}if(e.key.toLowerCase()==='r'){x=250;y=470;visited.clear();log.textContent='已重置'}});addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));world.addEventListener('pointerdown',()=>world.focus());
-world.focus();move();
-const foodButtons=[...document.querySelectorAll('[data-food]')],boardFood=document.getElementById('boardFood'),cutBtn=document.getElementById('cutBtn'),heatBtn=document.getElementById('heatBtn'),addBtn=document.getElementById('addBtn'),stirBtn=document.getElementById('stirBtn'),plateBtn=document.getElementById('plateBtn'),wokContents=document.getElementById('wokContents'),recipeLog=document.getElementById('recipeLog'),flame=document.getElementById('flame'),cookObjective=document.getElementById('cookObjective');
-const foodNames={tofu:'豆腐',pork:'絞肉',douban:'豆瓣醬',garlic:'蒜',pepper:'花椒',scallion:'青蔥'};let selectedFood=null,prepped=new Set(),heated=false,inWok=[],stirs=0;
-function cookLog(t){if(recipeLog.children.length===1&&recipeLog.textContent.includes('等待'))recipeLog.innerHTML='';const li=document.createElement('li');li.textContent=t;recipeLog.append(li);recipeLog.scrollTop=recipeLog.scrollHeight}
-foodButtons.forEach(b=>b.addEventListener('click',()=>{foodButtons.forEach(x=>x.classList.remove('is-selected'));b.classList.add('is-selected');selectedFood=b.dataset.food;boardFood.textContent=foodNames[selectedFood]+' 已放上砧板';cutBtn.disabled=false;cookObjective.textContent='備料：'+foodNames[selectedFood]}));
-cutBtn.addEventListener('click',()=>{if(!selectedFood)return;prepped.add(selectedFood);document.querySelector('[data-food="'+selectedFood+'"]').classList.add('is-prepped');boardFood.textContent=foodNames[selectedFood]+' 已備妥';cookLog('備料完成：'+foodNames[selectedFood]);addBtn.disabled=!heated;cutBtn.disabled=true});
-heatBtn.addEventListener('click',()=>{heated=!heated;flame.classList.toggle('is-on',heated);heatBtn.textContent=heated?'關火':'開火';cookLog(heated?'炒鍋升溫':'關火');addBtn.disabled=!heated||prepped.size===0;cookObjective.textContent=heated?'鍋熱了：把備好的材料下鍋':'先開火'});
-addBtn.addEventListener('click',()=>{if(!heated||prepped.size===0)return;for(const id of prepped){if(!inWok.includes(id))inWok.push(id)}wokContents.textContent=inWok.map(x=>foodNames[x]).join('＋');cookLog('下鍋：'+wokContents.textContent);stirBtn.disabled=false;plateBtn.disabled=inWok.length<4;cookObjective.textContent='觀察鍋內，開始翻炒'});
-stirBtn.addEventListener('click',()=>{stirs++;wokContents.animate([{transform:'translateX(-8px) rotate(-2deg)'},{transform:'translateX(8px) rotate(2deg)'},{transform:'none'}],{duration:300});cookLog('翻炒 '+stirs+' 次');if(stirs>=3&&inWok.length>=4){plateBtn.disabled=false;cookObjective.textContent='香氣出來了，可以盛盤'}});
-plateBtn.addEventListener('click',()=>{if(plateBtn.disabled)return;wokContents.textContent='麻婆豆腐完成';cookLog('完成：麻婆豆腐盛盤');cookObjective.textContent='下一步：端回上方診間給病人';plateBtn.disabled=true;stirBtn.disabled=true;addBtn.disabled=true});
+'use strict';
+// Playable 2D prototype. This is not the planned 3D character/environment build.
+const $ = id => document.getElementById(id);
+const world = $('world'), camera = $('camera'), player = $('player');
+const keys = new Set(), visited = new Set();
+const props = [...document.querySelectorAll('.prop')];
+const foodButtons = [...document.querySelectorAll('[data-food]')];
+const foodNames = {tofu:'豆腐', pork:'絞肉', douban:'豆瓣醬', garlic:'蒜', pepper:'花椒', scallion:'青蔥'};
+const required = ['tofu', 'pork', 'douban', 'garlic'];
+const prepped = new Set(), inWok = new Set();
+let x = 250, y = 470, previousTime = 0;
+let selectedFood = null, heated = false, stirs = 0, plated = false;
+const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
+
+function propRect(prop) {
+  return {x:prop.parentElement.offsetLeft + prop.offsetLeft,
+    y:prop.parentElement.offsetTop + prop.offsetTop,
+    w:prop.offsetWidth, h:prop.offsetHeight};
+}
+function nearProp() {
+  const px = x + player.offsetWidth / 2, py = y + player.offsetHeight - 10;
+  let nearest = null, distance = 100;
+  for (const prop of props) {
+    const r = propRect(prop);
+    const d = Math.hypot(px - clamp(px, r.x, r.x + r.w), py - clamp(py, r.y, r.y + r.h));
+    if (d < distance) { nearest = prop; distance = d; }
+  }
+  return nearest;
+}
+function canStand(nx, ny) {
+  // Feet collide with furniture; the upper-body drawing can overlap it.
+  const feet = {x:nx + 14, y:ny + player.offsetHeight - 18, w:34, h:16};
+  return props.every(prop => {
+    const r = propRect(prop);
+    return feet.x + feet.w <= r.x || feet.x >= r.x + r.w ||
+      feet.y + feet.h <= r.y || feet.y >= r.y + r.h;
+  });
+}
+function move(now) {
+  const dt = previousTime ? Math.min((now - previousTime) / 1000, 0.05) : 0;
+  previousTime = now;
+  let dx = Number(keys.has('d') || keys.has('arrowright')) - Number(keys.has('a') || keys.has('arrowleft'));
+  let dy = Number(keys.has('s') || keys.has('arrowdown')) - Number(keys.has('w') || keys.has('arrowup'));
+  const length = Math.hypot(dx, dy) || 1;
+  const speed = keys.has('shift') ? 312 : 186;
+  const nx = clamp(x + dx / length * speed * dt, 40, 1760 - player.offsetWidth);
+  const ny = clamp(y + dy / length * speed * dt, 90, 620 - player.offsetHeight);
+  if (canStand(nx, y)) x = nx;
+  if (canStand(x, ny)) y = ny;
+  player.style.left = `${x}px`; player.style.top = `${y}px`;
+  const cx = clamp(x + player.offsetWidth / 2 - world.clientWidth / 2, 0, Math.max(0,1800 - world.clientWidth));
+  const cy = clamp(y + player.offsetHeight / 2 - world.clientHeight / 2, 0, Math.max(0,760 - world.clientHeight));
+  camera.style.transform = `translate(${-cx}px, ${-cy}px)`;
+  const nearby = nearProp();
+  $('prompt').textContent = nearby ? `E — ${nearby.textContent.trim()}` : 'WASD 移動｜靠近物件按 E';
+  requestAnimationFrame(move);
+}
+function cookLog(text) {
+  const list = $('recipeLog');
+  if (list.textContent.includes('等待開始')) list.replaceChildren();
+  const line = document.createElement('li'); line.textContent = text; list.append(line);
+  list.scrollTop = list.scrollHeight;
+}
+function updateCooking() {
+  const ready = required.every(id => inWok.has(id));
+  foodButtons.forEach(button => {
+    const id = button.dataset.food;
+    button.classList.toggle('is-selected', selectedFood === id);
+    button.classList.toggle('is-prepped', prepped.has(id) || inWok.has(id));
+    button.disabled = plated || inWok.has(id);
+  });
+  $('cutBtn').disabled = plated || !selectedFood || prepped.has(selectedFood) || inWok.has(selectedFood);
+  $('heatBtn').disabled = plated;
+  $('heatBtn').textContent = heated ? '關火' : '開火';
+  $('addBtn').disabled = plated || !heated || prepped.size === 0;
+  $('stirBtn').disabled = plated || !heated || inWok.size === 0;
+  $('plateBtn').disabled = plated || !heated || !ready || stirs < 3;
+  $('flame').classList.toggle('is-on', heated);
+  document.querySelector('.wok-visual').classList.toggle('is-cooking', heated && inWok.size > 0);
+  $('wokContents').textContent = plated ? '麻婆豆腐完成' : inWok.size ? [...inWok].map(id => foodNames[id]).join('＋') : '空鍋';
+  $('cookObjective').textContent = plated ? '原型盛盤完成｜R 重新開始；病人上菜尚未實作' :
+    !inWok.size ? '備妥豆腐、絞肉、豆瓣醬、蒜，再開火下鍋' :
+    !ready ? `尚缺：${required.filter(id => !inWok.has(id)).map(id => foodNames[id]).join('、')}` :
+    !heated ? '重新開火才能翻炒' : stirs < 3 ? `翻炒 ${stirs} / 3 次` : '可以盛盤';
+}
+function resetAll() {
+  x = 250; y = 470; previousTime = 0; keys.clear(); visited.clear();
+  selectedFood = null; prepped.clear(); inWok.clear(); heated = false; stirs = 0; plated = false;
+  $('boardFood').textContent = '砧板空著'; $('recipeLog').innerHTML = '<li>等待開始</li>';
+  $('log').textContent = '已重置：探索與料理狀態皆已清空'; updateCooking();
+}
+foodButtons.forEach(button => button.addEventListener('click', () => {
+  selectedFood = button.dataset.food;
+  $('boardFood').textContent = `${foodNames[selectedFood]} ${prepped.has(selectedFood) ? '已備妥' : '已放上砧板'}`;
+  updateCooking();
+}));
+$('cutBtn').addEventListener('click', () => {
+  if ($('cutBtn').disabled) return;
+  prepped.add(selectedFood); $('boardFood').textContent = `${foodNames[selectedFood]} 已備妥`;
+  cookLog(`備料完成：${foodNames[selectedFood]}`); updateCooking();
+});
+$('heatBtn').addEventListener('click', () => { heated = !heated; cookLog(heated ? '炒鍋升溫' : '關火'); updateCooking(); });
+$('addBtn').addEventListener('click', () => {
+  if ($('addBtn').disabled) return;
+  cookLog(`下鍋：${[...prepped].map(id => foodNames[id]).join('、')}`);
+  prepped.forEach(id => inWok.add(id)); prepped.clear(); selectedFood = null; stirs = 0;
+  $('boardFood').textContent = '砧板空著'; updateCooking();
+});
+$('stirBtn').addEventListener('click', () => {
+  if ($('stirBtn').disabled) return;
+  stirs++; cookLog(`翻炒 ${stirs} 次`);
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    $('wokContents').animate([{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'none'}],{duration:250});
+  }
+  updateCooking();
+});
+$('plateBtn').addEventListener('click', () => {
+  if ($('plateBtn').disabled) return;
+  plated = true; heated = false; cookLog('原型完成：麻婆豆腐盛盤'); updateCooking();
+});
+const movementKeys = new Set(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright','shift']);
+addEventListener('keydown', event => {
+  if (event.target.matches('input,textarea,select,[contenteditable="true"]')) return;
+  const key = event.key.toLowerCase();
+  if (movementKeys.has(key)) { event.preventDefault(); keys.add(key); }
+  if (event.repeat) return;
+  if (key === 'r') resetAll();
+  if (key === 'e') {
+    const prop = nearProp();
+    if (prop) { const name = prop.textContent.trim(); visited.add(name); $('log').textContent = `互動：${name}｜已探索 ${visited.size} 個重點`; }
+  }
+});
+addEventListener('keyup', event => keys.delete(event.key.toLowerCase()));
+addEventListener('blur', () => { keys.clear(); previousTime = 0; });
+world.addEventListener('pointerdown', event => { if (!event.target.closest('details,button,a')) world.focus({preventScroll:true}); });
+resetAll(); requestAnimationFrame(move);

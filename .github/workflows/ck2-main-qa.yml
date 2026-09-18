@@ -1,4 +1,4 @@
-name: CK2 main playable QA
+name: CK2 main verified browser QA
 on:
   push:
     branches: [main]
@@ -9,19 +9,26 @@ permissions:
 jobs:
   qa:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
-      - name: Static smoke test
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - name: Install browser verification tools
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install --with-deps chromium
+      - name: Static smoke and syntax
         run: python CK/tests/smoke_test.py
-      - name: JavaScript syntax
-        run: node --check CK/src/main.js
-      - name: Serve build
+      - name: Real browser checks over HTTP
         run: |
-          python -m http.server 8000 --directory CK > /tmp/ck2-http.log 2>&1 &
-          echo $! > /tmp/ck2-http.pid
+          python -m http.server 8000 --bind 127.0.0.1 --directory CK > /tmp/ck2-http.log 2>&1 &
           sleep 2
-      - name: HTTP entrypoint check
-        run: |
-          curl --fail --silent --show-error http://127.0.0.1:8000/index.html | grep -q "CLINIC KITCHEN 2.0"
-          curl --fail --silent --show-error http://127.0.0.1:8000/src/main.js | grep -q "requestAnimationFrame"
+          python CK/tests/browser_qa.py --base-url http://127.0.0.1:8000/ --output review
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: CK2-R2-browser-evidence
+          path: review/
+          retention-days: 14
