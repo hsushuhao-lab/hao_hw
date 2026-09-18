@@ -1,3 +1,16 @@
+## CK 2.0 — Rebuild Start
+
+Status: **STARTED / DESIGN LOCKED / SHELL UPDATED**
+
+Published:
+- new mission framing for the vertical slice;
+- clinic → prep → kitchen spatial flow;
+- realistic environment baseline remains active;
+- rebuild plan committed at `docs/CK2_REBUILD_PLAN.md`.
+
+Next implementation gate:
+**DR. SPEED + one patient + recipe prescription + ingredient pickup + tofu cutting + wok cooking + serve + first bite.**
+
 ## v0.6 — Realistic Clinic-Kitchen Rebuild
 
 Status: **IN PROGRESS — ENVIRONMENT PASS PUBLISHED**

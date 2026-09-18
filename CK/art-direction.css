@@ -200,3 +200,20 @@ body{background:#dfe4e5;}
 .hero-copy h2,.hero-copy p{color:#fff;}
 @media(max-width:1100px){.game-grid{grid-template-columns:1fr}.left-panel,.right-panel{order:2}.center-panel{order:1}.clinic-stage{height:560px}.ingredient-grid{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:700px){.clinic-stage{height:430px;min-height:430px}.station-tag{font-size:.62rem;padding:5px 7px}.doctor-stage{width:36%;height:62%}.patient-stage{width:34%;height:55%}.ingredient-grid{grid-template-columns:repeat(2,1fr)}}
+
+
+/* CK 2.0 vertical-slice presentation */
+.mission-brief{
+  display:grid;grid-template-columns:1.1fr 1fr;gap:18px;align-items:center;
+  margin:0 0 16px;padding:18px 20px;background:#eef1f1;border:1px solid #c7d0d2;border-radius:10px;
+  box-shadow:0 8px 24px rgba(25,41,48,.08)
+}
+.mission-brief h2{margin:0;font-size:clamp(1.2rem,2vw,1.8rem);color:#243942}
+.mission-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.mission-flow span{padding:9px 10px;border-radius:6px;background:#f8f8f4;border:1px solid #cdd3d4;font-size:.78rem;font-weight:800;color:#334a54;text-align:center}
+.clinic-stage::after{
+  content:'CLINIC  →  PREP  →  KITCHEN';position:absolute;left:50%;bottom:8px;transform:translateX(-50%);
+  z-index:8;padding:6px 12px;border-radius:5px;background:rgba(20,32,38,.72);color:#fff;
+  font-size:.68rem;font-weight:800;letter-spacing:.14em
+}
+@media(max-width:760px){.mission-brief{grid-template-columns:1fr}.mission-flow{grid-template-columns:repeat(2,1fr)}}

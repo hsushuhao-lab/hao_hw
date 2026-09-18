@@ -1,3 +1,15 @@
+# CK 2.0 — Clinic Kitchen Rebuild
+
+**STATUS: ACTIVE REBUILD**
+
+The game is being rebuilt around a continuous third-person clinic → prep → kitchen → clinic loop.
+
+Read first: `docs/CK2_REBUILD_PLAN.md`
+
+Current milestone: **M1 — one doctor, one patient, one bowl of mapo tofu, from consultation to first bite.**
+
+The old dashboard/timing presentation remains only as compatibility scaffolding while the new physical interaction flow is implemented.
+
 # CK v0.6 — Realistic Clinic-Kitchen Rebuild
 
 **STATUS: ACTIVE REBUILD / FIRST REALISTIC ENVIRONMENT PUBLISHED**
