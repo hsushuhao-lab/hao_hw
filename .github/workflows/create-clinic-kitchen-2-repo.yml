@@ -1,0 +1,41 @@
+name: Create Clinic Kitchen repository
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/create-clinic-kitchen-2-repo.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  create-repository:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
+      TARGET_REPO: hsushuhao-lab/clinic-kitchen-2
+    steps:
+      - name: Check whether repository already exists
+        id: check
+        shell: bash
+        run: |
+          if gh repo view "$TARGET_REPO" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "$TARGET_REPO already exists."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Create private repository
+        if: steps.check.outputs.exists == 'false'
+        shell: bash
+        run: |
+          gh api --method POST /user/repos \
+            -f name='clinic-kitchen-2' \
+            -f description='Clinic Kitchen 2.0 — realistic clinic and mapo-tofu game' \
+            -F private=true \
+            -F has_issues=true \
+            -F has_projects=true \
+            -F has_wiki=false \
+            -F auto_init=true
+      - name: Verify repository
+        shell: bash
+        run: gh repo view "$TARGET_REPO" --json nameWithOwner,isPrivate,defaultBranchRef,url
