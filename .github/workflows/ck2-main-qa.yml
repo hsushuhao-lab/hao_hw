@@ -1,0 +1,27 @@
+name: CK2 main playable QA
+on:
+  push:
+    branches: [main]
+    paths: ['CK/**', '.github/workflows/ck2-main-qa.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static smoke test
+        run: python CK/tests/smoke_test.py
+      - name: JavaScript syntax
+        run: node --check CK/src/main.js
+      - name: Serve build
+        run: |
+          python -m http.server 8000 --directory CK > /tmp/ck2-http.log 2>&1 &
+          echo $! > /tmp/ck2-http.pid
+          sleep 2
+      - name: HTTP entrypoint check
+        run: |
+          curl --fail --silent --show-error http://127.0.0.1:8000/index.html | grep -q "CLINIC KITCHEN 2.0"
+          curl --fail --silent --show-error http://127.0.0.1:8000/src/main.js | grep -q "requestAnimationFrame"
