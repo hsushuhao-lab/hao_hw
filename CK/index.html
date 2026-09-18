@@ -38,6 +38,15 @@
     </div>
     <div id="prompt" class="prompt">走到物件旁按 E 互動</div>
   </main>
+
+  <section id="cookingDeck" class="cooking-deck" aria-label="備料與煮菜操作區">
+    <div class="cook-head"><div><span>LOWER WORKBENCH</span><h2>備料・煮菜</h2></div><strong id="cookObjective">先在上方走到後廚炒鍋旁</strong></div>
+    <div class="cook-columns">
+      <div class="prep-bench"><h3>備料 PREP</h3><div class="ingredient-tray"><button data-food="tofu">豆腐</button><button data-food="pork">絞肉</button><button data-food="douban">豆瓣醬</button><button data-food="garlic">蒜</button><button data-food="pepper">花椒</button><button data-food="scallion">青蔥</button></div><div class="board"><div id="boardFood">砧板空著</div><button id="cutBtn" disabled>切配</button></div></div>
+      <div class="wok-bench"><h3>炒鍋 WOK</h3><div class="wok-visual"><div id="flame" class="flame">🔥</div><div id="wokContents">空鍋</div></div><div class="wok-actions"><button id="heatBtn">開火</button><button id="addBtn" disabled>下鍋</button><button id="stirBtn" disabled>翻炒</button><button id="plateBtn" disabled>盛盤</button></div></div>
+      <div class="cook-log"><h3>料理紀錄</h3><ol id="recipeLog"><li>等待開始</li></ol></div>
+    </div>
+  </section>
   <aside class="mission">
     <h3>M0 成功條件</h3>
     <p>不看說明，也能理解前面是診間、中間是備料過渡區、後面是廚房，而且三區屬於同一個空間。</p>
