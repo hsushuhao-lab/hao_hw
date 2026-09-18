@@ -2,8 +2,9 @@
 // Gameplay logic remains in game.js. This file only replaces visible placeholder art.
 
 const ART_ROOT = 'assets/art_direction/source_of_truth';
+const PRODUCTION_ROOT = 'assets/production';
 const ART = {
-  clinic: `${ART_ROOT}/clinic_layout.avif`,
+  clinic: `${PRODUCTION_ROOT}/environments/clinic_scene.webp`,
   cooking: `${ART_ROOT}/cooking_mode.avif`,
   doctors: `${ART_ROOT}/doctor_concepts.avif`,
   props: `${ART_ROOT}/props_station.avif`,
@@ -20,7 +21,7 @@ function parseId(src, ids) {
 function canonicalizeStage(img) {
   if (!img) return;
   const src = img.getAttribute('src') || '';
-  if (src.includes('clinic_layout') && src !== ART.clinic) img.src = ART.clinic;
+  if ((src.includes('clinic_layout') || src.includes('clinic_scene')) && src !== ART.clinic) img.src = ART.clinic;
   if (src.includes('cooking_mode') && src !== ART.cooking) img.src = ART.cooking;
 }
 
@@ -115,9 +116,9 @@ function applyApprovedArt() {
   });
 
   const eyebrow = document.querySelector('.topbar .eyebrow');
-  if (eyebrow) eyebrow.textContent = 'CK v0.4.2 · APPROVED ART RUNTIME';
+  if (eyebrow) eyebrow.textContent = 'CK v0.6 · REALISTIC CLINIC KITCHEN';
 
-  document.documentElement.dataset.artDirection = 'approved-canonical-avif-2026-09-17';
+  document.documentElement.dataset.artDirection = 'realistic-clinic-kitchen-v06-2026-09-18';
 }
 
 if (document.readyState === 'loading') {
