@@ -1,0 +1,28 @@
+name: CK2 export bundle
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'CK/**'
+      - '.github/workflows/ck2-export.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build clean repository payload
+        run: |
+          mkdir -p export/clinic-kitchen-2
+          cp -R CK/. export/clinic-kitchen-2/
+          cp .github/workflows/ck2-main-qa.yml export/clinic-kitchen-2/ck2-main-qa.yml
+          printf '%s\n' "Source repository: hsushuhao-lab/hao_hw" "Source commit: $GITHUB_SHA" "Exported at: $(date -u +%Y-%m-%dT%H:%M:%SZ)" > export/clinic-kitchen-2/MIGRATION_SOURCE.txt
+      - name: Upload source bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: clinic-kitchen-2-source
+          path: export/clinic-kitchen-2
+          retention-days: 14
