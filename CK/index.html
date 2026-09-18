@@ -16,8 +16,8 @@
     <div id="camera">
       <section class="room clinic">
         <h2>診間 CLINIC</h2>
-        <div class="desk prop">醫師桌＋電腦</div>
-        <div class="patient-chair prop">病人椅</div>
+        <div class="desk prop"><span class="monitor">CLINIC EMR</span><span>醫師桌</span></div>
+        <div class="patient-chair prop"><span class="chair-back"></span><span>病人椅</span></div>
         <div class="printer prop">印表機</div>
         <div class="sink prop">洗手台</div>
       </section>
@@ -31,10 +31,10 @@
         <h2>後廚 KITCHEN</h2>
         <div class="counter prop">備料檯</div>
         <div class="spice prop">香料架</div>
-        <div class="wok prop">炒鍋爐台</div>
+        <div class="wok prop"><span class="wok-pan"></span><span>炒鍋爐台</span></div>
         <div class="rice prop">飯鍋</div>
       </section>
-      <div id="player" class="player" aria-label="player"><div class="head"></div><div class="body"></div></div>
+      <div id="player" class="player" aria-label="值班醫師"><div class="doctor-model"><div class="hair"></div><div class="face"><span class="glasses"></span></div><div class="coat"><span class="shirt"></span><span class="badge">DR</span></div><div class="legs"></div></div></div>
     </div>
     <div id="prompt" class="prompt">走到物件旁按 E 互動</div>
   </main>
@@ -42,8 +42,8 @@
   <section id="cookingDeck" class="cooking-deck" aria-label="備料與煮菜操作區">
     <div class="cook-head"><div><span>LOWER WORKBENCH</span><h2>備料・煮菜</h2></div><strong id="cookObjective">先在上方走到後廚炒鍋旁</strong></div>
     <div class="cook-columns">
-      <div class="prep-bench"><h3>備料 PREP</h3><div class="ingredient-tray"><button data-food="tofu">豆腐</button><button data-food="pork">絞肉</button><button data-food="douban">豆瓣醬</button><button data-food="garlic">蒜</button><button data-food="pepper">花椒</button><button data-food="scallion">青蔥</button></div><div class="board"><div id="boardFood">砧板空著</div><button id="cutBtn" disabled>切配</button></div></div>
-      <div class="wok-bench"><h3>炒鍋 WOK</h3><div class="wok-visual"><div id="flame" class="flame">🔥</div><div id="wokContents">空鍋</div></div><div class="wok-actions"><button id="heatBtn">開火</button><button id="addBtn" disabled>下鍋</button><button id="stirBtn" disabled>翻炒</button><button id="plateBtn" disabled>盛盤</button></div></div>
+      <div class="prep-bench"><h3>備料 PREP</h3><div class="ingredient-tray"><button data-food="tofu"><i class="food-art tofu-art"></i><span>豆腐</span></button><button data-food="pork"><i class="food-art pork-art"></i><span>絞肉</span></button><button data-food="douban"><i class="food-art douban-art"></i><span>豆瓣醬</span></button><button data-food="garlic"><i class="food-art garlic-art"></i><span>蒜</span></button><button data-food="pepper"><i class="food-art pepper-art"></i><span>花椒</span></button><button data-food="scallion"><i class="food-art scallion-art"></i><span>青蔥</span></button></div><div class="board"><div id="boardFood">砧板空著</div><button id="cutBtn" disabled>切配</button></div></div>
+      <div class="wok-bench"><h3>炒鍋 WOK</h3><div class="wok-visual"><div class="steam steam-a"></div><div class="steam steam-b"></div><div id="flame" class="flame"><span></span><span></span><span></span></div><div class="wok-rim"></div><div id="wokContents">空鍋</div></div><div class="wok-actions"><button id="heatBtn">開火</button><button id="addBtn" disabled>下鍋</button><button id="stirBtn" disabled>翻炒</button><button id="plateBtn" disabled>盛盤</button></div></div>
       <div class="cook-log"><h3>料理紀錄</h3><ol id="recipeLog"><li>等待開始</li></ol></div>
     </div>
   </section>
